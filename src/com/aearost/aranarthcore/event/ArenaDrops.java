@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 
 import com.aearost.aranarthcore.Main;
 
@@ -33,5 +34,22 @@ public class ArenaDrops implements Listener {
 		}
 
 	}
+	
+	@EventHandler
+	public void onItemDropInArena(final ItemSpawnEvent e) {
+		if (e.getLocation().getWorld().getName().toLowerCase().equals("arena")) {
+			e.setCancelled(true);
+		}
+	}
+	
+	
+//	@EventHandler
+//	public void onArenaBlockBreak(final BlockBreakEvent e) {
+//		Player player = e.getPlayer();
+//		if (player.getWorld().getName().toLowerCase().equals("arena")) {
+//			e.setCancelled(true);
+//			e.getBlock().setType(Material.AIR);
+//		}
+//	}
 
 }
