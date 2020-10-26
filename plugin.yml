@@ -8,3 +8,5 @@ loadbefore: [mcMMO]
 commands:
    ac:
       description: All underlying commands regarding the plugin
+   ranks:
+      description: Displays the ranks available in the server
