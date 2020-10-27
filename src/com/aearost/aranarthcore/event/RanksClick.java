@@ -15,7 +15,7 @@ public class RanksClick implements Listener {
 	}
 
 	/**
-	 * Handles clicking of 
+	 * Handles clicking of a slot in the Aranarth Ranks GUI.
 	 * 
 	 * @param e
 	 */

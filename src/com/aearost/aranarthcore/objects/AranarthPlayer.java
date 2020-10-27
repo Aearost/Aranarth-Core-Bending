@@ -1,36 +1,36 @@
 package com.aearost.aranarthcore.objects;
 
-public class Player {
+public class AranarthPlayer {
 
 	private String rank;
-	private String gender;
+	private boolean isMale;
 	private int saintStatus;
 	private String avatarStatus;
 	
-	public Player(String rank, String gender) {
+	public AranarthPlayer(String rank, boolean isMale) {
 		this.rank = rank;
-		this.gender = gender;
+		this.isMale = isMale;
 		saintStatus = 0;
 		avatarStatus = "none";
 	}
 	
-	public Player(String rank, String gender, int saintStatus) {
+	public AranarthPlayer(String rank, boolean isMale, int saintStatus) {
 		this.rank = rank;
-		this.gender = gender;
+		this.isMale = isMale;
 		this.saintStatus = saintStatus;
 		this.avatarStatus = "none";
 	}
 	
-	public Player(String rank, String gender, String avatarStatus) {
+	public AranarthPlayer(String rank, boolean isMale, String avatarStatus) {
 		this.rank = rank;
-		this.gender = gender;
+		this.isMale = isMale;
 		this.saintStatus = 0;
 		this.avatarStatus = avatarStatus;
 	}
 	
-	public Player(String rank, String gender, int saintStatus, String avatarStatus) {
+	public AranarthPlayer(String rank, boolean isMale, int saintStatus, String avatarStatus) {
 		this.rank = rank;
-		this.gender = gender;
+		this.isMale = isMale;
 		this.saintStatus = saintStatus;
 		this.avatarStatus = avatarStatus;
 	}
@@ -43,12 +43,12 @@ public class Player {
 		this.rank = rank;
 	}
 	
-	public String getGender() {
-		return gender;
+	public boolean getIsMale() {
+		return isMale;
 	}
 	
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setIsMale(boolean gender) {
+		this.isMale = gender;
 	}
 	
 	public int getSaintStatus() {
