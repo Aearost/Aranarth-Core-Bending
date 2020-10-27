@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 
@@ -27,6 +28,10 @@ public class AranarthPlayerUtils {
 	public static void addPlayer(String playerName, AranarthPlayer aranarthPlayer) {
 		// Assumes male player by default
 		players.put(playerName.toLowerCase(), aranarthPlayer);
+	}
+	
+	public static boolean hasPlayedBefore(Player player) {
+		return players.containsKey(player.getName());
 	}
 	
 	/**
@@ -51,6 +56,7 @@ public class AranarthPlayerUtils {
 			String playerName = "";
 			String rank = "";
 			boolean isMale = true;
+			double balance = 0.00;
 			int saintStatus = 0;
 			String avatarStatus = "none";
 
@@ -58,33 +64,36 @@ public class AranarthPlayerUtils {
 				String line = reader.nextLine();
 				String fieldName = null;
 				String fieldValue = null;
-
+				
+				String[] parts = line.split("\"");
+				
 				if (line.endsWith(": {")) {
-					String[] wrapperFields = new String[3];
-					if (wrapperFields[1].equals("player")) {
-						playerName = wrapperFields[1];
+					if (!parts[1].equals("players")) {
+						playerName = parts[1];
+						continue;
+					} else {
 						continue;
 					}
 				} else if (line.endsWith("\",")) {
-					String[] parts = line.split("\"");
 					fieldName = parts[1];
 					fieldValue = parts[3];
 				} else {
 					continue;
 				}
-
+				
 				if (fieldName.equals("rank")) {
 					rank = fieldValue;
 				} else if (fieldName.equals("isMale")) {
 					isMale = Boolean.parseBoolean(fieldValue);
+				} else if (fieldName.equals("balance")) {
+					balance = Double.parseDouble(fieldValue);
 					// If they have either the saintStatus or avatarStatus field
 					if (reader.next().startsWith("\"a") || reader.next().startsWith("\"s")) {
 						continue;
 					} else {
-						// If only two fields, will not add the rest
-						fieldCount = 3;
+						// If only three fields, will not add the rest
+						fieldCount = 5;
 					}
-
 				} else if (fieldName.equals("avatarStatus")) {
 					avatarStatus = fieldValue;
 				} else if (fieldName.equals("saintStatus")) {
@@ -96,7 +105,7 @@ public class AranarthPlayerUtils {
 
 				fieldCount++;
 
-				if (fieldCount == 4) {
+				if (fieldCount == 5) {
 					boolean hasAvatarStatus = false;
 					boolean hasSaintStatus = false;
 					if (!avatarStatus.equals("none")) {
@@ -107,21 +116,20 @@ public class AranarthPlayerUtils {
 					}
 					if (hasAvatarStatus && hasSaintStatus) {
 						AranarthPlayerUtils.addPlayer(playerName,
-								new AranarthPlayer(rank, isMale, saintStatus, avatarStatus));
+								new AranarthPlayer(rank, isMale, balance, saintStatus, avatarStatus));
 					} else if (hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, avatarStatus));
+						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, balance, avatarStatus));
 					} else if (hasSaintStatus) {
-						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, saintStatus));
+						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, balance, saintStatus));
 					} else {
-						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale));
+						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, balance));
 					}
-					// Reset these as rank and isMale will always be overwritten
+					// Reset these as rank, isMale, and balance are always overwritten
 					saintStatus = 0;
 					avatarStatus = "none";
 				}
 			}
 			reader.close();
-			file.delete();
 		} catch (FileNotFoundException e) {
 			Bukkit.getLogger().info("Something went wrong with reading the players!");
 			e.printStackTrace();
@@ -171,6 +179,7 @@ public class AranarthPlayerUtils {
 						writer.write("    \"" + playerName + "\": {\n");
 						writer.write("        \"rank\": \"" + aranarthPlayer.getRank() + "\",\n");
 						writer.write("        \"isMale\": \"" + aranarthPlayer.getIsMale() + "\",\n");
+						writer.write("        \"balance\": \"" + aranarthPlayer.getBalance() + "\",\n");
 						if (!aranarthPlayer.getAvatarStatus().equals("none")) {
 							writer.write("        \"avatarStatus\": \"" + aranarthPlayer.getAvatarStatus() + "\",\n");
 						}

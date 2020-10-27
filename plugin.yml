@@ -1,7 +1,7 @@
 name: AranarthCore
 version: 1.0
 author: Aearost
-main: com.aearost.aranarthcore.Main
+main: com.aearost.aranarthcore.AranarthCore
 api-version: 1.16
 description: Contains a large variety of features and functionality to be used specifically for the Aranarth Minecraft server.
 loadbefore: [mcMMO]

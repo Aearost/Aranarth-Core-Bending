@@ -5,11 +5,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
 
-import com.aearost.aranarthcore.Main;
+import com.aearost.aranarthcore.AranarthCore;
 
 public class ArenaDrops implements Listener {
 
-	public ArenaDrops(Main plugin) {
+	public ArenaDrops(AranarthCore plugin) {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 

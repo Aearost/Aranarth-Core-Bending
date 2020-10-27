@@ -119,7 +119,6 @@ public class CommandRanks implements CommandExecutor {
 			dukeLore.add(ChatUtils.translateToColor("&f&lPerks"));
 			dukeLore.add(ChatUtils.translateToColor("&f&o- /near"));
 			dukeLore.add(ChatUtils.translateToColor("&f&o- Ability to work 4 jobs"));
-			dukeLore.add(ChatUtils.translateToColor("&f&o- Ability to get paid for pet's kills"));
 			dukeMeta.setLore(dukeLore);
 			duke.setItemMeta(dukeMeta);
 			
