@@ -7,6 +7,7 @@ import com.aearost.aranarthcore.commands.CommandACCompleter;
 import com.aearost.aranarthcore.commands.CommandRanks;
 import com.aearost.aranarthcore.commands.CommandRanksCompleter;
 import com.aearost.aranarthcore.event.ArenaDrops;
+import com.aearost.aranarthcore.event.RanksClick;
 
 public class Main extends JavaPlugin {
 
@@ -15,6 +16,7 @@ public class Main extends JavaPlugin {
 
 		// Initialize Events
 		new ArenaDrops(this);
+		new RanksClick(this);
 		
 		// Initialize commands
 		getCommand("ac").setExecutor(new CommandAC());

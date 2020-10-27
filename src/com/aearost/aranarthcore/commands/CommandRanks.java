@@ -1,5 +1,7 @@
 package com.aearost.aranarthcore.commands;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -8,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.aearost.aranarthcore.utils.ChatUtils;
 
@@ -24,6 +27,7 @@ public class CommandRanks implements CommandExecutor {
 			
 			Inventory gui = Bukkit.getServer().createInventory(player, 54, ChatUtils.translateToColor("&8&lAranarth Ranks"));
 			
+			// Initialize Items
 			ItemStack yellowPane = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
 			ItemStack blackPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
 			ItemStack peasant = new ItemStack(Material.LIME_CONCRETE_POWDER);
@@ -38,6 +42,122 @@ public class CommandRanks implements CommandExecutor {
 			ItemStack saint1 = new ItemStack(Material.PINK_CONCRETE_POWDER);
 			ItemStack saint2 = new ItemStack(Material.MAGENTA_CONCRETE_POWDER);
 			ItemStack saint3 = new ItemStack(Material.PURPLE_CONCRETE_POWDER);
+			
+			// Removing name of panes
+			ItemMeta yellowPaneMeta = yellowPane.getItemMeta();
+			yellowPaneMeta.setDisplayName(" ");
+			yellowPane.setItemMeta(yellowPaneMeta);
+			ItemMeta blackPaneMeta = blackPane.getItemMeta();
+			blackPaneMeta.setDisplayName(" ");
+			blackPane.setItemMeta(blackPaneMeta);
+			
+			// Peasant
+			ItemMeta peasantMeta = peasant.getItemMeta();
+			ArrayList<String> peasantLore = new ArrayList<>();
+			peasantMeta.setDisplayName(ChatUtils.translateToColor("&a&l&nPeasant"));
+			peasantLore.add(ChatUtils.translateToColor("&f&lBending"));
+			peasantLore.add(ChatUtils.translateToColor("&f&o- Basic abilities"));
+			peasantLore.add(ChatUtils.translateToColor("&f&o- &3&oIcebending"));
+			peasantMeta.setLore(peasantLore);
+			peasant.setItemMeta(peasantMeta);
+			
+			// Esquire
+			ItemMeta esquireMeta = esquire.getItemMeta();
+			ArrayList<String> esquireLore = new ArrayList<>();
+			esquireMeta.setDisplayName(ChatUtils.translateToColor("&d&l&nEsquire"));
+			esquireLore.add(ChatUtils.translateToColor("&f&lBending"));
+			esquireLore.add(ChatUtils.translateToColor("&f&o- &3&oHealing"));
+			esquireLore.add(ChatUtils.translateToColor("&f&o- &3&oPlantbending"));
+			esquireLore.add(ChatUtils.translateToColor("&f&o- &2&oSandbending"));
+			esquireLore.add(ChatUtils.translateToColor("&f&lPerks"));
+			esquireLore.add(ChatUtils.translateToColor("&f&o- Ability to sit on stairs"));
+			esquireLore.add(ChatUtils.translateToColor("&f&o- /seen"));
+			esquireMeta.setLore(esquireLore);
+			esquire.setItemMeta(esquireMeta);
+			
+			// Knight
+			ItemMeta knightMeta = knight.getItemMeta();
+			ArrayList<String> knightLore = new ArrayList<>();
+			knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight"));
+			knightLore.add(ChatUtils.translateToColor("&f&lBending"));
+			knightLore.add(ChatUtils.translateToColor("&f&o- &2&oMetalbending"));
+			knightLore.add(ChatUtils.translateToColor("&f&lPerks"));
+			knightLore.add(ChatUtils.translateToColor("&f&o- /recipe"));
+			knightLore.add(ChatUtils.translateToColor("&f&o- Ability to work 2 jobs"));
+			knightMeta.setLore(knightLore);
+			knight.setItemMeta(knightMeta);			
+			
+			// Baron
+			ItemMeta baronMeta = baron.getItemMeta();
+			ArrayList<String> baronLore = new ArrayList<>();
+			baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron / Baroness"));
+			baronLore.add(ChatUtils.translateToColor("&f&lBending"));
+			baronLore.add(ChatUtils.translateToColor("&f&o- &b&oWaterArms"));
+			baronLore.add(ChatUtils.translateToColor("&f&lPerks"));
+			baronLore.add(ChatUtils.translateToColor("&f&o- Ability to create chest shops"));
+			baronLore.add(ChatUtils.translateToColor("&f&o- Ability to set 2 homes"));
+			baronMeta.setLore(baronLore);
+			baron.setItemMeta(baronMeta);
+			
+			// Count
+			ItemMeta countMeta = count.getItemMeta();
+			ArrayList<String> countLore = new ArrayList<>();
+			countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount / Countess"));
+			countLore.add(ChatUtils.translateToColor("&f&lBending"));
+			countLore.add(ChatUtils.translateToColor("&f&o- &7&oSonicBlast"));
+			countLore.add(ChatUtils.translateToColor("&f&lPerks"));
+			countLore.add(ChatUtils.translateToColor("&f&o- /back"));
+			countLore.add(ChatUtils.translateToColor("&f&o- Ability to set 3 homes"));
+			countLore.add(ChatUtils.translateToColor("&f&o- Ability to work 3 jobs"));
+			countMeta.setLore(countLore);
+			count.setItemMeta(countMeta);
+			
+			// Duke
+			ItemMeta dukeMeta = duke.getItemMeta();
+			ArrayList<String> dukeLore = new ArrayList<>();
+			dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke / Duchess"));
+			dukeLore.add(ChatUtils.translateToColor("&f&lPerks"));
+			dukeLore.add(ChatUtils.translateToColor("&f&o- /near"));
+			dukeLore.add(ChatUtils.translateToColor("&f&o- Ability to work 4 jobs"));
+			dukeLore.add(ChatUtils.translateToColor("&f&o- Ability to get paid for pet's kills"));
+			dukeMeta.setLore(dukeLore);
+			duke.setItemMeta(dukeMeta);
+			
+			// Prince
+			ItemMeta princeMeta = prince.getItemMeta();
+			ArrayList<String> princeLore = new ArrayList<>();
+			princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince / Princess"));
+			princeLore.add(ChatUtils.translateToColor("&f&lBending"));
+			princeLore.add(ChatUtils.translateToColor("&f&o- &4&oLightningbending"));
+			princeLore.add(ChatUtils.translateToColor("&f&lPerks"));
+			princeLore.add(ChatUtils.translateToColor("&f&o- /msgtoggle"));
+			princeLore.add(ChatUtils.translateToColor("&f&o- Ability to set 4 homes"));
+			princeMeta.setLore(princeLore);
+			prince.setItemMeta(princeMeta);
+			
+			// King
+			ItemMeta kingMeta = king.getItemMeta();
+			ArrayList<String> kingLore = new ArrayList<>();
+			kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing / Queen"));
+			kingLore.add(ChatUtils.translateToColor("&f&lBending"));
+			kingLore.add(ChatUtils.translateToColor("&f&o- &2&oLavabending"));
+			kingLore.add(ChatUtils.translateToColor("&f&o- &c&lFireComet"));
+			kingLore.add(ChatUtils.translateToColor("&f&lPerks"));
+			kingLore.add(ChatUtils.translateToColor("&f&o- /tptoggle"));
+			kingMeta.setLore(kingLore);
+			king.setItemMeta(kingMeta);
+			
+			// Emperor
+			ItemMeta emperorMeta = emperor.getItemMeta();
+			ArrayList<String> emperorLore = new ArrayList<>();
+			emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor / Empress"));
+			emperorLore.add(ChatUtils.translateToColor("&f&lBending"));
+			emperorLore.add(ChatUtils.translateToColor("&f&o- &4&oCombustionbending"));
+			emperorLore.add(ChatUtils.translateToColor("&f&lPerks"));
+			emperorLore.add(ChatUtils.translateToColor("&f&o- Ability to set 5 homes"));
+			emperorLore.add(ChatUtils.translateToColor("&f&o- Ability to work 5 jobs"));
+			emperorMeta.setLore(emperorLore);
+			emperor.setItemMeta(emperorMeta);
 			
 			
 			// Line 1
