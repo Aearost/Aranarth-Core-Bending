@@ -2,21 +2,20 @@ package com.aearost.aranarthcore.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 
 public class AranarthPlayerUtils {
 
 	private static HashMap<String, AranarthPlayer> players = new HashMap<>();
-	
+
 	public AranarthPlayerUtils(boolean isServerStarting) {
 		if (isServerStarting) {
 			readFromFile();
@@ -24,12 +23,15 @@ public class AranarthPlayerUtils {
 			writeToFile();
 		}
 	}
-	
+
 	public static void addPlayer(String playerName, AranarthPlayer aranarthPlayer) {
 		// Assumes male player by default
 		players.put(playerName.toLowerCase(), aranarthPlayer);
 	}
 	
+	/**
+	 * Initializes the players HashMap based on the contents of players.json.
+	 */
 	private void readFromFile() {
 		String currentPath = System.getProperty("user.dir");
 		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
@@ -82,7 +84,7 @@ public class AranarthPlayerUtils {
 						// If only two fields, will not add the rest
 						fieldCount = 3;
 					}
-					
+
 				} else if (fieldName.equals("avatarStatus")) {
 					avatarStatus = fieldValue;
 				} else if (fieldName.equals("saintStatus")) {
@@ -104,7 +106,8 @@ public class AranarthPlayerUtils {
 						hasSaintStatus = true;
 					}
 					if (hasAvatarStatus && hasSaintStatus) {
-						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, saintStatus, avatarStatus));
+						AranarthPlayerUtils.addPlayer(playerName,
+								new AranarthPlayer(rank, isMale, saintStatus, avatarStatus));
 					} else if (hasAvatarStatus) {
 						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, avatarStatus));
 					} else if (hasSaintStatus) {
@@ -120,13 +123,77 @@ public class AranarthPlayerUtils {
 			reader.close();
 			file.delete();
 		} catch (FileNotFoundException e) {
-			Bukkit.getLogger().info("Something went wrong with reading the kettles!");
+			Bukkit.getLogger().info("Something went wrong with reading the players!");
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Saves the contents of the players HashMap to the players.json file.
+	 */
 	private void writeToFile() {
-		
+		if (players.size() > 0) {
+
+			String currentPath = System.getProperty("user.dir");
+			String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
+					+ "players.json";
+			File pluginDirectory = new File(currentPath + File.separator + "plugins" + File.separator + "AranarthCore");
+			File file = new File(filePath);
+
+			// If the directory exists
+			boolean isDirectoryCreated = true;
+			if (!pluginDirectory.isDirectory()) {
+				isDirectoryCreated = pluginDirectory.mkdir();
+			}
+			if (isDirectoryCreated) {
+				try {
+					// If the file isn't already there
+					if (file.createNewFile()) {
+						Bukkit.getLogger().info("A new players.json file has been generated");
+					} else {
+						throw new IOException();
+					}
+				} catch (IOException e) {
+					Bukkit.getLogger().info("An error occured in the creation of players.json");
+					e.printStackTrace();
+				}
+
+				try {
+					FileWriter writer = new FileWriter(filePath);
+					writer.write("{\n");
+					writer.write("\"players\": {\n");
+					int counter = 1;
+
+					for (Map.Entry<String, AranarthPlayer> entry : players.entrySet()) {
+						String playerName = entry.getKey();
+						AranarthPlayer aranarthPlayer = entry.getValue();
+
+						writer.write("    \"" + playerName + "\": {\n");
+						writer.write("        \"rank\": \"" + aranarthPlayer.getRank() + "\",\n");
+						writer.write("        \"isMale\": \"" + aranarthPlayer.getIsMale() + "\",\n");
+						if (!aranarthPlayer.getAvatarStatus().equals("none")) {
+							writer.write("        \"avatarStatus\": \"" + aranarthPlayer.getAvatarStatus() + "\",\n");
+						}
+						if (aranarthPlayer.getSaintStatus() != 0) {
+							writer.write("        \"saintStatus\": \"" + aranarthPlayer.getSaintStatus() + "\",\n");
+						}
+
+						// If it's the last entry
+						if (players.size() == counter) {
+							writer.write("    }\n");
+						} else {
+							writer.write("    },\n");
+						}
+						counter++;
+					}
+					writer.write("}\n");
+					writer.close();
+				} catch (IOException e) {
+					Bukkit.getLogger().info("There was an error in saving the players");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
-	
+
 }

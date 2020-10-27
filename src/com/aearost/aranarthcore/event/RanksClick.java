@@ -25,6 +25,11 @@ public class RanksClick implements Listener {
         if (ChatUtils.stripColor(e.getView().getTitle()).equals("Aranarth Ranks")) {
         	e.setCancelled(true);
         	
+        	// if (player.hasPermission("aranarthcore.council") {
+        	//     Don't add a rank prefix!
+        	// }
+        	
+        	
         	int slot = e.getSlot();
         	
         	// Peasant
