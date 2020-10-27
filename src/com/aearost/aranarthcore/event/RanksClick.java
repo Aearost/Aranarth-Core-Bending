@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import com.aearost.aranarthcore.AranarthCore;
+import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 
 public class RanksClick implements Listener {
@@ -27,51 +28,59 @@ public class RanksClick implements Listener {
         	e.setCancelled(true);
         	
         	Player player = (Player) e.getWhoClicked();
+        	double balance = AranarthPlayerUtils.getBalance(player);
+        	int rank = AranarthPlayerUtils.getRank(player);
+        	
         	int slot = e.getSlot();
         	
         	// Peasant
         	if (slot == 4) {
-        		Bukkit.getLogger().info("Peasant");
+//        		if (rank == 0) {
+//        			player.sendMessage(ChatUtils.translateToColor("&cYou are already a Peasant!"));
+//        		} else if (rank > 0) {
+//        			player.sendMessage(ChatUtils.translateToColor("&cYou cannot rank yourself down."));
+//        		}
         		player.closeInventory();
         	}
         	// Esquire
         	else if (slot == 12) {
-        		Bukkit.getLogger().info("Esquire");
+        		
         		player.closeInventory();
+        		
         	}
         	// Knight
         	else if (slot == 14) {
-        		Bukkit.getLogger().info("Knight");
+        		
         		player.closeInventory();
         	}
         	// Baron
         	else if (slot == 20) {
-        		Bukkit.getLogger().info("Baron");
+        		
         		player.closeInventory();
         	}
         	// Count
         	else if (slot == 22) {
-        		Bukkit.getLogger().info("Count");
+        		
         		player.closeInventory();
         	}
         	// Duke
         	else if (slot == 24) {
-        		Bukkit.getLogger().info("Duke");
+        		
         		player.closeInventory();
         	}
         	// Prince
         	else if (slot == 30) {
-        		Bukkit.getLogger().info("Prince");
+        		
         		player.closeInventory();
         	}
         	// King
         	else if (slot == 32) {
-        		Bukkit.getLogger().info("King");
+        		
         		player.closeInventory();
         	}
         	// Emperor
         	else if (slot == 40) {
-        		Bukkit.getLogger().info("Emperor");
+        		
         		player.closeInventory();
         	}
         }

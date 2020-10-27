@@ -34,8 +34,22 @@ public class CommandACCompleter implements TabCompleter {
 					}
 				}
 			}
+		} else if ("title".startsWith(args[0]) && args[0].length() > 0) {
+			if (args.length == 1 && !args[0].equals("title")) {
+				displayedOptions.add("title");
+			} else if (args.length == 2) {
+				if (!args[1].contentEquals("") && "male".startsWith(args[1])) {
+					displayedOptions.add("male");
+				} else if (!args[1].contentEquals("") && "female".startsWith(args[1])) {
+					displayedOptions.add("female");
+				} else {
+					displayedOptions.add("female");
+					displayedOptions.add("male");
+				}
+			}
 		} else if (args.length == 1) {
 			displayedOptions.add("arenaarmor");
+			displayedOptions.add("title");
 		}
 
 		return displayedOptions;

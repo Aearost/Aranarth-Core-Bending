@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 
 public class CommandAC implements CommandExecutor {
@@ -45,8 +46,26 @@ public class CommandAC implements CommandExecutor {
 				}
 			}
 		}
-		
-		
+
+		// Non-restricted commands
+		if (args.length > 0) {
+			if (args[0].toLowerCase().equals("title")) {
+				if (sender instanceof Player) {
+					Player player = (Player) sender;
+					if (args.length >= 2) {
+						if (args[1].toLowerCase().equals("male")) {
+							AranarthPlayerUtils.setIsMale(player, true);
+						} else if (args[1].toLowerCase().equals("female")) {
+							AranarthPlayerUtils.setIsMale(player, false);
+						}
+					}
+					sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac title {male | female}"));
+				} else {
+					sender.sendMessage(ChatUtils.chatMessage("&c&lYou must be a player to use this command!"));
+				}
+			}
+		}
+
 		sender.sendMessage(ChatUtils.translateToColor("&8      - - - &6&lAranarth Core &8- - -"));
 		sender.sendMessage(ChatUtils.translateToColor("&7/ac &earenaarmor <player>"));
 		return true;

@@ -2,50 +2,50 @@ package com.aearost.aranarthcore.objects;
 
 public class AranarthPlayer {
 
-	private String rank;
+	private int rankLevel;
 	private boolean isMale;
 	private double balance;
 	private int saintStatus;
 	private String avatarStatus;
 	
-	public AranarthPlayer(String rank, boolean isMale, double balance) {
-		this.rank = rank;
+	public AranarthPlayer(int rankLevel, boolean isMale, double balance) {
+		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
 		saintStatus = 0;
 		avatarStatus = "none";
 	}
 	
-	public AranarthPlayer(String rank, boolean isMale, double balance, int saintStatus) {
-		this.rank = rank;
+	public AranarthPlayer(int rankLevel, boolean isMale, double balance, int saintStatus) {
+		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.saintStatus = saintStatus;
 		this.avatarStatus = "none";
 	}
 	
-	public AranarthPlayer(String rank, boolean isMale, double balance, String avatarStatus) {
-		this.rank = rank;
+	public AranarthPlayer(int rankLevel, boolean isMale, double balance, String avatarStatus) {
+		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.saintStatus = 0;
 		this.avatarStatus = avatarStatus;
 	}
 	
-	public AranarthPlayer(String rank, boolean isMale, double balance, int saintStatus, String avatarStatus) {
-		this.rank = rank;
+	public AranarthPlayer(int rankLevel, boolean isMale, double balance, int saintStatus, String avatarStatus) {
+		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.saintStatus = saintStatus;
 		this.avatarStatus = avatarStatus;
 	}
 	
-	public String getRank() {
-		return rank;
+	public int getRank() {
+		return rankLevel;
 	}
 	
-	public void setRank(String rank) {
-		this.rank = rank;
+	public void setRank(int rankLevel) {
+		this.rankLevel = rankLevel;
 	}
 	
 	public boolean getIsMale() {
