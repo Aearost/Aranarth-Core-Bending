@@ -55,19 +55,24 @@ public class CommandAC implements CommandExecutor {
 					if (args.length >= 2) {
 						if (args[1].toLowerCase().equals("male")) {
 							AranarthPlayerUtils.setIsMale(player, true);
+							return true;
 						} else if (args[1].toLowerCase().equals("female")) {
 							AranarthPlayerUtils.setIsMale(player, false);
+							return true;
 						}
 					}
 					sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac title {male | female}"));
+					return false;
 				} else {
 					sender.sendMessage(ChatUtils.chatMessage("&c&lYou must be a player to use this command!"));
+					return false;
 				}
 			}
 		}
 
 		sender.sendMessage(ChatUtils.translateToColor("&8      - - - &6&lAranarth Core &8- - -"));
 		sender.sendMessage(ChatUtils.translateToColor("&7/ac &earenaarmor <player>"));
+		sender.sendMessage(ChatUtils.translateToColor("&7/ac &etitle {male | female}"));
 		return true;
 	}
 

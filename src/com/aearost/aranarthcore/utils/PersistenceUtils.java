@@ -32,6 +32,8 @@ public class PersistenceUtils {
 		try {
 			reader = new Scanner(file);
 			int fieldCount = 0;
+			String fieldName = null;
+			String fieldValue = null;
 
 			String playerName = "";
 			int rank = 0;
@@ -42,14 +44,18 @@ public class PersistenceUtils {
 
 			while (reader.hasNextLine()) {
 				String line = reader.nextLine();
-				String fieldName = null;
-				String fieldValue = null;
-				
 				String[] parts = line.split("\"");
+				
+				if ((line.endsWith("},") || line.endsWith("}")) && fieldCount >= 4) {
+					fieldCount = 6;
+					fieldName = "none";
+					fieldValue = "none";
+				}
 				
 				if (line.endsWith(": {")) {
 					if (!parts[1].equals("players")) {
 						playerName = parts[1];
+						fieldCount++;
 						continue;
 					} else {
 						continue;
@@ -57,44 +63,37 @@ public class PersistenceUtils {
 				} else if (line.endsWith("\",")) {
 					fieldName = parts[1];
 					fieldValue = parts[3];
-				} else {
+				} else if (line.equals("{")) {
 					continue;
 				}
 				
 				if (fieldName.equals("rank")) {
 					rank = Integer.parseInt(fieldValue);
+					fieldCount++;
 				} else if (fieldName.equals("isMale")) {
 					isMale = Boolean.parseBoolean(fieldValue);
+					fieldCount++;
 				} else if (fieldName.equals("balance")) {
 					balance = Double.parseDouble(fieldValue);
-					// If they have either the saintStatus or avatarStatus field
-					if (reader.next().startsWith("\"a") || reader.next().startsWith("\"s")) {
-						continue;
-					} else {
-						// If only three fields, will not add the rest
-						fieldCount = 5;
-					}
+					fieldCount++;
 				} else if (fieldName.equals("avatarStatus")) {
 					avatarStatus = fieldValue;
+					fieldCount++;
 				} else if (fieldName.equals("saintStatus")) {
 					saintStatus = Integer.parseInt(fieldValue);
-				} else {
-					reader.close();
-					throw new FileNotFoundException();
+					fieldCount++;
 				}
-
-				fieldCount++;
-
-				if (fieldCount == 5) {
+				
+				if (fieldCount == 6) {
 					boolean hasAvatarStatus = false;
 					boolean hasSaintStatus = false;
-					if (!avatarStatus.equals("none")) {
-						hasAvatarStatus = true;
-					}
 					if (saintStatus != 0) {
 						hasSaintStatus = true;
 					}
-					if (hasAvatarStatus && hasSaintStatus) {
+					if (!avatarStatus.equals("none")) {
+						hasAvatarStatus = true;
+					}
+					if (hasSaintStatus && hasAvatarStatus) {
 						AranarthPlayerUtils.addPlayer(playerName,
 								new AranarthPlayer(rank, isMale, balance, saintStatus, avatarStatus));
 					} else if (hasAvatarStatus) {
@@ -139,8 +138,6 @@ public class PersistenceUtils {
 					// If the file isn't already there
 					if (file.createNewFile()) {
 						Bukkit.getLogger().info("A new players.json file has been generated");
-					} else {
-						throw new IOException();
 					}
 				} catch (IOException e) {
 					Bukkit.getLogger().info("An error occured in the creation of players.json");
@@ -161,13 +158,13 @@ public class PersistenceUtils {
 						writer.write("        \"rank\": \"" + aranarthPlayer.getRank() + "\",\n");
 						writer.write("        \"isMale\": \"" + aranarthPlayer.getIsMale() + "\",\n");
 						writer.write("        \"balance\": \"" + aranarthPlayer.getBalance() + "\",\n");
-						if (!aranarthPlayer.getAvatarStatus().equals("none")) {
-							writer.write("        \"avatarStatus\": \"" + aranarthPlayer.getAvatarStatus() + "\",\n");
-						}
 						if (aranarthPlayer.getSaintStatus() != 0) {
 							writer.write("        \"saintStatus\": \"" + aranarthPlayer.getSaintStatus() + "\",\n");
 						}
-
+						if (!aranarthPlayer.getAvatarStatus().equals("none")) {
+							writer.write("        \"avatarStatus\": \"" + aranarthPlayer.getAvatarStatus() + "\",\n");
+						}
+						
 						// If it's the last entry
 						if (players.size() == counter) {
 							writer.write("    }\n");
