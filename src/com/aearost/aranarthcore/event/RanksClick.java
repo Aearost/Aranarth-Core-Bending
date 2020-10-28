@@ -75,7 +75,6 @@ public class RanksClick implements Listener {
 			} else if (isClickedRankLowerThanCurrent) {
 				player.sendMessage(
 						ChatUtils.translateToColor("&cYou cannot rank back down to a " + clickedName + "&c!"));
-				return;
 			} else if (isClickedRankHigherThanCurrent) {
 				player.sendMessage(ChatUtils.translateToColor("&cYou must rankup to " + ranks[rank + 1] + " &cfirst!"));
 			} else if (isRankup) {
