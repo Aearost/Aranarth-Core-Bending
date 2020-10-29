@@ -48,9 +48,6 @@ public class AranarthPlayerUtils {
 	}
 
 	public static String replaceAvatar(Player player) {
-		AranarthPlayer newAvatar = getPlayer(player.getUniqueId());
-		newAvatar.setAvatarStatus("current");
-
 		String currentAvatarName = "";
 		boolean isCurrentMadePrevious = false;
 		boolean isPreviousRemoved = false;
@@ -75,6 +72,10 @@ public class AranarthPlayerUtils {
 				break;
 			}
 		}
+		AranarthPlayer newAvatar = getPlayer(player.getUniqueId());
+		newAvatar.setAvatarStatus("current");
+		addPlayer(player.getUniqueId(), newAvatar);
+		
 		return currentAvatarName;
 	}
 

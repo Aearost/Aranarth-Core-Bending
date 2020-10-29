@@ -10,8 +10,12 @@ commands:
       description: All underlying commands regarding the plugin
    balance:
       description: Displays the user's balance
+      usage: /balance
+      aliases: [bal]
    balancetop:
       description: Displays a list of users and their balances, showing the highest balance first
+      usage: /balancetop
+      aliases: [baltop]
    pay:
       description: Allows the user to pay another player some of their money
    ranks:

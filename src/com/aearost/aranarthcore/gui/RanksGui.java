@@ -61,7 +61,7 @@ public class RanksGui {
 		ItemMeta peasantMeta = peasant.getItemMeta();
 		ArrayList<String> peasantLore = new ArrayList<>();
 		if (currentRank == 0) {
-			peasantMeta.setDisplayName(ChatUtils.translateToColor("&a&l&nPeasant"));
+			peasantMeta.setDisplayName(ChatUtils.translateToColor("&a&l&nPeasant - Current Rank"));
 		} else {
 			peasantMeta.setDisplayName(ChatUtils.translateToColor("&a&l&nPeasant"));
 		}
@@ -74,7 +74,11 @@ public class RanksGui {
 		// Esquire
 		ItemMeta esquireMeta = esquire.getItemMeta();
 		ArrayList<String> esquireLore = new ArrayList<>();
-		esquireMeta.setDisplayName(ChatUtils.translateToColor("&d&l&nEsquire&r&f&l ($250)"));
+		if (currentRank == 1) {
+			esquireMeta.setDisplayName(ChatUtils.translateToColor("&d&l&nEsquire&r&f&l ($250) - Current Rank"));
+		} else {
+			esquireMeta.setDisplayName(ChatUtils.translateToColor("&d&l&nEsquire&r&f&l ($250)"));
+		}
 		esquireLore.add(ChatUtils.translateToColor("&f&lBending"));
 		esquireLore.add(ChatUtils.translateToColor("&f&o- &3&oHealing"));
 		esquireLore.add(ChatUtils.translateToColor("&f&o- &3&oPlantbending"));
@@ -88,7 +92,11 @@ public class RanksGui {
 		// Knight
 		ItemMeta knightMeta = knight.getItemMeta();
 		ArrayList<String> knightLore = new ArrayList<>();
-		knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight&r&f&l ($750)"));
+		if (currentRank == 2) {
+			knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight&r&f&l ($750) - Current Rank"));
+		} else {
+			knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight&r&f&l ($750)"));
+		}
 		knightLore.add(ChatUtils.translateToColor("&f&lBending"));
 		knightLore.add(ChatUtils.translateToColor("&f&o- &2&oMetalbending"));
 		knightLore.add(ChatUtils.translateToColor("&f&lPerks"));
@@ -100,9 +108,17 @@ public class RanksGui {
 		ItemMeta baronMeta = baron.getItemMeta();
 		ArrayList<String> baronLore = new ArrayList<>();
 		if (isMalePlayer) {
-			baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($1,500)"));
+			if (currentRank == 3) {
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($1,500) - Current Rank"));
+			} else {
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($1,500)"));
+			}
 		} else {
-			baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($1,500)"));
+			if (currentRank == 3) {
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($1,500) - Current Rank"));
+			} else {
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($1,500)"));
+			}
 		}
 		baronLore.add(ChatUtils.translateToColor("&f&lBending"));
 		baronLore.add(ChatUtils.translateToColor("&f&o- &b&oWaterArms"));
@@ -116,9 +132,17 @@ public class RanksGui {
 		ItemMeta countMeta = count.getItemMeta();
 		ArrayList<String> countLore = new ArrayList<>();
 		if (isMalePlayer) {
-			countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($3,000)"));
+			if (currentRank == 4) {
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($3,000) - Current Rank"));
+			} else {
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($3,000)"));
+			}
 		} else {
-			countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCountess&r&f&l ($3,000)"));
+			if (currentRank == 4) {
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCountess&r&f&l ($3,000) - Current Rank"));
+			} else {
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCountess&r&f&l ($3,000)"));
+			}
 		}
 		countLore.add(ChatUtils.translateToColor("&f&lBending"));
 		countLore.add(ChatUtils.translateToColor("&f&o- &7&oSonicBlast"));
@@ -132,9 +156,17 @@ public class RanksGui {
 		ItemMeta dukeMeta = duke.getItemMeta();
 		ArrayList<String> dukeLore = new ArrayList<>();
 		if (isMalePlayer) {
-			dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($7,500)"));
+			if (currentRank == 5) {
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($7,500) - Current Rank"));
+			} else {
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($7,500)"));
+			}
 		} else {
-			dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchess&r&f&l ($7,500)"));
+			if (currentRank == 5) {
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchess&r&f&l ($7,500) - Current Rank"));
+			} else {
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchess&r&f&l ($7,500)"));
+			}
 		}
 		dukeLore.add(ChatUtils.translateToColor("&f&lPerks"));
 		dukeLore.add(ChatUtils.translateToColor("&f&o- /near"));
@@ -145,9 +177,17 @@ public class RanksGui {
 		ItemMeta princeMeta = prince.getItemMeta();
 		ArrayList<String> princeLore = new ArrayList<>();
 		if (isMalePlayer) {
-			princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($12,500)"));
+			if (currentRank == 6) {
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($12,500) - Current Rank"));
+			} else {
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($12,500)"));
+			}
 		} else {
-			princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrincess&r&f&l ($12,500)"));
+			if (currentRank == 6) {
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrincess&r&f&l ($12,500) - Current Rank"));
+			} else {
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrincess&r&f&l ($12,500)"));
+			}
 		}
 		princeLore.add(ChatUtils.translateToColor("&f&lBending"));
 		princeLore.add(ChatUtils.translateToColor("&f&o- &4&oLightningbending"));
@@ -161,9 +201,17 @@ public class RanksGui {
 		ItemMeta kingMeta = king.getItemMeta();
 		ArrayList<String> kingLore = new ArrayList<>();
 		if (isMalePlayer) {
-			kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($30,000)"));
+			if (currentRank == 7) {
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($30,000) - Current Rank"));
+			} else {
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($30,000)"));
+			}
 		} else {
-			kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nQueen&r&f&l ($30,000)"));
+			if (currentRank == 7) {
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nQueen&r&f&l ($30,000) - Current Rank"));
+			} else {
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nQueen&r&f&l ($30,000)"));
+			}
 		}
 		kingLore.add(ChatUtils.translateToColor("&f&lBending"));
 		kingLore.add(ChatUtils.translateToColor("&f&o- &2&oLavabending"));
@@ -177,9 +225,17 @@ public class RanksGui {
 		ItemMeta emperorMeta = emperor.getItemMeta();
 		ArrayList<String> emperorLore = new ArrayList<>();
 		if (isMalePlayer) {
-			emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($50,000)"));
+			if (currentRank == 8) {
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($50,000) - Current Rank"));
+			} else {
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($50,000)"));
+			}
 		} else {
-			emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($50,000)"));
+			if (currentRank == 8) {
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($50,000) - Current Rank"));
+			} else {
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($50,000)"));
+			}
 		}
 		
 		emperorLore.add(ChatUtils.translateToColor("&f&lBending"));
@@ -209,8 +265,8 @@ public class RanksGui {
 		ArrayList<String> saint2Lore = new ArrayList<>();
 		saint2Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (II)"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&lPerks"));
-		saint2Lore.add(ChatUtils.translateToColor("&f&o- Colored chat and signs"));
-		saint2Lore.add(ChatUtils.translateToColor("&f&o- /hat, /craft"));
+		saint2Lore.add(ChatUtils.translateToColor("&f&o- Colored nickname"));
+		saint2Lore.add(ChatUtils.translateToColor("&f&o- /enderchest"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- 14 more arrow trails including\nHeart and End Rod"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- 9 gadgets including Thor's Hammer"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- 4 mounts including Mount of Fire"));
@@ -224,8 +280,8 @@ public class RanksGui {
 		ArrayList<String> saint3Lore = new ArrayList<>();
 		saint3Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (III)"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&lPerks"));
-		saint3Lore.add(ChatUtils.translateToColor("&f&o- Colored chat and signs"));
-		saint3Lore.add(ChatUtils.translateToColor("&f&o- /hat, /craft"));
+		saint3Lore.add(ChatUtils.translateToColor("&f&o- Bold chat and nickname"));
+		saint3Lore.add(ChatUtils.translateToColor("&f&o- Ability to join the server when it's full"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 16 more arrow trails including\nMagic Crit and Squid Ink"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 11 gadgets including Trampoline"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 6 mounts including Nyan Sheep"));

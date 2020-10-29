@@ -5,6 +5,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.aearost.aranarthcore.commands.CommandAC;
 import com.aearost.aranarthcore.commands.CommandACCompleter;
+import com.aearost.aranarthcore.commands.CommandBalance;
+import com.aearost.aranarthcore.commands.CommandBalanceCompleter;
+import com.aearost.aranarthcore.commands.CommandBalancetop;
+import com.aearost.aranarthcore.commands.CommandBalancetopCompleter;
+import com.aearost.aranarthcore.commands.CommandPay;
+import com.aearost.aranarthcore.commands.CommandPayCompleter;
 import com.aearost.aranarthcore.commands.CommandRanks;
 import com.aearost.aranarthcore.commands.CommandRanksCompleter;
 import com.aearost.aranarthcore.event.ArenaDrops;
@@ -28,6 +34,12 @@ public class AranarthCore extends JavaPlugin {
 		// Initialize commands
 		getCommand("ac").setExecutor(new CommandAC());
 		getCommand("ac").setTabCompleter(new CommandACCompleter());
+		getCommand("balance").setExecutor(new CommandBalance());
+		getCommand("balance").setTabCompleter(new CommandBalanceCompleter());
+		getCommand("balancetop").setExecutor(new CommandBalancetop());
+		getCommand("balancetop").setTabCompleter(new CommandBalancetopCompleter());
+		getCommand("pay").setExecutor(new CommandPay());
+		getCommand("pay").setTabCompleter(new CommandPayCompleter());
 		getCommand("ranks").setExecutor(new CommandRanks());
 		getCommand("ranks").setTabCompleter(new CommandRanksCompleter());
 		

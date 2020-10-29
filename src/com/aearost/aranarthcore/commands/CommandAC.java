@@ -169,21 +169,22 @@ public class CommandAC implements CommandExecutor {
 								CommandSender commandSender = Bukkit.getServer().getConsoleSender();
 								if (args[2].toLowerCase().equals("avatar")) {
 									String previousAvatar = AranarthPlayerUtils.replaceAvatar(player);
-									Bukkit.broadcastMessage(ChatUtils.translateToColor("&5&lAvatar &d&l"
-											+ previousAvatar + " &5&lhas passed away..."));
-									Bukkit.broadcastMessage(ChatUtils.translateToColor("&5&lWelcome their successor, Avatar &d&l"
-											+ player.getName() + " &5&l!"));
-									
+									Bukkit.broadcastMessage(ChatUtils.translateToColor(
+											"&5&lAvatar &d&l" + previousAvatar + " &5&lhas passed away..."));
+									Bukkit.broadcastMessage(ChatUtils.translateToColor(
+											"&5&lWelcome their successor, Avatar &d&l" + player.getName() + " &5&l!"));
+
 									for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 										onlinePlayer.playSound(onlinePlayer.getLocation(),
 												Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
 									}
-									Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " chi");
+									Bukkit.dispatchCommand(commandSender,
+											"bending remove " + player.getName() + " chi");
 									Bukkit.dispatchCommand(commandSender, "bending add air " + player.getName());
 									Bukkit.dispatchCommand(commandSender, "bending add water " + player.getName());
 									Bukkit.dispatchCommand(commandSender, "bending add earth " + player.getName());
 									Bukkit.dispatchCommand(commandSender, "bending add fire " + player.getName());
-									
+
 									ChatUtils.updatePlayerPrefixAndRank(player);
 									ChatUtils.updatePlayerPrefixAndRank(Bukkit.getPlayer(previousAvatar));
 									return true;
@@ -218,26 +219,32 @@ public class CommandAC implements CommandExecutor {
 									aranarthPlayer.setCouncilStatus(1);
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "councilhelper");
+									Bukkit.dispatchCommand(commandSender,
+											"manuaddsub " + player.getName() + "councilhelper");
 									Bukkit.dispatchCommand(commandSender, "manselect Arena");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "councilhelper");
+									Bukkit.dispatchCommand(commandSender,
+											"manuaddsub " + player.getName() + "councilhelper");
 									ChatUtils.updatePlayerPrefixAndRank(player);
 									return true;
 								} else if (args[2].toLowerCase().equals("council2")) {
 									aranarthPlayer.setCouncilStatus(2);
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "councilmoderator");
+									Bukkit.dispatchCommand(commandSender,
+											"manuaddsub " + player.getName() + "councilmoderator");
 									Bukkit.dispatchCommand(commandSender, "manselect Arena");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "councilmoderator");
+									Bukkit.dispatchCommand(commandSender,
+											"manuaddsub " + player.getName() + "councilmoderator");
 									ChatUtils.updatePlayerPrefixAndRank(player);
 								} else if (args[2].toLowerCase().equals("council3")) {
 									aranarthPlayer.setCouncilStatus(3);
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "counciladmin");
+									Bukkit.dispatchCommand(commandSender,
+											"manuaddsub " + player.getName() + "counciladmin");
 									Bukkit.dispatchCommand(commandSender, "manselect Arena");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "counciladmin");
+									Bukkit.dispatchCommand(commandSender,
+											"manuaddsub " + player.getName() + "counciladmin");
 								} else {
 									player.sendMessage(
 											ChatUtils.chatMessage("&7Proper Usage: &e/ac set <player> <rank>"));
