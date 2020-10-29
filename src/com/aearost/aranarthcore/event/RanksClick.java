@@ -2,7 +2,6 @@ package com.aearost.aranarthcore.event;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +9,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import com.aearost.aranarthcore.AranarthCore;
 import com.aearost.aranarthcore.gui.RankupGui;
-import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 
@@ -141,36 +139,7 @@ public class RanksClick implements Listener {
 					AranarthPlayerUtils.setBalance(player, balance - price);
 					AranarthPlayerUtils.setRank(player, AranarthPlayerUtils.getRank(player) + 1);
 					
-					AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
-					int rank = aranarthPlayer.getRank();
-					boolean isAvatar = aranarthPlayer.getAvatarStatus().equals("current");
-					boolean isSaint1 = aranarthPlayer.getSaintStatus() == 1;
-					boolean isSaint2 = aranarthPlayer.getSaintStatus() == 2;
-					boolean isSaint3 = aranarthPlayer.getSaintStatus() == 3;
-					boolean isCouncil1 = aranarthPlayer.getCouncilStatus() == 1;
-					boolean isCouncil2 = aranarthPlayer.getCouncilStatus() == 2;
-					boolean isCouncil3 = aranarthPlayer.getCouncilStatus() == 3;
-					
-					CommandSender commandSender = Bukkit.getServer().getConsoleSender();
-					String prefix = "";
-					if (isAvatar) {
-						prefix += "&8[&5✦&8] ";
-					}
-					
-					if (isCouncil1 || isCouncil2 || isCouncil3) {
-						if (isCouncil1) {
-							prefix += "&8[&3۞&8] ";
-						} else if (isCouncil2) {
-							prefix += "&8[&6۞&8] ";
-						} else {
-							prefix += "&8[&4۞&8] ";
-						}
-					}
-					
-					if (rank == 1) {
-						Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " Esquire Theia");
-						Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " Esquire Arena");
-					}
+					ChatUtils.updatePlayerPrefixAndRank(player);
 					
 					
 					
@@ -179,7 +148,7 @@ public class RanksClick implements Listener {
 					if (ChatUtils.stripColor(rankDisplay).equals("Esquire") || ChatUtils.stripColor(rankDisplay).equals("Emperor")) {
 						aOrAn = "an";
 					}
-					if (rank <= 6) {
+					if (AranarthPlayerUtils.getRank(player) <= 6) {
 						player.sendMessage(ChatUtils.chatMessage("&7You have become " + aOrAn + " " + rankDisplay + "&7!"));
 					} else {
 						Bukkit.broadcastMessage(ChatUtils

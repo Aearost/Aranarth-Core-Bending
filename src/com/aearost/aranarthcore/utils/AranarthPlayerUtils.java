@@ -47,7 +47,7 @@ public class AranarthPlayerUtils {
 		players.put(player.getUniqueId(), aranarthPlayer);
 	}
 
-	public static String setAvatar(Player player) {
+	public static String replaceAvatar(Player player) {
 		AranarthPlayer newAvatar = getPlayer(player.getUniqueId());
 		newAvatar.setAvatarStatus("current");
 
