@@ -168,8 +168,9 @@ public class CommandAC implements CommandExecutor {
 								if (args[2].toLowerCase().equals("avatar")) {
 									String previousAvatar = AranarthPlayerUtils.setAvatar(player);
 									Bukkit.broadcastMessage(ChatUtils.translateToColor("&5&lAvatar &d&l"
-											+ previousAvatar + " &5&lhas passed away... From this death, &d&l"
-											+ player.getName() + " &5&lhas inherited their bending!"));
+											+ previousAvatar + " &5&lhas passed away..."));
+									Bukkit.broadcastMessage(ChatUtils.translateToColor("&5&lWelcome their successor, Avatar &d&l"
+											+ player.getName() + " &5&l!"));
 									for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 										onlinePlayer.playSound(onlinePlayer.getLocation(),
 												Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
@@ -180,6 +181,12 @@ public class CommandAC implements CommandExecutor {
 								} else if (args[2].toLowerCase().equals("saint2")) {
 
 								} else if (args[2].toLowerCase().equals("saint3")) {
+
+								} else if (args[2].toLowerCase().equals("council1")) {
+									
+								} else if (args[2].toLowerCase().equals("council2")) {
+
+								} else if (args[2].toLowerCase().equals("council3")) {
 
 								} else {
 									player.sendMessage(

@@ -4,9 +4,15 @@ author: Aearost
 main: com.aearost.aranarthcore.AranarthCore
 api-version: 1.16
 description: Contains a large variety of features and functionality to be used specifically for the Aranarth Minecraft server.
-loadbefore: [mcMMO]
+loadbefore: [mcMMO, Essentials]
 commands:
    ac:
       description: All underlying commands regarding the plugin
+   balance:
+      description: Displays the user's balance
+   balancetop:
+      description: Displays a list of users and their balances, showing the highest balance first
+   pay:
+      description: Allows the user to pay another player some of their money
    ranks:
       description: Displays the ranks available in the server

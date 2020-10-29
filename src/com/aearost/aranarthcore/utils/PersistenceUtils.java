@@ -42,17 +42,18 @@ public class PersistenceUtils {
 			double balance = 0.00;
 			int saintStatus = 0;
 			String avatarStatus = "none";
+			int councilStatus = 0;
 
 			while (reader.hasNextLine()) {
 				String line = reader.nextLine();
 				String[] parts = line.split("\"");
-				
+
 				if ((line.endsWith("},") || line.endsWith("}")) && fieldCount >= 4) {
-					fieldCount = 6;
+					fieldCount = 7;
 					fieldName = "none";
 					fieldValue = "none";
 				}
-				
+
 				if (line.endsWith(": {")) {
 					if (!parts[1].equals("players")) {
 						uuid = UUID.fromString(parts[1]);
@@ -67,7 +68,7 @@ public class PersistenceUtils {
 				} else if (line.equals("{")) {
 					continue;
 				}
-				
+
 				if (fieldName.equals("rank")) {
 					rank = Integer.parseInt(fieldValue);
 					fieldCount++;
@@ -83,30 +84,52 @@ public class PersistenceUtils {
 				} else if (fieldName.equals("saintStatus")) {
 					saintStatus = Integer.parseInt(fieldValue);
 					fieldCount++;
+				} else if (fieldName.equals("councilStatus")) {
+					councilStatus = Integer.parseInt(fieldValue);
+					fieldCount++;
 				}
-				
-				if (fieldCount == 6) {
+
+				if (fieldCount == 7) {
 					boolean hasAvatarStatus = false;
 					boolean hasSaintStatus = false;
+					boolean hasCouncilStatus = false;
 					if (saintStatus != 0) {
 						hasSaintStatus = true;
 					}
 					if (!avatarStatus.equals("none")) {
 						hasAvatarStatus = true;
 					}
-					if (hasSaintStatus && hasAvatarStatus) {
+					if (councilStatus != 0) {
+						hasCouncilStatus = true;
+					}
+
+					if (hasSaintStatus && hasAvatarStatus && hasCouncilStatus) {
+						AranarthPlayerUtils.addPlayer(uuid,
+								new AranarthPlayer(rank, isMale, balance, saintStatus, avatarStatus, councilStatus));
+					} else if (hasSaintStatus && hasAvatarStatus) {
 						AranarthPlayerUtils.addPlayer(uuid,
 								new AranarthPlayer(rank, isMale, balance, saintStatus, avatarStatus));
+					} else if (hasAvatarStatus && hasCouncilStatus) {
+						AranarthPlayerUtils.addPlayer(uuid,
+								new AranarthPlayer(rank, isMale, balance, councilStatus + 3, avatarStatus));
+					} else if (hasSaintStatus && hasCouncilStatus) {
+						AranarthPlayerUtils.addPlayer(uuid,
+								new AranarthPlayer(rank, isMale, balance, saintStatus, councilStatus));
 					} else if (hasAvatarStatus) {
 						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(rank, isMale, balance, avatarStatus));
 					} else if (hasSaintStatus) {
 						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(rank, isMale, balance, saintStatus));
+					} else if (hasCouncilStatus) {
+						AranarthPlayerUtils.addPlayer(uuid,
+								new AranarthPlayer(rank, isMale, balance, councilStatus + 3));
 					} else {
 						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(rank, isMale, balance));
 					}
+
 					// Reset these as rank, isMale, and balance are always overwritten
 					saintStatus = 0;
 					avatarStatus = "none";
+					councilStatus = 0;
 				}
 			}
 			reader.close();
@@ -120,12 +143,12 @@ public class PersistenceUtils {
 	 * Saves the contents of the players HashMap to the players.json file.
 	 */
 	public static void writeToFile() {
-		HashMap<String, AranarthPlayer> players = AranarthPlayerUtils.getPlayers();
+		HashMap<UUID, AranarthPlayer> players = AranarthPlayerUtils.getPlayers();
 		if (players.size() > 0) {
 
 			String currentPath = System.getProperty("user.dir");
-			String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
-					+ "players.json";
+			String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore"
+					+ File.separator + "players.json";
 			File pluginDirectory = new File(currentPath + File.separator + "plugins" + File.separator + "AranarthCore");
 			File file = new File(filePath);
 
@@ -151,11 +174,11 @@ public class PersistenceUtils {
 					writer.write("\"players\": {\n");
 					int counter = 1;
 
-					for (Map.Entry<String, AranarthPlayer> entry : players.entrySet()) {
-						String playerName = entry.getKey();
+					for (Map.Entry<UUID, AranarthPlayer> entry : players.entrySet()) {
+						UUID uuid = entry.getKey();
 						AranarthPlayer aranarthPlayer = entry.getValue();
 
-						writer.write("    \"" + playerName + "\": {\n");
+						writer.write("    \"" + uuid.toString() + "\": {\n");
 						writer.write("        \"rank\": \"" + aranarthPlayer.getRank() + "\",\n");
 						writer.write("        \"isMale\": \"" + aranarthPlayer.getIsMale() + "\",\n");
 						writer.write("        \"balance\": \"" + aranarthPlayer.getBalance() + "\",\n");
@@ -165,7 +188,10 @@ public class PersistenceUtils {
 						if (!aranarthPlayer.getAvatarStatus().equals("none")) {
 							writer.write("        \"avatarStatus\": \"" + aranarthPlayer.getAvatarStatus() + "\",\n");
 						}
-						
+						if (aranarthPlayer.getCouncilStatus() != 0) {
+							writer.write("        \"councilStatus\": \"" + aranarthPlayer.getCouncilStatus() + "\",\n");
+						}
+
 						// If it's the last entry
 						if (players.size() == counter) {
 							writer.write("    }\n");
@@ -183,5 +209,5 @@ public class PersistenceUtils {
 			}
 		}
 	}
-	
+
 }

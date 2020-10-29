@@ -14,25 +14,25 @@ public class RankupGui {
 	private Player player;
 	private Inventory initializedGui;
 
-	public RankupGui(Player player, String nextRankInfo) {
+	public RankupGui(Player player, String nextRankInfo, String rankupCost) {
 		this.player = player;
-		this.initializedGui = initializeGui(player, nextRankInfo);
+		this.initializedGui = initializeGui(player, nextRankInfo, rankupCost);
 	}
-	
+
 	public void openGui() {
 		player.openInventory(initializedGui);
 	}
 
-	private Inventory initializeGui(Player player, String nextRankInfo) {
+	private Inventory initializeGui(Player player, String rankName, String rankupCost) {
 		Inventory gui = Bukkit.getServer().createInventory(player, 27,
-				ChatUtils.translateToColor("&0&lAre you sure you would like to rankup?"));
-		
+				ChatUtils.translateToColor("&0&lRankup Confirm"));
+
 		// Initialize Items
 		ItemStack yellowPane = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
 		ItemStack blackPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
 		ItemStack cancel = new ItemStack(Material.RED_CONCRETE);
 		ItemStack rankup = new ItemStack(Material.LIME_CONCRETE);
-		
+
 		// Removing name of panes
 		ItemMeta yellowPaneMeta = yellowPane.getItemMeta();
 		yellowPaneMeta.setDisplayName(" ");
@@ -40,34 +40,34 @@ public class RankupGui {
 		ItemMeta blackPaneMeta = blackPane.getItemMeta();
 		blackPaneMeta.setDisplayName(" ");
 		blackPane.setItemMeta(blackPaneMeta);
-		
+
 		ItemMeta cancelMeta = cancel.getItemMeta();
 		cancelMeta.setDisplayName(ChatUtils.translateToColor("&c&lCancel Rankup"));
 		cancel.setItemMeta(cancelMeta);
 		ItemMeta rankupMeta = rankup.getItemMeta();
-		rankupMeta.setDisplayName(ChatUtils.translateToColor("&a&lRankup to " + nextRankInfo));
+		rankupMeta.setDisplayName(
+				ChatUtils.translateToColor("&a&lRankup to " + rankName + " &a&lfor &6&l" + rankupCost));
 		rankup.setItemMeta(rankupMeta);
-		
+
 		// Initialize GUI
 		for (int position = 0; position < 27; position++) {
 			// Top and bottom lines
-			if (position < 9 || position > 18) {
+			if (position < 9 || position >= 18) {
 				gui.setItem(position, blackPane);
 			}
 		}
-		
+
 		gui.setItem(9, blackPane);
 		gui.setItem(10, yellowPane);
 		gui.setItem(11, yellowPane);
-		gui.setItem(12, yellowPane);
-		gui.setItem(13, cancel);
-		gui.setItem(14, yellowPane);
-		gui.setItem(15, rankup);
+		gui.setItem(12, cancel);
+		gui.setItem(13, yellowPane);
+		gui.setItem(14, rankup);
+		gui.setItem(15, yellowPane);
 		gui.setItem(16, yellowPane);
-		gui.setItem(17, yellowPane);
-		gui.setItem(18, blackPane);
-		
+		gui.setItem(17, blackPane);
+
 		return gui;
 	}
-	
+
 }

@@ -90,6 +90,10 @@ public class AranarthPlayerUtils {
 	public static AranarthPlayer getPlayer(UUID uuid) {
 		return players.get(uuid);
 	}
+	
+	public static AranarthPlayer getPlayer(Player player) {
+		return players.get(player.getUniqueId());
+	}
 
 	public static HashMap<UUID, AranarthPlayer> getPlayers() {
 		return players;

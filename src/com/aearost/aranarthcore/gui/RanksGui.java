@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 
 public class RanksGui {
@@ -28,6 +29,9 @@ public class RanksGui {
 	private Inventory initializeGui(Player player) {
 		Inventory gui = Bukkit.getServer().createInventory(player, 54,
 				ChatUtils.translateToColor("&0&lAranarth Ranks"));
+		
+		boolean isMalePlayer = AranarthPlayerUtils.getPlayer(player).getIsMale();
+		int currentRank = AranarthPlayerUtils.getPlayer(player).getRank();
 		
 		// Initialize Items
 		ItemStack yellowPane = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
@@ -56,7 +60,11 @@ public class RanksGui {
 		// Peasant
 		ItemMeta peasantMeta = peasant.getItemMeta();
 		ArrayList<String> peasantLore = new ArrayList<>();
-		peasantMeta.setDisplayName(ChatUtils.translateToColor("&a&l&nPeasant"));
+		if (currentRank == 0) {
+			peasantMeta.setDisplayName(ChatUtils.translateToColor("&a&l&nPeasant"));
+		} else {
+			peasantMeta.setDisplayName(ChatUtils.translateToColor("&a&l&nPeasant"));
+		}
 		peasantLore.add(ChatUtils.translateToColor("&f&lBending"));
 		peasantLore.add(ChatUtils.translateToColor("&f&o- Basic abilities"));
 		peasantLore.add(ChatUtils.translateToColor("&f&o- &3&oIcebending"));
@@ -66,7 +74,7 @@ public class RanksGui {
 		// Esquire
 		ItemMeta esquireMeta = esquire.getItemMeta();
 		ArrayList<String> esquireLore = new ArrayList<>();
-		esquireMeta.setDisplayName(ChatUtils.translateToColor("&d&l&nEsquire - $250"));
+		esquireMeta.setDisplayName(ChatUtils.translateToColor("&d&l&nEsquire&r&f&l ($250)"));
 		esquireLore.add(ChatUtils.translateToColor("&f&lBending"));
 		esquireLore.add(ChatUtils.translateToColor("&f&o- &3&oHealing"));
 		esquireLore.add(ChatUtils.translateToColor("&f&o- &3&oPlantbending"));
@@ -80,7 +88,7 @@ public class RanksGui {
 		// Knight
 		ItemMeta knightMeta = knight.getItemMeta();
 		ArrayList<String> knightLore = new ArrayList<>();
-		knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight - $750"));
+		knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight&r&f&l ($750)"));
 		knightLore.add(ChatUtils.translateToColor("&f&lBending"));
 		knightLore.add(ChatUtils.translateToColor("&f&o- &2&oMetalbending"));
 		knightLore.add(ChatUtils.translateToColor("&f&lPerks"));
@@ -91,7 +99,11 @@ public class RanksGui {
 		// Baron
 		ItemMeta baronMeta = baron.getItemMeta();
 		ArrayList<String> baronLore = new ArrayList<>();
-		baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron / Baroness - $1,500"));
+		if (isMalePlayer) {
+			baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($1,500)"));
+		} else {
+			baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($1,500)"));
+		}
 		baronLore.add(ChatUtils.translateToColor("&f&lBending"));
 		baronLore.add(ChatUtils.translateToColor("&f&o- &b&oWaterArms"));
 		baronLore.add(ChatUtils.translateToColor("&f&lPerks"));
@@ -103,7 +115,11 @@ public class RanksGui {
 		// Count
 		ItemMeta countMeta = count.getItemMeta();
 		ArrayList<String> countLore = new ArrayList<>();
-		countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount / Countess - $3,000"));
+		if (isMalePlayer) {
+			countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($3,000)"));
+		} else {
+			countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCountess&r&f&l ($3,000)"));
+		}
 		countLore.add(ChatUtils.translateToColor("&f&lBending"));
 		countLore.add(ChatUtils.translateToColor("&f&o- &7&oSonicBlast"));
 		countLore.add(ChatUtils.translateToColor("&f&lPerks"));
@@ -115,7 +131,11 @@ public class RanksGui {
 		// Duke
 		ItemMeta dukeMeta = duke.getItemMeta();
 		ArrayList<String> dukeLore = new ArrayList<>();
-		dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke / Duchess - $7,500"));
+		if (isMalePlayer) {
+			dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($7,500)"));
+		} else {
+			dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchess&r&f&l ($7,500)"));
+		}
 		dukeLore.add(ChatUtils.translateToColor("&f&lPerks"));
 		dukeLore.add(ChatUtils.translateToColor("&f&o- /near"));
 		dukeMeta.setLore(dukeLore);
@@ -124,7 +144,11 @@ public class RanksGui {
 		// Prince
 		ItemMeta princeMeta = prince.getItemMeta();
 		ArrayList<String> princeLore = new ArrayList<>();
-		princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince / Princess - $12,500"));
+		if (isMalePlayer) {
+			princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($12,500)"));
+		} else {
+			princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrincess&r&f&l ($12,500)"));
+		}
 		princeLore.add(ChatUtils.translateToColor("&f&lBending"));
 		princeLore.add(ChatUtils.translateToColor("&f&o- &4&oLightningbending"));
 		princeLore.add(ChatUtils.translateToColor("&f&lPerks"));
@@ -136,7 +160,11 @@ public class RanksGui {
 		// King
 		ItemMeta kingMeta = king.getItemMeta();
 		ArrayList<String> kingLore = new ArrayList<>();
-		kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing / Queen - $30,000"));
+		if (isMalePlayer) {
+			kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($30,000)"));
+		} else {
+			kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nQueen&r&f&l ($30,000)"));
+		}
 		kingLore.add(ChatUtils.translateToColor("&f&lBending"));
 		kingLore.add(ChatUtils.translateToColor("&f&o- &2&oLavabending"));
 		kingLore.add(ChatUtils.translateToColor("&f&o- &c&lFireComet"));
@@ -148,7 +176,12 @@ public class RanksGui {
 		// Emperor
 		ItemMeta emperorMeta = emperor.getItemMeta();
 		ArrayList<String> emperorLore = new ArrayList<>();
-		emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor / Empress - $50,000"));
+		if (isMalePlayer) {
+			emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($50,000)"));
+		} else {
+			emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($50,000)"));
+		}
+		
 		emperorLore.add(ChatUtils.translateToColor("&f&lBending"));
 		emperorLore.add(ChatUtils.translateToColor("&f&o- &4&oCombustionbending"));
 		emperorLore.add(ChatUtils.translateToColor("&f&lPerks"));

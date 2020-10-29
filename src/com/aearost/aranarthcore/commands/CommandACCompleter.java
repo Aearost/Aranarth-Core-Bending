@@ -91,11 +91,24 @@ public class CommandACCompleter implements TabCompleter {
 					displayedOptions.add("saint2");
 				} else if (!args[2].equals("") && "saint3".equals(args[2].toLowerCase())) {
 					displayedOptions.add("saint3");
+				} else if (!args[2].equals("") && "council".startsWith(args[2].toLowerCase())) {
+					displayedOptions.add("council1");
+					displayedOptions.add("council2");
+					displayedOptions.add("council3");
+				} else if (!args[2].equals("") && "council1".equals(args[2].toLowerCase())) {
+					displayedOptions.add("council1");
+				} else if (!args[2].equals("") && "council2".equals(args[2].toLowerCase())) {
+					displayedOptions.add("council2");
+				} else if (!args[2].equals("") && "council3".equals(args[2].toLowerCase())) {
+					displayedOptions.add("council3");
 				} else {
 					displayedOptions.add("avatar");
 					displayedOptions.add("saint1");
 					displayedOptions.add("saint2");
 					displayedOptions.add("saint3");
+					displayedOptions.add("council1");
+					displayedOptions.add("council2");
+					displayedOptions.add("council3");
 				}
 			}
 		} else if ("title".startsWith(args[0]) && args[0].length() > 0) {
