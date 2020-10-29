@@ -23,7 +23,7 @@ public class PlayerJoinServer implements Listener {
 	@EventHandler
 	public void onPlayerJoin(final PlayerJoinEvent e) {
 		if (!AranarthPlayerUtils.hasPlayedBefore(e.getPlayer())) {
-			AranarthPlayerUtils.addPlayer(e.getPlayer().getName(), new AranarthPlayer(0, true, 0.00));
+			AranarthPlayerUtils.addPlayer(e.getPlayer().getName(), new AranarthPlayer(0, true, 50.00));
 		}
 	}
 }

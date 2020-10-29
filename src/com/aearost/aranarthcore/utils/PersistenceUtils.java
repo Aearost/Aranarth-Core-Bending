@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 
@@ -35,7 +36,7 @@ public class PersistenceUtils {
 			String fieldName = null;
 			String fieldValue = null;
 
-			String playerName = "";
+			UUID uuid = null;
 			int rank = 0;
 			boolean isMale = true;
 			double balance = 0.00;
@@ -54,7 +55,7 @@ public class PersistenceUtils {
 				
 				if (line.endsWith(": {")) {
 					if (!parts[1].equals("players")) {
-						playerName = parts[1];
+						uuid = UUID.fromString(parts[1]);
 						fieldCount++;
 						continue;
 					} else {
@@ -94,14 +95,14 @@ public class PersistenceUtils {
 						hasAvatarStatus = true;
 					}
 					if (hasSaintStatus && hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(playerName,
+						AranarthPlayerUtils.addPlayer(uuid,
 								new AranarthPlayer(rank, isMale, balance, saintStatus, avatarStatus));
 					} else if (hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, balance, avatarStatus));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(rank, isMale, balance, avatarStatus));
 					} else if (hasSaintStatus) {
-						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, balance, saintStatus));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(rank, isMale, balance, saintStatus));
 					} else {
-						AranarthPlayerUtils.addPlayer(playerName, new AranarthPlayer(rank, isMale, balance));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(rank, isMale, balance));
 					}
 					// Reset these as rank, isMale, and balance are always overwritten
 					saintStatus = 0;

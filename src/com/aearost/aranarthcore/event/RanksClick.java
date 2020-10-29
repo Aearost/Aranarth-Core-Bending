@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import com.aearost.aranarthcore.AranarthCore;
+import com.aearost.aranarthcore.gui.RankupGui;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 
@@ -28,7 +29,6 @@ public class RanksClick implements Listener {
 			e.setCancelled(true);
 
 			Player player = (Player) e.getWhoClicked();
-			double balance = AranarthPlayerUtils.getBalance(player);
 			int rank = AranarthPlayerUtils.getRank(player);
 
 			int slot = e.getSlot();
@@ -78,11 +78,32 @@ public class RanksClick implements Listener {
 			} else if (isClickedRankHigherThanCurrent) {
 				player.sendMessage(ChatUtils.translateToColor("&cYou must rankup to " + ranks[rank + 1] + " &cfirst!"));
 			} else if (isRankup) {
-				// Make new Inventory holder
-				// "Are you sure you would like to rankup?"
-				// Single-line GUI with a lime and red wool named "&a&lRankup to + ranks[position] + for x money" and "&c&lCancel Rankup"
+				String rankupCost = clickedName.split("-")[1];
+				String nextRankInfo = ranks[position] + " for" + rankupCost;
+				new RankupGui(player, nextRankInfo);
 			}
 
+		} else if (ChatUtils.stripColor(e.getView().getTitle()).equals("Are you sure you would like to rankup")) {
+			e.setCancelled(true);
+			int slot = e.getSlot();
+			// Rankup
+			if (slot == 15) {
+				Player player = (Player) e.getWhoClicked();
+				double balance = AranarthPlayerUtils.getBalance(player);
+				String clickedItem = e.getClickedInventory().getItem(slot).getItemMeta().getDisplayName();
+				String priceWithComma = clickedItem.split("$")[1];
+				double price = Double.parseDouble(priceWithComma.replaceAll(",", ""));
+				
+				if (balance >= price) {
+					AranarthPlayerUtils.setBalance(player, balance - price);
+					String rank = clickedItem.split(" ")[2];
+					player.sendMessage(ChatUtils.chatMessage("&7You have become a " + rank + "&7!"));
+				}
+			}
+			// Cancel
+			else if (slot == 13) {
+				e.getWhoClicked().closeInventory();
+			}
 		}
 
 	}
