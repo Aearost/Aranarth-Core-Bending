@@ -83,17 +83,12 @@ public class CommandAC implements CommandExecutor {
 										if (args[1].toLowerCase().equals("give")) {
 											double balance = aranarthPlayer.getBalance();
 											balance += amount;
-											String balanceAsMoney = formatter.format(balance);
 											aranarthPlayer.setBalance(balance);
 											sender.sendMessage(ChatUtils.chatMessage("&6" + amountAsMoney
 													+ " &7has been added to &6" + player.getName() + "'s &7account"));
-											sender.sendMessage(ChatUtils
-													.chatMessage("&7Their new balance is &6" + balanceAsMoney));
 											if (isPlayerOnline) {
 												player.sendMessage(ChatUtils.chatMessage(
 														"&6" + amountAsMoney + " &7 has been added to your account!"));
-												player.sendMessage(ChatUtils
-														.chatMessage("&7Your new balance is &6" + balanceAsMoney));
 											}
 											return true;
 										} else if (args[1].toLowerCase().equals("set")) {
@@ -115,17 +110,12 @@ public class CommandAC implements CommandExecutor {
 												return false;
 											} else if (balance > amount) {
 												balance -= amount;
-												String balanceAsMoney = formatter.format(balance);
 												aranarthPlayer.setBalance(balance);
 												sender.sendMessage(ChatUtils.chatMessage("&6" + amountAsMoney
 														+ " &7has been taken from &6" + player.getName()));
-												sender.sendMessage(ChatUtils
-														.chatMessage("&7Their new balance is &6" + balanceAsMoney));
 												if (isPlayerOnline) {
 													player.sendMessage(ChatUtils.chatMessage(
 															"&6" + amountAsMoney + " &7has been taken from you!"));
-													player.sendMessage(ChatUtils
-															.chatMessage("&7Your new balance is &6" + balanceAsMoney));
 												}
 												return true;
 											} else {

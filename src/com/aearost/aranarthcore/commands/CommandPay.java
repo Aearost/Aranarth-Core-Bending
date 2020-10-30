@@ -21,23 +21,41 @@ public class CommandPay implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if (args.length > 0) {
+			if (args.length > 1) {
+				
 				if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[0]))) {
-					Player playerToPay = Bukkit.getPlayer(args[1]);
+					Player playerToPay = Bukkit.getPlayer(args[0]);
+					
 					AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 					AranarthPlayer aranarthPlayerToPay = AranarthPlayerUtils.getPlayer(playerToPay);
 
 					if (args.length > 1) {
 						DecimalFormat formatter = new DecimalFormat("#.##");
-						String formattedAmount = formatter.format(args[1]);
-
+						String formattedAmount = "";
 						double amount = 0.00;
+						
 						try {
+							formattedAmount = formatter.format(Double.parseDouble(args[1]));
 							amount = Double.parseDouble(formattedAmount);
 						} catch (NumberFormatException e) {
 							player.sendMessage(ChatUtils.translateToColor("&cThat is not a valid number!"));
 							return false;
 						}
+						
+						
+						
+						
+						
+						
+						// FIGURE OUT WHY /pay ISN'T WORKING
+						
+						
+						
+						
+						
+						
+						
+						
 
 						if (amount < 0.00) {
 							player.sendMessage(ChatUtils.translateToColor("You must use a positive number!"));

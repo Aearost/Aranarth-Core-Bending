@@ -11,7 +11,7 @@ commands:
    balance:
       description: Displays the user's balance
       usage: /balance
-      aliases: [bal]
+      aliases: [bal, money]
    balancetop:
       description: Displays a list of users and their balances, showing the highest balance first
       usage: /balancetop

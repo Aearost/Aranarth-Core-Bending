@@ -15,56 +15,34 @@ import com.aearost.aranarthcore.utils.ChatUtils;
 public class CommandBalance implements CommandExecutor {
 
 	/**
-	 * All logic behind the /ac command, and all of its sub-commands as well.
+	 * All logic behind the /balance command.
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		DecimalFormat formatter = new DecimalFormat("#.##");
 		if (args.length == 0) {
-			
-		}
-		if (args.length > 0) {
-			if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[0]))) {
-				Player playerToPay = Bukkit.getPlayer(args[1]);
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
 				AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
-				AranarthPlayer aranarthPlayerToPay = AranarthPlayerUtils.getPlayer(playerToPay);
-
-				if (args.length > 1) {
-					DecimalFormat formatter = new DecimalFormat("#.##");
-					String formattedAmount = formatter.format(args[1]);
-
-					double amount = 0.00;
-					try {
-						amount = Double.parseDouble(formattedAmount);
-					} catch (NumberFormatException e) {
-						player.sendMessage(ChatUtils.translateToColor("&cThat is not a valid number!"));
-						return false;
-					}
-
-					if (amount < 0.00) {
-						player.sendMessage(ChatUtils.translateToColor("You must use a positive number!"));
-						return false;
-					} else if (amount == 0.00) {
-						player.sendMessage(ChatUtils.translateToColor("You cannot pay someone $0.00!"));
-						return false;
-					} else {
-						if (aranarthPlayer.getBalance() < amount) {
-							player.sendMessage(ChatUtils.translateToColor("&cYou do not have enough money for this!"));
-							return false;
-						} else {
-							aranarthPlayer.setBalance(aranarthPlayer.getBalance() - amount);
-							AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-							player.sendMessage(ChatUtils.translateToColor(
-									"&aYou have sent &6$" + args[1] + " &ato &e" + playerToPay.getName()));
-							aranarthPlayerToPay.setBalance(aranarthPlayerToPay.getBalance() + amount);
-							AranarthPlayerUtils.addPlayer(playerToPay.getUniqueId(), aranarthPlayerToPay);
-							playerToPay.sendMessage(ChatUtils.translateToColor(
-									"&aYou have received &6$" + args[1] + " &afrom &e" + player.getName()));
-							return true;
-						}
-					}
-				}
+				player.sendMessage(ChatUtils.translateToColor(
+						"&7Your current balance is &6&l$" + formatter.format(aranarthPlayer.getBalance())));
+				return true;
+			} else {
+				sender.sendMessage(ChatUtils.translateToColor("&cYou must be a player to use this command!"));
+				return false;
 			}
-			sender.sendMessage(ChatUtils.translateToColor("&7Proper Usage: &e/bal [player]"));
+		} else {
+			if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[0]))) {
+				Player player = Bukkit.getPlayer(args[0]);
+				AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
+
+				sender.sendMessage(ChatUtils.translateToColor("&e" + player.getName() + "'s &acurrent balance is &6&l$"
+						+ formatter.format(aranarthPlayer.getBalance())));
+				return true;
+			} else {
+				sender.sendMessage("&cThis player could not be found!");
+				return false;
+			}
 		}
 	}
 }
