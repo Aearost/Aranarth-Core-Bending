@@ -2,6 +2,7 @@ package com.aearost.aranarthcore.objects;
 
 public class AranarthPlayer {
 
+	private String username;
 	private int rankLevel;
 	private boolean isMale;
 	private double balance;
@@ -9,7 +10,8 @@ public class AranarthPlayer {
 	private String avatarStatus;
 	private int councilStatus;
 
-	public AranarthPlayer(int rankLevel, boolean isMale, double balance) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance) {
+		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
@@ -18,7 +20,8 @@ public class AranarthPlayer {
 		councilStatus = 0;
 	}
 
-	public AranarthPlayer(int rankLevel, boolean isMale, double balance, int saintOrCouncilStatus) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, int saintOrCouncilStatus) {
+		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
@@ -32,7 +35,8 @@ public class AranarthPlayer {
 		this.avatarStatus = "none";
 	}
 
-	public AranarthPlayer(int rankLevel, boolean isMale, double balance, String avatarStatus) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, String avatarStatus) {
+		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
@@ -41,7 +45,9 @@ public class AranarthPlayer {
 		councilStatus = 0;
 	}
 
-	public AranarthPlayer(int rankLevel, boolean isMale, double balance, String avatarStatus, int councilStatus) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, String avatarStatus,
+			int councilStatus) {
+		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
@@ -50,7 +56,9 @@ public class AranarthPlayer {
 		this.councilStatus = councilStatus;
 	}
 
-	public AranarthPlayer(int rankLevel, boolean isMale, double balance, int saintOrCouncilStatus, String avatarStatus) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, int saintOrCouncilStatus,
+			String avatarStatus) {
+		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
@@ -63,25 +71,36 @@ public class AranarthPlayer {
 		}
 		this.avatarStatus = avatarStatus;
 		councilStatus = 0;
+	}
+
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, int saintStatus,
+			int councilStatus) {
+		this.username = username;
+		this.rankLevel = rankLevel;
+		this.isMale = isMale;
+		this.balance = balance;
+		this.saintStatus = saintStatus;
+		this.avatarStatus = "none";
+		this.councilStatus = councilStatus;
+	}
+
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, int saintStatus,
+			String avatarStatus, int councilStatus) {
+		this.username = username;
+		this.rankLevel = rankLevel;
+		this.isMale = isMale;
+		this.balance = balance;
+		this.saintStatus = saintStatus;
+		this.avatarStatus = avatarStatus;
+		this.councilStatus = councilStatus;
 	}
 	
-	public AranarthPlayer(int rankLevel, boolean isMale, double balance, int saintStatus, int councilStatus) {
-		this.rankLevel = rankLevel;
-		this.isMale = isMale;
-		this.balance = balance;
-		this.saintStatus = saintStatus;
-		this.avatarStatus = "none";
-		this.councilStatus = councilStatus;
+	public String getUsername() {
+		return username;
 	}
-
-	public AranarthPlayer(int rankLevel, boolean isMale, double balance, int saintStatus, String avatarStatus,
-			int councilStatus) {
-		this.rankLevel = rankLevel;
-		this.isMale = isMale;
-		this.balance = balance;
-		this.saintStatus = saintStatus;
-		this.avatarStatus = avatarStatus;
-		this.councilStatus = councilStatus;
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public int getRank() {

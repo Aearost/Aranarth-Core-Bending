@@ -50,7 +50,8 @@ public class CommandAC implements CommandExecutor {
 					if (args.length > 1) {
 						if (args[1].toLowerCase().equals("give") || args[1].toLowerCase().equals("reset")
 								|| args[1].toLowerCase().equals("set") || args[1].toLowerCase().equals("take")) {
-							if (args.length > 2 && Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[2]))) {
+							if (args.length > 2 && (Bukkit.getPlayer(args[2]) != null
+									|| Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(args[2])) != null)) {
 								Player player = Bukkit.getPlayer(args[2]);
 								boolean isPlayerOnline = false;
 								if (Bukkit.getOnlinePlayers().contains(player)) {

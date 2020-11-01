@@ -20,6 +20,36 @@ public class AranarthPlayerUtils {
 			PersistenceUtils.writeToFile();
 		}
 	}
+	
+	public static UUID getUUID(String username) {
+		HashMap<UUID, AranarthPlayer> players = getPlayers();
+		for (Map.Entry<UUID, AranarthPlayer> entry : players.entrySet()) {
+			if (entry.getValue().getUsername().equals(username)) {
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
+	
+	public static String getUsername(Player player) {
+		return players.get(player.getUniqueId()).getUsername();
+	}
+
+	public static void setUsername(Player player) {
+		AranarthPlayer aranarthPlayer = getPlayer(player.getUniqueId());
+		aranarthPlayer.setUsername(player.getName());
+		players.put(player.getUniqueId(), aranarthPlayer);
+	}
+	
+	public static int getRank(Player player) {
+		return players.get(player.getUniqueId()).getRank();
+	}
+
+	public static void setRank(Player player, int rank) {
+		AranarthPlayer aranarthPlayer = getPlayer(player.getUniqueId());
+		aranarthPlayer.setRank(rank);
+		players.put(player.getUniqueId(), aranarthPlayer);
+	}
 
 	public static double getBalance(Player player) {
 		return players.get(player.getUniqueId()).getBalance();
@@ -28,16 +58,6 @@ public class AranarthPlayerUtils {
 	public static void setBalance(Player player, double newBalance) {
 		AranarthPlayer aranarthPlayer = getPlayer(player.getUniqueId());
 		aranarthPlayer.setBalance(newBalance);
-		players.put(player.getUniqueId(), aranarthPlayer);
-	}
-
-	public static int getRank(Player player) {
-		return players.get(player.getUniqueId()).getRank();
-	}
-
-	public static void setRank(Player player, int rank) {
-		AranarthPlayer aranarthPlayer = getPlayer(player.getUniqueId());
-		aranarthPlayer.setRank(rank);
 		players.put(player.getUniqueId(), aranarthPlayer);
 	}
 

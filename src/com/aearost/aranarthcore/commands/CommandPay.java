@@ -41,21 +41,6 @@ public class CommandPay implements CommandExecutor {
 							player.sendMessage(ChatUtils.translateToColor("&cThat is not a valid number!"));
 							return false;
 						}
-						
-						
-						
-						
-						
-						
-						// FIGURE OUT WHY /pay ISN'T WORKING
-						
-						
-						
-						
-						
-						
-						
-						
 
 						if (amount < 0.00) {
 							player.sendMessage(ChatUtils.translateToColor("You must use a positive number!"));
