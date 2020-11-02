@@ -32,7 +32,7 @@ public class AranarthPlayerUtils {
 		return null;
 	}
 	
-	public static String getUsername(Player player) {
+	public static String getUsername(OfflinePlayer player) {
 		return players.get(player.getUniqueId()).getUsername();
 	}
 
@@ -75,7 +75,7 @@ public class AranarthPlayerUtils {
 
 		for (Map.Entry<UUID, AranarthPlayer> entry : players.entrySet()) {
 			UUID uuid = entry.getKey();
-			String playerName = Bukkit.getPlayer(uuid).getName();
+			String playerName = getUsername(Bukkit.getOfflinePlayer(uuid));
 			if (entry.getValue().getAvatarStatus().equals("current")) {
 				AranarthPlayer currentAvatar = getPlayer(uuid);
 				currentAvatarName = playerName;
