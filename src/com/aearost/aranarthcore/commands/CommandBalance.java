@@ -2,7 +2,6 @@ package com.aearost.aranarthcore.commands;
 
 import java.text.NumberFormat;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,11 +31,11 @@ public class CommandBalance implements CommandExecutor {
 				return false;
 			}
 		} else {
-			if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[0]))) {
-				Player player = Bukkit.getPlayer(args[0]);
-				AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
-
-				sender.sendMessage(ChatUtils.translateToColor("&e" + player.getName() + "'s &acurrent balance is &6&l"
+			if (AranarthPlayerUtils.getUUID(args[0]) != null) {
+				
+				AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(AranarthPlayerUtils.getUUID(args[0]));
+				
+				sender.sendMessage(ChatUtils.translateToColor("&e" + aranarthPlayer.getUsername() + "'s &acurrent balance is &6&l"
 						+ formatter.format(aranarthPlayer.getBalance())));
 				return true;
 			} else {

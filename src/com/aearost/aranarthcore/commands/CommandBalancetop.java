@@ -80,7 +80,7 @@ public class CommandBalancetop implements CommandExecutor {
 
 		int counter = 1;
 		for (AranarthPlayer aranarthPlayer : playersAsList) {
-			lines.add("&7" + counter + ". &e" + aranarthPlayer.getUsername() + ", &6"
+			lines.add("&7" + counter + ". &a" + aranarthPlayer.getUsername() + ", &6"
 					+ formatter.format(aranarthPlayer.getBalance()));
 			counter++;
 		}

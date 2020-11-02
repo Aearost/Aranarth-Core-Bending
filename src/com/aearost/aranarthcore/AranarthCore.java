@@ -9,6 +9,8 @@ import com.aearost.aranarthcore.commands.CommandBalance;
 import com.aearost.aranarthcore.commands.CommandBalanceCompleter;
 import com.aearost.aranarthcore.commands.CommandBalancetop;
 import com.aearost.aranarthcore.commands.CommandBalancetopCompleter;
+import com.aearost.aranarthcore.commands.CommandEco;
+import com.aearost.aranarthcore.commands.CommandEcoCompleter;
 import com.aearost.aranarthcore.commands.CommandPay;
 import com.aearost.aranarthcore.commands.CommandPayCompleter;
 import com.aearost.aranarthcore.commands.CommandRanks;
@@ -38,6 +40,8 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("balance").setTabCompleter(new CommandBalanceCompleter());
 		getCommand("balancetop").setExecutor(new CommandBalancetop());
 		getCommand("balancetop").setTabCompleter(new CommandBalancetopCompleter());
+		getCommand("eco").setExecutor(new CommandEco());
+		getCommand("eco").setTabCompleter(new CommandEcoCompleter());
 		getCommand("pay").setExecutor(new CommandPay());
 		getCommand("pay").setTabCompleter(new CommandPayCompleter());
 		getCommand("ranks").setExecutor(new CommandRanks());

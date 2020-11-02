@@ -1,10 +1,7 @@
 package com.aearost.aranarthcore.commands;
 
-import java.text.NumberFormat;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -47,124 +44,6 @@ public class CommandAC implements CommandExecutor {
 						sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac givearmor <player>"));
 						return false;
 					}
-				} else if (args[0].toLowerCase().equals("eco")) {
-					if (args.length > 1) {
-						if (args[1].toLowerCase().equals("give") || args[1].toLowerCase().equals("reset")
-								|| args[1].toLowerCase().equals("set") || args[1].toLowerCase().equals("take")) {
-							if (args.length > 2) {
-								// If they can be found in the file
-								if (AranarthPlayerUtils.getUUID(args[2]) != null) {
-
-									Player player = null;
-									boolean isPlayerOnline = false;
-									if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[2]))) {
-										player = Bukkit.getPlayer(args[2]);
-										isPlayerOnline = true;
-									}
-
-									OfflinePlayer offlinePlayer = Bukkit
-											.getOfflinePlayer(AranarthPlayerUtils.getUUID(args[2]));
-
-									if (args.length == 4 && args[1].toLowerCase().equals("give")
-											|| args[1].toLowerCase().equals("set")
-											|| args[1].toLowerCase().equals("take")) {
-										double amount = 0.00;
-										NumberFormat formatter = NumberFormat.getCurrencyInstance();
-										String amountAsMoney = "0.00";
-										try {
-											amount = Double.parseDouble(args[3]);
-											amountAsMoney = formatter.format(amount);
-										} catch (NumberFormatException e) {
-											sender.sendMessage(ChatUtils.chatMessage("&cThat is not a valid number!"));
-											return false;
-										}
-
-										if (amount == 0.00) {
-											sender.sendMessage(
-													ChatUtils.chatMessage("&Please supply a number greater than 0!"));
-											return false;
-										} else if (amount < 0) {
-											sender.sendMessage(
-													ChatUtils.chatMessage("&cYou must supply a positive number"));
-											return false;
-										} else {
-											AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(offlinePlayer);
-											if (args[1].toLowerCase().equals("give")) {
-												double balance = aranarthPlayer.getBalance();
-												balance += amount;
-												aranarthPlayer.setBalance(balance);
-												sender.sendMessage(ChatUtils
-														.chatMessage("&6" + amountAsMoney + " &7has been added to &6"
-																+ aranarthPlayer.getUsername() + "'s &7account"));
-												if (isPlayerOnline) {
-													player.sendMessage(ChatUtils.chatMessage(
-															"&6" + amountAsMoney + " &7 has been added to your account!"));
-												}
-												return true;
-											} else if (args[1].toLowerCase().equals("set")) {
-												aranarthPlayer.setBalance(amount);
-												sender.sendMessage(ChatUtils.chatMessage("&6" + aranarthPlayer.getUsername()
-														+ "'s &7balance has been set to &6" + amountAsMoney));
-												if (isPlayerOnline) {
-													player.sendMessage(ChatUtils.chatMessage(
-															"&7Your balance has been set to &6" + amountAsMoney + "&7!"));
-												}
-												return true;
-											}
-											// If the option was take
-											else {
-												double balance = aranarthPlayer.getBalance();
-												if (balance == 0) {
-													sender.sendMessage(ChatUtils
-															.chatMessage("&cThis player does not have any money to take!"));
-													return false;
-												} else if (balance > amount) {
-													balance -= amount;
-													aranarthPlayer.setBalance(balance);
-													sender.sendMessage(ChatUtils.chatMessage("&6" + amountAsMoney
-															+ " &7has been taken from &6" + aranarthPlayer.getUsername()));
-													if (isPlayerOnline) {
-														player.sendMessage(ChatUtils.chatMessage(
-																"&6" + amountAsMoney + " &7has been taken from you!"));
-													}
-													return true;
-												} else {
-													aranarthPlayer.setBalance(0);
-
-													sender.sendMessage(ChatUtils.chatMessage("&7The rest of &6"
-															+ aranarthPlayer.getUsername() + "'s &7money has been taken"));
-													if (isPlayerOnline) {
-														player.sendMessage(ChatUtils.chatMessage(
-																"&7The rest of your money has been taken away!"));
-													}
-													return true;
-												}
-											}
-										}
-									}
-									// If the option was reset
-									else {
-										AranarthPlayer aranarthPlayer = AranarthPlayerUtils
-												.getPlayer(AranarthPlayerUtils.getUUID(args[2]));
-										aranarthPlayer.setBalance(50);
-
-										sender.sendMessage(ChatUtils.chatMessage(
-												"&6" + aranarthPlayer.getUsername() + "'s &7balance has been reset"));
-										if (isPlayerOnline) {
-											player.sendMessage(ChatUtils.chatMessage("&7Your balance has been reset!"));
-										}
-										return true;
-									}
-								} else {
-									sender.sendMessage(ChatUtils.chatMessage("&cThat player could not be found"));
-									return false;
-								}
-							}
-						}
-					}
-					sender.sendMessage(ChatUtils
-							.chatMessage("&7Proper Usage: &e/ac eco <give | reset | set | take> <player> [amount]"));
-					return false;
 				} else if (args[0].toLowerCase().equals("set")) {
 					if (args.length > 1) {
 						if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1]))) {
@@ -298,7 +177,6 @@ public class CommandAC implements CommandExecutor {
 		sender.sendMessage(ChatUtils.translateToColor("&8      - - - &6&lAranarth Core &8- - -"));
 		if (sender.hasPermission("aranarthcore.admin.*")) {
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &earenaarmor <player>"));
-			sender.sendMessage(ChatUtils.translateToColor("&7/ac &eeco <give | reset | set | take> <player> [amount]"));
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &eset <player> <rank>"));
 		}
 		sender.sendMessage(ChatUtils.translateToColor("&7/ac &etitle <male | female>"));

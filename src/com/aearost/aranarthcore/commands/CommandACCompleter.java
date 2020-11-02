@@ -33,40 +33,6 @@ public class CommandACCompleter implements TabCompleter {
 					}
 				}
 			}
-		} else if ("eco".startsWith(args[0]) && args[0].length() > 0) {
-			if (args.length == 1 && !args[0].equals("eco")) {
-				displayedOptions.add("eco");
-			} else if (args.length == 2) {
-				if (!args[1].equals("") && "give".startsWith(args[1])) {
-					displayedOptions.add("give");
-				} else if (!args[1].equals("") && "reset".startsWith(args[1])) {
-					displayedOptions.add("reset");
-				} else if (!args[1].equals("") && "set".startsWith(args[1])) {
-					displayedOptions.add("set");
-				} else if (!args[1].equals("") && "take".startsWith(args[1])) {
-					displayedOptions.add("take");
-				} else {
-					displayedOptions.add("give");
-					displayedOptions.add("reset");
-					displayedOptions.add("set");
-					displayedOptions.add("take");
-				}
-			} else if (args.length == 3) {
-				Player[] onlinePlayers = new Player[Bukkit.getOnlinePlayers().size()];
-				Bukkit.getOnlinePlayers().toArray(onlinePlayers);
-				for (int i = 0; i < onlinePlayers.length; i++) {
-					if (onlinePlayers[i].getName().toLowerCase().startsWith(args[2].toLowerCase())) {
-						displayedOptions.add(onlinePlayers[i].getName());
-					}
-				}
-			} else if (args.length >= 4
-					&& (args[1].equals("give") || args[1].equals("set") || args[1].equals("take"))) {
-				if (args[3].equals("")) {
-					displayedOptions.add("1");
-					displayedOptions.add("100");
-					displayedOptions.add("1000");
-				}
-			}
 		} else if ("set".startsWith(args[0]) && args[0].length() > 0) {
 			if (args.length == 1 && !args[0].equals("set")) {
 				displayedOptions.add("set");

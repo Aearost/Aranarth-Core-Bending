@@ -16,6 +16,8 @@ commands:
       description: Displays a list of users and their balances, showing the highest balance first
       usage: /balancetop
       aliases: [baltop]
+   eco:
+      description: Allows the user to directly modify a player's balance
    pay:
       description: Allows the user to pay another player some of their money
    ranks:
