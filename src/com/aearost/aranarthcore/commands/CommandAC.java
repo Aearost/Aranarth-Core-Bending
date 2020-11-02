@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -52,11 +53,17 @@ public class CommandAC implements CommandExecutor {
 								|| args[1].toLowerCase().equals("set") || args[1].toLowerCase().equals("take")) {
 							if (args.length > 2 && (Bukkit.getPlayer(args[2]) != null
 									|| Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(args[2])) != null)) {
-								Player player = Bukkit.getPlayer(args[2]);
+
+								Player player = null;
 								boolean isPlayerOnline = false;
-								if (Bukkit.getOnlinePlayers().contains(player)) {
+								if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[2]))) {
+									player = Bukkit.getPlayer(args[2]);
 									isPlayerOnline = true;
 								}
+
+								OfflinePlayer offlinePlayer = Bukkit
+										.getOfflinePlayer(AranarthPlayerUtils.getUUID(args[2]));
+
 								if (args.length == 4 && args[1].toLowerCase().equals("give")
 										|| args[1].toLowerCase().equals("set")
 										|| args[1].toLowerCase().equals("take")) {
@@ -80,13 +87,13 @@ public class CommandAC implements CommandExecutor {
 												ChatUtils.chatMessage("&cYou must supply a positive number"));
 										return false;
 									} else {
-										AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
+										AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(offlinePlayer);
 										if (args[1].toLowerCase().equals("give")) {
 											double balance = aranarthPlayer.getBalance();
 											balance += amount;
 											aranarthPlayer.setBalance(balance);
 											sender.sendMessage(ChatUtils.chatMessage("&6" + amountAsMoney
-													+ " &7has been added to &6" + player.getName() + "'s &7account"));
+													+ " &7has been added to &6" + aranarthPlayer.getUsername() + "'s &7account"));
 											if (isPlayerOnline) {
 												player.sendMessage(ChatUtils.chatMessage(
 														"&6" + amountAsMoney + " &7 has been added to your account!"));
@@ -94,7 +101,7 @@ public class CommandAC implements CommandExecutor {
 											return true;
 										} else if (args[1].toLowerCase().equals("set")) {
 											aranarthPlayer.setBalance(amount);
-											sender.sendMessage(ChatUtils.chatMessage("&6" + player.getName()
+											sender.sendMessage(ChatUtils.chatMessage("&6" + aranarthPlayer.getUsername()
 													+ "'s &7balance has been set to &6" + amountAsMoney));
 											if (isPlayerOnline) {
 												player.sendMessage(ChatUtils.chatMessage(
@@ -113,7 +120,7 @@ public class CommandAC implements CommandExecutor {
 												balance -= amount;
 												aranarthPlayer.setBalance(balance);
 												sender.sendMessage(ChatUtils.chatMessage("&6" + amountAsMoney
-														+ " &7has been taken from &6" + player.getName()));
+														+ " &7has been taken from &6" + aranarthPlayer.getUsername()));
 												if (isPlayerOnline) {
 													player.sendMessage(ChatUtils.chatMessage(
 															"&6" + amountAsMoney + " &7has been taken from you!"));
@@ -123,7 +130,7 @@ public class CommandAC implements CommandExecutor {
 												aranarthPlayer.setBalance(0);
 
 												sender.sendMessage(ChatUtils.chatMessage("&7The rest of &6"
-														+ player.getName() + "'s &7money has been taken"));
+														+ aranarthPlayer.getUsername() + "'s &7money has been taken"));
 												if (isPlayerOnline) {
 													player.sendMessage(ChatUtils.chatMessage(
 															"&7The rest of your money has been taken away!"));
@@ -136,10 +143,10 @@ public class CommandAC implements CommandExecutor {
 								// If the option was reset
 								else {
 									AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
-									aranarthPlayer.setBalance(0);
+									aranarthPlayer.setBalance(50);
 
 									sender.sendMessage(ChatUtils
-											.chatMessage("&6" + player.getName() + "'s &7balance has been reset"));
+											.chatMessage("&6" + aranarthPlayer.getUsername() + "'s &7balance has been reset"));
 									if (isPlayerOnline) {
 										player.sendMessage(ChatUtils.chatMessage("&7Your balance has been reset!"));
 									}

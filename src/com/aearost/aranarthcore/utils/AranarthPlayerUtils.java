@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import com.aearost.aranarthcore.objects.AranarthPlayer;
@@ -112,7 +113,7 @@ public class AranarthPlayerUtils {
 		return players.get(uuid);
 	}
 	
-	public static AranarthPlayer getPlayer(Player player) {
+	public static AranarthPlayer getPlayer(OfflinePlayer player) {
 		return players.get(player.getUniqueId());
 	}
 

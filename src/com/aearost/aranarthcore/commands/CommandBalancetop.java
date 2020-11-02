@@ -25,27 +25,32 @@ public class CommandBalancetop implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		List<String> lines = baltopSetup();
 		
-		double generalPageAmount = lines.size() / 10;
-		boolean isWholeNumber = false;
-		if (generalPageAmount % 1 == 0) {
-			isWholeNumber = true;
-		}
-		int totalPageNumber = 1;
-		if (isWholeNumber) {
-			totalPageNumber = (int) generalPageAmount;
-		} else {
-			totalPageNumber = (int) Math.floor(generalPageAmount) + 1;
+		double generalPageAmount = lines.size() / 10.0;
+		int totalPageNumber = (int) generalPageAmount;
+		
+		// Adds one if there isn't exactly 10 players on the last page
+		if (generalPageAmount % 1 != 0) {
+			totalPageNumber++;
 		}
 		
 		sender.sendMessage(ChatUtils.translateToColor("&8      - - - &6&lAranarth Balances &8- - -"));
-		int page = 0;
+		int page = 1;
 		
 		if (args.length > 0) {
 			try {
-				page = Integer.parseInt(args[1]);
+				page = Integer.parseInt(args[0]);
+				
+				// If it's an invalid input
+				if (page <= 0) {
+					throw new NumberFormatException();
+				}
 			} catch (NumberFormatException e) {
-				sender.sendMessage(ChatUtils.translateToColor("&cPlease enter a valid number number!"));
+				sender.sendMessage(ChatUtils.translateToColor("&cPlease enter a valid page number!"));
 				return false;
+			}
+			
+			if (page > totalPageNumber) {
+				page = totalPageNumber;
 			}
 		}
 		
@@ -77,6 +82,7 @@ public class CommandBalancetop implements CommandExecutor {
 		for (AranarthPlayer aranarthPlayer : playersAsList) {
 			lines.add("&7" + counter + ". &e" + aranarthPlayer.getUsername() + ", &6"
 					+ formatter.format(aranarthPlayer.getBalance()));
+			counter++;
 		}
 
 		return lines;
