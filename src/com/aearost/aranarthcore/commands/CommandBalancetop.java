@@ -1,6 +1,6 @@
 package com.aearost.aranarthcore.commands;
 
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -76,7 +76,7 @@ public class CommandBalancetop implements CommandExecutor {
 		List<String> lines = new ArrayList<>();
 
 		Collections.sort(playersAsList, new BalanceComparator());
-		DecimalFormat formatter = new DecimalFormat("#.##");
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
 		int counter = 1;
 		for (AranarthPlayer aranarthPlayer : playersAsList) {

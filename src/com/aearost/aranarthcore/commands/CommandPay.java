@@ -1,6 +1,6 @@
 package com.aearost.aranarthcore.commands;
 
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -30,23 +30,23 @@ public class CommandPay implements CommandExecutor {
 					AranarthPlayer aranarthPlayerToPay = AranarthPlayerUtils.getPlayer(playerToPay);
 
 					if (args.length > 1) {
-						DecimalFormat formatter = new DecimalFormat("#.##");
+						NumberFormat formatter = NumberFormat.getCurrencyInstance();
 						String formattedAmount = "";
 						double amount = 0.00;
 						
 						try {
-							formattedAmount = formatter.format(Double.parseDouble(args[1]));
-							amount = Double.parseDouble(formattedAmount);
+							amount = Double.parseDouble(args[1]);
+							formattedAmount = formatter.format(amount);
 						} catch (NumberFormatException e) {
 							player.sendMessage(ChatUtils.translateToColor("&cThat is not a valid number!"));
 							return false;
 						}
 
 						if (amount < 0.00) {
-							player.sendMessage(ChatUtils.translateToColor("You must use a positive number!"));
+							player.sendMessage(ChatUtils.translateToColor("&cYou must use a positive number!"));
 							return false;
 						} else if (amount == 0.00) {
-							player.sendMessage(ChatUtils.translateToColor("You cannot pay someone $0.00!"));
+							player.sendMessage(ChatUtils.translateToColor("&cYou cannot pay someone &6&l$0.00&c!"));
 							return false;
 						} else {
 							if (aranarthPlayer.getBalance() < amount) {
@@ -57,11 +57,11 @@ public class CommandPay implements CommandExecutor {
 								aranarthPlayer.setBalance(aranarthPlayer.getBalance() - amount);
 								AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 								player.sendMessage(ChatUtils.translateToColor(
-										"&aYou have sent &6$" + args[1] + " &ato &e" + playerToPay.getName()));
+										"&aYou have sent &6&l" + formattedAmount + " &ato &e" + playerToPay.getName()));
 								aranarthPlayerToPay.setBalance(aranarthPlayerToPay.getBalance() + amount);
 								AranarthPlayerUtils.addPlayer(playerToPay.getUniqueId(), aranarthPlayerToPay);
 								playerToPay.sendMessage(ChatUtils.translateToColor(
-										"&aYou have received &6$" + args[1] + " &afrom &e" + player.getName()));
+										"&aYou have received &6&l" +formattedAmount + " &afrom &e" + player.getName()));
 								return true;
 							}
 						}

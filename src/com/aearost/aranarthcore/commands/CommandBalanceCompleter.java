@@ -12,8 +12,7 @@ import org.bukkit.entity.Player;
 public class CommandBalanceCompleter implements TabCompleter {
 
 	/**
-	 * Handles the auto complete functionality while using the /ac command, and all
-	 * of its sub-commands.
+	 * Handles the auto complete functionality while using the /balance command.
 	 */
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {

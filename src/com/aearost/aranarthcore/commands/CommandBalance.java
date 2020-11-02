@@ -1,6 +1,6 @@
 package com.aearost.aranarthcore.commands;
 
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -19,13 +19,13 @@ public class CommandBalance implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		DecimalFormat formatter = new DecimalFormat("#.##");
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		if (args.length == 0) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 				player.sendMessage(ChatUtils.translateToColor(
-						"&7Your current balance is &6&l$" + formatter.format(aranarthPlayer.getBalance())));
+						"&7Your current balance is &6&l" + formatter.format(aranarthPlayer.getBalance())));
 				return true;
 			} else {
 				sender.sendMessage(ChatUtils.translateToColor("&cYou must be a player to use this command!"));
@@ -36,7 +36,7 @@ public class CommandBalance implements CommandExecutor {
 				Player player = Bukkit.getPlayer(args[0]);
 				AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 
-				sender.sendMessage(ChatUtils.translateToColor("&e" + player.getName() + "'s &acurrent balance is &6&l$"
+				sender.sendMessage(ChatUtils.translateToColor("&e" + player.getName() + "'s &acurrent balance is &6&l"
 						+ formatter.format(aranarthPlayer.getBalance())));
 				return true;
 			} else {
