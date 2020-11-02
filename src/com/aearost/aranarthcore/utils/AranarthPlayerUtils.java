@@ -25,7 +25,7 @@ public class AranarthPlayerUtils {
 	public static UUID getUUID(String username) {
 		HashMap<UUID, AranarthPlayer> players = getPlayers();
 		for (Map.Entry<UUID, AranarthPlayer> entry : players.entrySet()) {
-			if (entry.getValue().getUsername().equals(username)) {
+			if (entry.getValue().getUsername().toLowerCase().equals(username.toLowerCase())) {
 				return entry.getKey();
 			}
 		}
