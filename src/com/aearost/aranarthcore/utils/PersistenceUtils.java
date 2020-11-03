@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 
 import com.aearost.aranarthcore.objects.AranarthPlayer;
+import com.aearost.aranarthcore.objects.AranarthShop;
 
 public class PersistenceUtils {
 
@@ -226,10 +228,83 @@ public class PersistenceUtils {
 	}
 
 	/**
-	 * Saves the contents of the shopSigns HashMap to the shop_signs.json file.
+	 * Saves the contents of the shops HashMap to the shops.json file.
 	 */
 	public static void writeShopSignsToFile() {
-		
+		HashMap<UUID, List<AranarthShop>> shops = AranarthShopUtils.getShops();
+		if (shops.size() > 0) {
+
+			String currentPath = System.getProperty("user.dir");
+			String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore"
+					+ File.separator + "shops.json";
+			File pluginDirectory = new File(currentPath + File.separator + "plugins" + File.separator + "AranarthCore");
+			File file = new File(filePath);
+
+			// If the directory exists
+			boolean isDirectoryCreated = true;
+			if (!pluginDirectory.isDirectory()) {
+				isDirectoryCreated = pluginDirectory.mkdir();
+			}
+			if (isDirectoryCreated) {
+				try {
+					// If the file isn't already there
+					if (file.createNewFile()) {
+						Bukkit.getLogger().info("A new shops.json file has been generated");
+					}
+				} catch (IOException e) {
+					Bukkit.getLogger().info("An error occured in the creation of shops.json");
+					e.printStackTrace();
+				}
+
+				try {
+					FileWriter writer = new FileWriter(filePath);
+					writer.write("{\n");
+					writer.write("\"shops\": {\n");
+					int playerCounter = 1;
+
+					for (Map.Entry<UUID, List<AranarthShop>> entry : shops.entrySet()) {
+						UUID uuid = entry.getKey();
+						
+						writer.write("    \"" + uuid.toString() + "\": {\n");
+						List<AranarthShop> playerShops = entry.getValue();
+						
+						int shopCounter = 1;
+						for (AranarthShop shop : playerShops) {
+							
+							writer.write("        \"" + shopCounter + "\": {\n");
+							writer.write("            \"transactionQuantity\": \"" + shop.getTransactionQuantity() + "\",\n");
+							writer.write("            \"buyAmount\": \"" + shop.getBuyAmount() + "\",\n");
+							writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
+							writer.write("            \"sellAmount\": \"" + shop.getSellAmount() + "\",\n");
+							writer.write("            \"worldName\": \"" + shop.getChestLocation().getWorld().getName() + "\",\n");
+							writer.write("            \"x\": \"" + shop.getChestLocation().getBlockX() + "\",\n");
+							writer.write("            \"y\": \"" + shop.getChestLocation().getBlockY() + "\",\n");
+							writer.write("            \"z\": \"" + shop.getChestLocation().getBlockZ() + "\"\n");
+							
+							if (shopCounter == playerShops.size()) {
+								writer.write("        }\n");
+							} else {
+								writer.write("        },\n");
+							}
+							shopCounter++;
+						}
+						
+						if (playerCounter == shops.size()) {
+							writer.write("    }\n");
+						} else {
+							writer.write("    },\n");
+						}
+						
+						playerCounter++;
+					}
+					writer.write("}\n");
+					writer.close();
+				} catch (IOException e) {
+					Bukkit.getLogger().info("There was an error in saving the shops");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	
