@@ -399,7 +399,7 @@ public class PersistenceUtils {
 		}
 	}
 
-	private static boolean isRegularNumber(String part) {
+	public static boolean isRegularNumber(String part) {
 		try {
 			@SuppressWarnings("unused")
 			int partAsNumber = Integer.parseInt(part);

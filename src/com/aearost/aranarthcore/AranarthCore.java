@@ -53,6 +53,7 @@ public class AranarthCore extends JavaPlugin {
 		
 		// Create all holograms
 		// https://www.spigotmc.org/threads/tutorial-holograms-1-8.65183/
+		// Maybe even re-initialize all signs?
 		
 		// Updates the players.json file every 15 minutes in case of a crash
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {

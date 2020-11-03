@@ -153,7 +153,7 @@ public class CommandAC implements CommandExecutor {
 											"manuaddsub " + player.getName() + "CouncilAdmin");
 								} else {
 									player.sendMessage(
-											ChatUtils.chatMessage("&7Proper Usage: &e/ac set <player> <rank>"));
+											ChatUtils.chatMessage("&7Proper Usage: &e/ac set <player> <variable> [rank]"));
 									return false;
 								}
 								ChatUtils.updatePlayerPrefixAndRank(player);
@@ -164,7 +164,7 @@ public class CommandAC implements CommandExecutor {
 							return false;
 						}
 					} else {
-						sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac set <player> <rank>"));
+						sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac set <player> <variable> [rank]"));
 						return false;
 					}
 				} else if (args[0].toLowerCase().equals("stats")) {

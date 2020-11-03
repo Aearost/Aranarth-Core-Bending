@@ -17,8 +17,10 @@ public class AranarthPlayerUtils {
 	public AranarthPlayerUtils(boolean isServerStarting) {
 		if (isServerStarting) {
 			PersistenceUtils.readPlayersFromFile();
+			PersistenceUtils.readShopSignsFromFile();
 		} else {
 			PersistenceUtils.writePlayersToFile();
+			PersistenceUtils.writeShopSignsToFile();
 		}
 	}
 	
