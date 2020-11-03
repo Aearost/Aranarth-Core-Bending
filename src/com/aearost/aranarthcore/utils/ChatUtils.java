@@ -83,6 +83,7 @@ public class ChatUtils {
 		
 		String rankName;
 		boolean isMalePlayer = aranarthPlayer.getIsMale();
+		boolean hasFemalePrefix = false;
 		if (rank == 0) {
 			rankName = "Peasant";
 			prefix += "&8[&aPeasant&8] &r";
@@ -99,6 +100,7 @@ public class ChatUtils {
 				prefix += "&5[&dBaron&5] &r";
 			} else {
 				prefix += "&5[&dBaroness&5] &r";
+				hasFemalePrefix = true;
 			}
 		} else if (rank == 4) {
 			rankName = "Count";
@@ -106,6 +108,7 @@ public class ChatUtils {
 				prefix += "&8[&7Count&8] &r";
 			} else {
 				prefix += "&8[&7Countess&8] &r";
+				hasFemalePrefix = true;
 			}
 		} else if (rank == 5) {
 			rankName = "Duke";
@@ -113,6 +116,7 @@ public class ChatUtils {
 				prefix += "&6[&eDuke&6] &r";
 			} else {
 				prefix += "&6[&eDuchess&6] &r";
+				hasFemalePrefix = true;
 			}
 		} else if (rank == 6) {
 			rankName = "Prince";
@@ -120,6 +124,7 @@ public class ChatUtils {
 				prefix += "&6[&bPrince&6] &r";
 			} else {
 				prefix += "&6[&bPrincess&6] &r";
+				hasFemalePrefix = true;
 			}
 		} else if (rank == 7) {
 			rankName = "King";
@@ -127,6 +132,7 @@ public class ChatUtils {
 				prefix += "&6[&9King&6] &r";
 			} else {
 				prefix += "&6[&9Queen&6] &r";
+				hasFemalePrefix = true;
 			}
 		} else {
 			rankName = "Emperor";
@@ -134,6 +140,7 @@ public class ChatUtils {
 				prefix += "&6[&4Emperor&6] &r";
 			} else {
 				prefix += "&6[&4Empress&6] &r";
+				hasFemalePrefix = true;
 			}
 		}
 		
@@ -142,7 +149,7 @@ public class ChatUtils {
 		// Execute in Theia
 		Bukkit.dispatchCommand(commandSender, "manselect Theia");
 		Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " " + rankName);
-		if (hasSpecialPrefix) {
+		if (hasSpecialPrefix || hasFemalePrefix) {
 			Bukkit.dispatchCommand(commandSender, "manuaddv " + player.getName() + " prefix " + prefix);
 		} else {
 			Bukkit.dispatchCommand(commandSender, "manudelv " + player.getName() + " prefix");
@@ -151,7 +158,7 @@ public class ChatUtils {
 		// Execute in Arena
 		Bukkit.dispatchCommand(commandSender, "manselect Arena");
 		Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " " + rankName);
-		if (hasSpecialPrefix) {
+		if (hasSpecialPrefix || hasFemalePrefix) {
 			Bukkit.dispatchCommand(commandSender, "manuaddv " + player.getName() + " prefix " + prefix);
 		} else {
 			Bukkit.dispatchCommand(commandSender, "manudelv " + player.getName() + " prefix");

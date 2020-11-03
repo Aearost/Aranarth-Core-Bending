@@ -301,15 +301,22 @@ public class CommandAC implements CommandExecutor {
 					Player player = (Player) sender;
 					if (args.length >= 2) {
 						if (args[1].toLowerCase().equals("male")) {
+							if (AranarthPlayerUtils.getPlayer(player).getIsMale()) {
+								player.sendMessage(ChatUtils.chatMessage("&cYour titles are already displayed as male!"));
+								return false;
+							}
 							AranarthPlayerUtils.setIsMale(player, true);
 							player.sendMessage(
 									ChatUtils.chatMessage("&7Your rank titles will now be displayed as a male."));
 						} else if (args[1].toLowerCase().equals("female")) {
+							if (!AranarthPlayerUtils.getPlayer(player).getIsMale()) {
+								player.sendMessage(ChatUtils.chatMessage("&cYour titles are already displayed as female!"));
+								return false;
+							}
 							AranarthPlayerUtils.setIsMale(player, false);
 							player.sendMessage(
 									ChatUtils.chatMessage("&7Your rank titles will now be displayed as a female."));
 						}
-						
 						ChatUtils.updatePlayerPrefixAndRank(player);
 						return true;
 					}
