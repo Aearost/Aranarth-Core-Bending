@@ -93,9 +93,11 @@ public class AranarthPlayerUtils {
 				break;
 			}
 		}
-		AranarthPlayer newAvatar = getPlayer(player.getUniqueId());
-		newAvatar.setAvatarStatus("current");
-		addPlayer(player.getUniqueId(), newAvatar);
+		if (player != null) {
+			AranarthPlayer newAvatar = getPlayer(player.getUniqueId());
+			newAvatar.setAvatarStatus("current");
+			addPlayer(player.getUniqueId(), newAvatar);
+		}
 		
 		return currentAvatarName;
 	}

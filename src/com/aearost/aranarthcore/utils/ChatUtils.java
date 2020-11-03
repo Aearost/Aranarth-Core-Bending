@@ -53,14 +53,12 @@ public class ChatUtils {
 		
 		// First part if applicable
 		if (isAvatar) {
-			Bukkit.broadcastMessage("is avatar");
 			hasSpecialPrefix = true;
 			prefix += "&8[&5✦&8] ";
 		}
 		
 		// Second part if applicable
 		if (isCouncil1 || isCouncil2 || isCouncil3) {
-			Bukkit.broadcastMessage("is council");
 			hasSpecialPrefix = true;
 			if (isCouncil1) {
 				prefix += "&8[&3۞&8] ";
@@ -73,7 +71,6 @@ public class ChatUtils {
 		
 		// A saint but not a council member
 		if ((isSaint1 || isSaint2 || isSaint3) && !(isCouncil1 || isCouncil2 || isCouncil3)) {
-			Bukkit.broadcastMessage("is saint and not council");
 			hasSpecialPrefix = true;
 			if (isSaint1) {
 				prefix += "&8[&b✵&8] ";

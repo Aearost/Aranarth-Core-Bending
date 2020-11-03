@@ -33,48 +33,69 @@ public class CommandACCompleter implements TabCompleter {
 					}
 				}
 			}
-		} else if ("set".startsWith(args[0]) && args[0].length() > 0) {
-			if (args.length == 1 && !args[0].equals("set")) {
+		} else if ((args[0].startsWith("s") || "unset".startsWith(args[0])) && args[0].length() > 0) {
+			if (args[0].length() == 1) {
 				displayedOptions.add("set");
-			} else if (args.length == 2) {
-				Player[] onlinePlayers = new Player[Bukkit.getOnlinePlayers().size()];
-				Bukkit.getOnlinePlayers().toArray(onlinePlayers);
-				for (int i = 0; i < onlinePlayers.length; i++) {
-					if (onlinePlayers[i].getName().toLowerCase().startsWith(args[1].toLowerCase())) {
-						displayedOptions.add(onlinePlayers[i].getName());
+				displayedOptions.add("stats");
+			} else if (("set".startsWith(args[0]) || "unset".startsWith(args[0])) && args[0].length() > 0) {
+				if (args.length == 1) {
+					if ("set".startsWith(args[0])) {
+						displayedOptions.add("set");
+					} else {
+						displayedOptions.add("unset");
+					}
+				} else if (args.length == 2) {
+					Player[] onlinePlayers = new Player[Bukkit.getOnlinePlayers().size()];
+					Bukkit.getOnlinePlayers().toArray(onlinePlayers);
+					for (int i = 0; i < onlinePlayers.length; i++) {
+						if (onlinePlayers[i].getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+							displayedOptions.add(onlinePlayers[i].getName());
+						}
+					}
+				} else if (args.length == 3) {
+					if (!args[2].equals("") && "avatar".startsWith(args[2].toLowerCase())) {
+						displayedOptions.add("avatar");
+					} else if (!args[2].equals("") && "saint".startsWith(args[2].toLowerCase())) {
+						displayedOptions.add("saint1");
+						displayedOptions.add("saint2");
+						displayedOptions.add("saint3");
+					} else if (!args[2].equals("") && "saint1".equals(args[2].toLowerCase())) {
+						displayedOptions.add("saint1");
+					} else if (!args[2].equals("") && "saint2".equals(args[2].toLowerCase())) {
+						displayedOptions.add("saint2");
+					} else if (!args[2].equals("") && "saint3".equals(args[2].toLowerCase())) {
+						displayedOptions.add("saint3");
+					} else if (!args[2].equals("") && "council".startsWith(args[2].toLowerCase())) {
+						displayedOptions.add("council1");
+						displayedOptions.add("council2");
+						displayedOptions.add("council3");
+					} else if (!args[2].equals("") && "council1".equals(args[2].toLowerCase())) {
+						displayedOptions.add("council1");
+					} else if (!args[2].equals("") && "council2".equals(args[2].toLowerCase())) {
+						displayedOptions.add("council2");
+					} else if (!args[2].equals("") && "council3".equals(args[2].toLowerCase())) {
+						displayedOptions.add("council3");
+					} else {
+						displayedOptions.add("avatar");
+						displayedOptions.add("saint1");
+						displayedOptions.add("saint2");
+						displayedOptions.add("saint3");
+						displayedOptions.add("council1");
+						displayedOptions.add("council2");
+						displayedOptions.add("council3");
 					}
 				}
-			} else if (args.length == 3) {
-				if (!args[2].equals("") && "avatar".startsWith(args[2].toLowerCase())) {
-					displayedOptions.add("avatar");
-				} else if (!args[2].equals("") && "saint".startsWith(args[2].toLowerCase())) {
-					displayedOptions.add("saint1");
-					displayedOptions.add("saint2");
-					displayedOptions.add("saint3");
-				} else if (!args[2].equals("") && "saint1".equals(args[2].toLowerCase())) {
-					displayedOptions.add("saint1");
-				} else if (!args[2].equals("") && "saint2".equals(args[2].toLowerCase())) {
-					displayedOptions.add("saint2");
-				} else if (!args[2].equals("") && "saint3".equals(args[2].toLowerCase())) {
-					displayedOptions.add("saint3");
-				} else if (!args[2].equals("") && "council".startsWith(args[2].toLowerCase())) {
-					displayedOptions.add("council1");
-					displayedOptions.add("council2");
-					displayedOptions.add("council3");
-				} else if (!args[2].equals("") && "council1".equals(args[2].toLowerCase())) {
-					displayedOptions.add("council1");
-				} else if (!args[2].equals("") && "council2".equals(args[2].toLowerCase())) {
-					displayedOptions.add("council2");
-				} else if (!args[2].equals("") && "council3".equals(args[2].toLowerCase())) {
-					displayedOptions.add("council3");
+			} else if ("stats".startsWith(args[0]) && args[0].length() > 0) {
+				if (args.length == 1) {
+					displayedOptions.add("stats");
 				} else {
-					displayedOptions.add("avatar");
-					displayedOptions.add("saint1");
-					displayedOptions.add("saint2");
-					displayedOptions.add("saint3");
-					displayedOptions.add("council1");
-					displayedOptions.add("council2");
-					displayedOptions.add("council3");
+					Player[] onlinePlayers = new Player[Bukkit.getOnlinePlayers().size()];
+					Bukkit.getOnlinePlayers().toArray(onlinePlayers);
+					for (int i = 0; i < onlinePlayers.length; i++) {
+						if (onlinePlayers[i].getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+							displayedOptions.add(onlinePlayers[i].getName());
+						}
+					}
 				}
 			}
 		} else if ("title".startsWith(args[0]) && args[0].length() > 0) {
@@ -91,10 +112,18 @@ public class CommandACCompleter implements TabCompleter {
 				}
 			}
 		} else if (args.length == 1) {
-			displayedOptions.add("arenaarmor");
-			displayedOptions.add("eco");
-			displayedOptions.add("set");
+			if (sender.hasPermission("aranarthcore.admin.*")) {
+				displayedOptions.add("arenaarmor");
+				displayedOptions.add("eco");
+				displayedOptions.add("set");
+				displayedOptions.add("stats");
+			}
+
 			displayedOptions.add("title");
+
+			if (sender.hasPermission("aranarthcore.admin.*")) {
+				displayedOptions.add("unset");
+			}
 		}
 
 		return displayedOptions;
