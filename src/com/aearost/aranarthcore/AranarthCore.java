@@ -18,6 +18,7 @@ import com.aearost.aranarthcore.commands.CommandRanksCompleter;
 import com.aearost.aranarthcore.event.ArenaDrops;
 import com.aearost.aranarthcore.event.PlayerJoinServer;
 import com.aearost.aranarthcore.event.RanksClick;
+import com.aearost.aranarthcore.event.ShopCreate;
 import com.aearost.aranarthcore.event.ShopSignClick;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.PersistenceUtils;
@@ -33,6 +34,7 @@ public class AranarthCore extends JavaPlugin {
 		new ArenaDrops(this);
 		new PlayerJoinServer(this);
 		new RanksClick(this);
+		new ShopCreate(this);
 		new ShopSignClick(this);
 		
 		// Initialize commands

@@ -4,26 +4,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.entity.Player;
-
 import com.aearost.aranarthcore.objects.AranarthShop;
 
 public class AranarthShopUtils {
 
 	private static HashMap<UUID, List<AranarthShop>> shops = new HashMap<>();
 	
-	public static List<AranarthShop> getPlayerShopList(Player player) {
-		return shops.get(player.getUniqueId());
+	public static List<AranarthShop> getPlayerShopList(UUID uuid) {
+		return shops.get(uuid);
 	}
 	
-	public static void addShop(Player player, AranarthShop shop) {
-		List<AranarthShop> playerShops = getPlayerShopList(player);
+	public static void addShop(UUID uuid, AranarthShop shop) {
+		List<AranarthShop> playerShops = getPlayerShopList(uuid);
 		playerShops.add(shop);
-		shops.put(player.getUniqueId(), playerShops);
+		shops.put(uuid, playerShops);
 	}
 	
-	public static void removeShop(Player player, AranarthShop shopToRemove) {
-		List<AranarthShop> playerShops = getPlayerShopList(player);
+	public static void removeShop(UUID uuid, AranarthShop shopToRemove) {
+		List<AranarthShop> playerShops = getPlayerShopList(uuid);
 		int counter = 0;
 		for (AranarthShop shop : playerShops) {
 			if (shop.getChestLocation().equals(shopToRemove.getChestLocation())) {
@@ -32,7 +30,7 @@ public class AranarthShopUtils {
 			counter++;
 		}
 		playerShops.remove(counter);
-		shops.put(player.getUniqueId(), playerShops);
+		shops.put(uuid, playerShops);
 	}
 	
 	public static HashMap<UUID, List<AranarthShop>> getShops() {

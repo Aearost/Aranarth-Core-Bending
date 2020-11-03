@@ -1,21 +1,22 @@
 package com.aearost.aranarthcore.objects;
 
+import java.util.UUID;
+
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class AranarthShop {
 
-	private Player owner;
+	private UUID uuid;
 	private int transactionQuantity;
 	private double buyAmount;
 	private ItemStack item;
 	private double sellAmount;
 	private Location chestLocation;
 
-	public AranarthShop(Player owner, int transactionQuantity, double buyAmount, ItemStack item, double sellAmount,
+	public AranarthShop(UUID uuid, int transactionQuantity, double buyAmount, ItemStack item, double sellAmount,
 			Location chestLocation) {
-		this.owner = owner;
+		this.uuid = uuid;
 		this.transactionQuantity = transactionQuantity;
 		this.buyAmount = buyAmount;
 		this.item = item;
@@ -23,9 +24,9 @@ public class AranarthShop {
 		this.chestLocation = chestLocation;
 	}
 
-	public AranarthShop(Player owner, int transactionQuantity, double buyAmount, ItemStack item,
+	public AranarthShop(UUID uuid, int transactionQuantity, double buyAmount, ItemStack item,
 			Location chestLocation) {
-		this.owner = owner;
+		this.uuid = uuid;
 		this.transactionQuantity = transactionQuantity;
 		this.buyAmount = buyAmount;
 		this.item = item;
@@ -33,9 +34,9 @@ public class AranarthShop {
 		this.chestLocation = chestLocation;
 	}
 
-	public AranarthShop(Player owner, int transactionQuantity, ItemStack item, double sellAmount,
+	public AranarthShop(UUID uuid, int transactionQuantity, ItemStack item, double sellAmount,
 			Location chestLocation) {
-		this.owner = owner;
+		this.uuid = uuid;
 		this.transactionQuantity = transactionQuantity;
 		this.buyAmount = -1;
 		this.item = item;
@@ -43,12 +44,12 @@ public class AranarthShop {
 		this.chestLocation = chestLocation;
 	}
 	
-	public Player getOwner() {
-		return owner;
+	public UUID getUUID() {
+		return uuid;
 	}
 	
-	public void setOwner(Player owner) {
-		this.owner = owner;
+	public void setUUID(UUID uuid) {
+		this.uuid = uuid;
 	}
 	
 	public int getTransactionQuantity() {
