@@ -51,7 +51,34 @@ public class CommandAC implements CommandExecutor {
 							if (args.length >= 3) {
 								AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 								CommandSender commandSender = Bukkit.getServer().getConsoleSender();
-								if (args[2].toLowerCase().equals("avatar")) {
+								if (args[2].toLowerCase().equals("rank")) {
+									if (args.length >= 4) {
+										if (args[3].equals("peasant")) {
+											aranarthPlayer.setRank(0);
+										} else if (args[3].equals("esquire")) {
+											aranarthPlayer.setRank(1);
+										} else if (args[3].equals("knight")) {
+											aranarthPlayer.setRank(2);
+										} else if (args[3].equals("baron")) {
+											aranarthPlayer.setRank(3);
+										} else if (args[3].equals("count")) {
+											aranarthPlayer.setRank(4);
+										} else if (args[3].equals("duke")) {
+											aranarthPlayer.setRank(5);
+										} else if (args[3].equals("prince")) {
+											aranarthPlayer.setRank(6);
+										} else if (args[3].equals("king")) {
+											aranarthPlayer.setRank(7);
+										} else if (args[3].equals("emperor")) {
+											aranarthPlayer.setRank(8);
+										} else {
+											sender.sendMessage(ChatUtils.chatMessage("&cThat is not a valid rank!"));
+											return false;
+										}
+										ChatUtils.updatePlayerPrefixAndRank(player);
+										return true;
+									}
+								} else if (args[2].toLowerCase().equals("avatar")) {
 									String previousAvatar = AranarthPlayerUtils.replaceAvatar(player);
 									Bukkit.broadcastMessage(ChatUtils.translateToColor(
 											"&5&lAvatar &d&l" + previousAvatar + " &5&lhas passed away..."));
@@ -298,9 +325,13 @@ public class CommandAC implements CommandExecutor {
 		sender.sendMessage(ChatUtils.translateToColor("&8      - - - &6&lAranarth Core &8- - -"));
 		if (sender.hasPermission("aranarthcore.admin.*")) {
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &earenaarmor <player>"));
-			sender.sendMessage(ChatUtils.translateToColor("&7/ac &eset <player> <rank>"));
+			sender.sendMessage(ChatUtils.translateToColor("&7/ac &eset <player> <variable> [rank]"));
+			sender.sendMessage(ChatUtils.translateToColor("&7/ac &estats <player>"));
 		}
 		sender.sendMessage(ChatUtils.translateToColor("&7/ac &etitle <male | female>"));
+		if (sender.hasPermission("aranarthcore.admin.*")) {
+			sender.sendMessage(ChatUtils.translateToColor("&7/ac &eunset <player> <rank>"));
+		}
 		return true;
 	}
 }
