@@ -18,6 +18,7 @@ import com.aearost.aranarthcore.commands.CommandRanksCompleter;
 import com.aearost.aranarthcore.event.ArenaDrops;
 import com.aearost.aranarthcore.event.PlayerJoinServer;
 import com.aearost.aranarthcore.event.RanksClick;
+import com.aearost.aranarthcore.event.ShopSignClick;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.PersistenceUtils;
 
@@ -30,8 +31,9 @@ public class AranarthCore extends JavaPlugin {
 		
 		// Initialize Events
 		new ArenaDrops(this);
-		new RanksClick(this);
 		new PlayerJoinServer(this);
+		new RanksClick(this);
+		new ShopSignClick(this);
 		
 		// Initialize commands
 		getCommand("ac").setExecutor(new CommandAC());
@@ -47,11 +49,14 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("ranks").setExecutor(new CommandRanks());
 		getCommand("ranks").setTabCompleter(new CommandRanksCompleter());
 		
+		// Create all holograms
+		// https://www.spigotmc.org/threads/tutorial-holograms-1-8.65183/
+		
 		// Updates the players.json file every 15 minutes in case of a crash
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
 	        public void run() {
-	            PersistenceUtils.writeToFile();
+	            PersistenceUtils.writePlayersToFile();
 	        }
 		}, 0, 18000);
 	}

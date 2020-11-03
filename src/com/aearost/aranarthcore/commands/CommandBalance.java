@@ -39,7 +39,7 @@ public class CommandBalance implements CommandExecutor {
 						+ formatter.format(aranarthPlayer.getBalance())));
 				return true;
 			} else {
-				sender.sendMessage("&cThis player could not be found!");
+				sender.sendMessage(ChatUtils.translateToColor("&cThis player could not be found!"));
 				return false;
 			}
 		}

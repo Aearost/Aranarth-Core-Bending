@@ -95,7 +95,14 @@ public class CommandAC implements CommandExecutor {
 									Bukkit.dispatchCommand(commandSender, "bending add water " + player.getName());
 									Bukkit.dispatchCommand(commandSender, "bending add earth " + player.getName());
 									Bukkit.dispatchCommand(commandSender, "bending add fire " + player.getName());
-									ChatUtils.updatePlayerPrefixAndRank(Bukkit.getPlayer(previousAvatar));
+									// Execute in Theia
+									Bukkit.dispatchCommand(commandSender, "manselect Theia");
+									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + " avatar");
+									// Execute in Arena
+									Bukkit.dispatchCommand(commandSender, "manselect Arena");
+									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + " avatar");
+									
+									ChatUtils.updatePlayerPrefixAndRank(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
 								} else if (args[2].toLowerCase().equals("saint1")) {
 									aranarthPlayer.setSaintStatus(1);
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);

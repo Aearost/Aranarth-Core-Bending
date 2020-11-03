@@ -16,9 +16,9 @@ public class AranarthPlayerUtils {
 
 	public AranarthPlayerUtils(boolean isServerStarting) {
 		if (isServerStarting) {
-			PersistenceUtils.readFromFile();
+			PersistenceUtils.readPlayersFromFile();
 		} else {
-			PersistenceUtils.writeToFile();
+			PersistenceUtils.writePlayersToFile();
 		}
 	}
 	

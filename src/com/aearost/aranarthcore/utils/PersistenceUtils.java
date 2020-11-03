@@ -18,7 +18,7 @@ public class PersistenceUtils {
 	/**
 	 * Initializes the players HashMap based on the contents of players.json.
 	 */
-	public static void readFromFile() {
+	public static void readPlayersFromFile() {
 		String currentPath = System.getProperty("user.dir");
 		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
 				+ "players.json";
@@ -146,7 +146,7 @@ public class PersistenceUtils {
 	/**
 	 * Saves the contents of the players HashMap to the players.json file.
 	 */
-	public static void writeToFile() {
+	public static void writePlayersToFile() {
 		HashMap<UUID, AranarthPlayer> players = AranarthPlayerUtils.getPlayers();
 		if (players.size() > 0) {
 
@@ -215,4 +215,23 @@ public class PersistenceUtils {
 		}
 	}
 
+	
+	
+	
+	/**
+	 * Initializes the shopSigns HashMap based on the contents of shop.json.
+	 */
+	public static void readShopSignsFromFile() {
+		
+	}
+
+	/**
+	 * Saves the contents of the shopSigns HashMap to the shop_signs.json file.
+	 */
+	public static void writeShopSignsToFile() {
+		
+	}
+	
+	
+	
 }

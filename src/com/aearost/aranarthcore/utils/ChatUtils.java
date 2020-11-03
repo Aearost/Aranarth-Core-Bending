@@ -2,8 +2,8 @@ package com.aearost.aranarthcore.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 
@@ -37,8 +37,8 @@ public class ChatUtils {
 		return colorStripped;
 	}
 	
-	public static void updatePlayerPrefixAndRank(Player player) {
-		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
+	public static void updatePlayerPrefixAndRank(OfflinePlayer offlinePlayer) {
+		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(offlinePlayer);
 		int rank = aranarthPlayer.getRank();
 		boolean hasSpecialPrefix = false;
 		boolean isAvatar = aranarthPlayer.getAvatarStatus().equals("current");
@@ -148,20 +148,20 @@ public class ChatUtils {
 		
 		// Execute in Theia
 		Bukkit.dispatchCommand(commandSender, "manselect Theia");
-		Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " " + rankName);
+		Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
 		if (hasSpecialPrefix || hasFemalePrefix) {
-			Bukkit.dispatchCommand(commandSender, "manuaddv " + player.getName() + " prefix " + prefix);
+			Bukkit.dispatchCommand(commandSender, "manuaddv " + offlinePlayer.getName() + " prefix " + prefix);
 		} else {
-			Bukkit.dispatchCommand(commandSender, "manudelv " + player.getName() + " prefix");
+			Bukkit.dispatchCommand(commandSender, "manudelv " + offlinePlayer.getName() + " prefix");
 		}
 		
 		// Execute in Arena
 		Bukkit.dispatchCommand(commandSender, "manselect Arena");
-		Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " " + rankName);
+		Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
 		if (hasSpecialPrefix || hasFemalePrefix) {
-			Bukkit.dispatchCommand(commandSender, "manuaddv " + player.getName() + " prefix " + prefix);
+			Bukkit.dispatchCommand(commandSender, "manuaddv " + offlinePlayer.getName() + " prefix " + prefix);
 		} else {
-			Bukkit.dispatchCommand(commandSender, "manudelv " + player.getName() + " prefix");
+			Bukkit.dispatchCommand(commandSender, "manudelv " + offlinePlayer.getName() + " prefix");
 		}
 	}
 	
