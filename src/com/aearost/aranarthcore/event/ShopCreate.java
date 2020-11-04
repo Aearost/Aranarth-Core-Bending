@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import com.aearost.aranarthcore.AranarthCore;
@@ -31,15 +32,17 @@ public class ShopCreate implements Listener {
 	 */
 	@EventHandler
 	public void onShopCreate(final PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+		if (e.getHand() == EquipmentSlot.HAND && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (AranarthShopUtils.isWallSign(e.getClickedBlock().getType())) {
+				Bukkit.broadcastMessage("A");
 				Player player = e.getPlayer();
 				if (player.isSneaking()) {
+					Bukkit.broadcastMessage("B");
 					Sign sign = (Sign) e.getClickedBlock().getState();
-
-					if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
-						if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId())) {
-
+					if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), true)) {
+						Bukkit.broadcastMessage("C");
+						if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
+							Bukkit.broadcastMessage("D");
 							Location signLocation = e.getClickedBlock().getLocation();
 							Location chestLocation = new Location(player.getWorld(), signLocation.getBlockX(),
 									signLocation.getBlockY() - 1, signLocation.getBlockZ());
@@ -51,8 +54,7 @@ public class ShopCreate implements Listener {
 							}
 
 							if (chestLocation.getBlock().getType() != Material.CHEST) {
-								player.sendMessage(
-										ChatUtils.translateToColor("&cThere is no chest for this shop!"));
+								player.sendMessage(ChatUtils.translateToColor("&cThere is no chest for this shop!"));
 								return;
 							}
 
@@ -60,9 +62,9 @@ public class ShopCreate implements Listener {
 
 							UUID uuid = player.getUniqueId();
 							int transactionAmount = Integer.parseInt(sign.getLine(1));
+							ItemStack item = new ItemStack(player.getInventory().getItemInMainHand().getType(), 1);
 							player.getInventory().getItemInMainHand()
 									.setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-							ItemStack item = new ItemStack(player.getInventory().getItemInMainHand().getType(), 1);
 
 							String[] line3 = sign.getLine(2).split(" ");
 
@@ -82,6 +84,8 @@ public class ShopCreate implements Listener {
 							}
 							AranarthShopUtils.addShop(uuid, shop);
 							player.sendMessage(ChatUtils.translateToColor("&aA chest shop has been created!"));
+						} else {
+							player.sendMessage(ChatUtils.translateToColor("&cYou cannot make a shop out of this!"));
 						}
 					}
 

@@ -262,10 +262,10 @@ public class PersistenceUtils {
 					uuid = UUID.fromString(parts[1]);
 					fieldCount++;
 					continue;
-				} else if (line.endsWith("\",")) {
+				} else if (parts[parts.length - 1].equals(",") || isRegularNumber(parts[parts.length - 1])) {
 					fieldName = parts[1];
 					fieldValue = parts[3];
-				} else if (line.equals("{") || line.equals("}")) {
+				} else {
 					continue;
 				}
 
