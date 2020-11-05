@@ -11,6 +11,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.aearost.aranarthcore.objects.AranarthShop;
@@ -21,25 +23,17 @@ public class AranarthShopUtils {
 
 	public static AranarthShop getShop(UUID uuid, Location chestLocation) {
 		List<AranarthShop> playerShops = getPlayerShopList(uuid);
+
+		if (playerShops == null) {
+			return null;
+		}
+
 		for (AranarthShop shop : playerShops) {
 			if (shop.getChestLocation().equals(chestLocation)) {
 				return shop;
 			}
 		}
 		return null;
-	}
-
-	public static boolean isShopOwner(UUID uuid, Location chestLocation) {
-		List<AranarthShop> playerShops = getPlayerShopList(uuid);
-		if (playerShops == null) {
-			return false;
-		}
-		for (AranarthShop shop : playerShops) {
-			if (shop.getChestLocation().equals(chestLocation)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static List<AranarthShop> getPlayerShopList(UUID uuid) {
@@ -70,6 +64,132 @@ public class AranarthShopUtils {
 		} else {
 			removePlayerShops(uuid);
 		}
+	}
+
+	/**
+	 * Determines whether or not the shop chest has enough of the item to sell.
+	 * 
+	 * @param chestInventory
+	 * @param item
+	 * @param transactionQuantity
+	 * @return
+	 */
+	public static boolean hasEnoughMoneyToBuy(Inventory chestInventory, ItemStack item, int transactionQuantity) {
+		ItemStack[] contents = chestInventory.getContents();
+		int totalAmount = 0;
+		for (ItemStack stack : contents) {
+			if (stack == null) {
+				continue;
+			}
+
+			if (stack.isSimilar(item)) {
+				totalAmount += stack.getAmount();
+			}
+		}
+		return totalAmount >= transactionQuantity;
+	}
+
+	/**
+	 * Transports the items from the shop chest to the buyer's inventory.
+	 * 
+	 * @param chestInventory
+	 * @param player
+	 * @param item
+	 * @param transactionQuantity
+	 */
+	public static void purchaseItems(Inventory chestInventory, Player player, ItemStack item, int transactionQuantity) {
+		ItemStack[] contents = chestInventory.getContents();
+		int addedAmount = 0;
+		for (ItemStack stack : contents) {
+			if (stack == null) {
+				continue;
+			}
+
+			int stackAmount = stack.getAmount();
+
+			if (stack.getType() == item.getType()) {
+				while (stackAmount > 0 && addedAmount < transactionQuantity) {
+					stackAmount--;
+					stack.setAmount(stack.getAmount() - 1);
+					addedAmount++;
+				}
+			}
+		}
+		player.getInventory().addItem(new ItemStack(item.getType(), transactionQuantity));
+	}
+
+	/**
+	 * Determines whether or not there is enough inventory space for a given item.
+	 * 
+	 * Returns 0 if the entire item can be added.
+	 * Returns -1 if there is no space for any of the item.
+	 * Returns a the remainder of what could not be fit if only some could be added.
+	 * 
+	 * @param inventory
+	 * @param item
+	 * @param transactionQuantity
+	 * @return
+	 */
+	public static int hasInventorySpace(ItemStack[] inventory, ItemStack item, int transactionQuantity) {
+
+		int originalTransactionQuantity = transactionQuantity;
+
+		// Prioritizes filling up non-full stacks of the item in the player's inventory
+		for (ItemStack stack : inventory) {
+			if (stack != null && stack.getType() == item.getType()) {
+				// Fill up an empty stack until it's full while removing one amount each
+				// iteration
+				while (transactionQuantity > 0) {
+					int stackSize = stack.getAmount();
+					if (stackSize < 64) {
+						stackSize++;
+						transactionQuantity--;
+					} else {
+						break;
+					}
+				}
+			}
+		}
+
+		// Prioritizes filling up empty inventory slots
+		while (transactionQuantity > 0) {
+			boolean hasEmptySlot = false;
+			for (ItemStack stack : inventory) {
+				if (stack == null) {
+					hasEmptySlot = true;
+					break;
+				}
+			}
+
+			// When there is inventory space
+			if (hasEmptySlot) {
+				if (transactionQuantity > 64) {
+					transactionQuantity -= 64;
+				} else {
+					return 0;
+				}
+				// Some was placed in the inventory, but not all
+			} else if (transactionQuantity < originalTransactionQuantity) {
+				return transactionQuantity;
+				// No space in the inventory
+			} else {
+				return -1;
+			}
+		}
+		return 0;
+	}
+
+	public static boolean isShopOwner(UUID uuid, Location chestLocation) {
+		List<AranarthShop> playerShops = getPlayerShopList(uuid);
+		if (playerShops == null) {
+			return false;
+		}
+		for (AranarthShop shop : playerShops) {
+			if (shop.getChestLocation().equals(chestLocation)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void removePlayerShops(UUID uuid) {
@@ -130,8 +250,7 @@ public class AranarthShopUtils {
 		String line4 = sign.getLine(3);
 
 		UUID ownerUuid = AranarthPlayerUtils.getUUID(owner);
-		Bukkit.broadcastMessage("ownerUuid: " + ownerUuid.toString());
-		
+
 		if (!ownerUuid.equals(uuid) && isCreating) {
 			return false;
 		}
@@ -171,7 +290,6 @@ public class AranarthShopUtils {
 				} catch (NumberFormatException e) {
 					return false;
 				}
-				Bukkit.broadcastMessage("Buy GOOD");
 				return true;
 			} else if (line3Parts[0].equals("Sell") && line3Parts[1].equals(":")) {
 				double sellAmount = 0;
@@ -184,7 +302,6 @@ public class AranarthShopUtils {
 				} catch (NumberFormatException e) {
 					return false;
 				}
-				Bukkit.broadcastMessage("Sell GOOD");
 				return true;
 			} else {
 				return false;
@@ -205,7 +322,6 @@ public class AranarthShopUtils {
 				} catch (NumberFormatException e) {
 					return false;
 				}
-				Bukkit.broadcastMessage("Buy and Sell GOOD");
 				return true;
 			} else {
 				return false;

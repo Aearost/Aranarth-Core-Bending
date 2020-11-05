@@ -34,15 +34,11 @@ public class ShopCreate implements Listener {
 	public void onShopCreate(final PlayerInteractEvent e) {
 		if (e.getHand() == EquipmentSlot.HAND && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (AranarthShopUtils.isWallSign(e.getClickedBlock().getType())) {
-				Bukkit.broadcastMessage("A");
 				Player player = e.getPlayer();
 				if (player.isSneaking()) {
-					Bukkit.broadcastMessage("B");
 					Sign sign = (Sign) e.getClickedBlock().getState();
 					if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), true)) {
-						Bukkit.broadcastMessage("C");
 						if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
-							Bukkit.broadcastMessage("D");
 							Location signLocation = e.getClickedBlock().getLocation();
 							Location chestLocation = new Location(player.getWorld(), signLocation.getBlockX(),
 									signLocation.getBlockY() - 1, signLocation.getBlockZ());
