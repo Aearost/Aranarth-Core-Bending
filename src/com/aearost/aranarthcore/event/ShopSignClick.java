@@ -92,8 +92,8 @@ public class ShopSignClick implements Listener {
 									if (AranarthShopUtils.hasItemsToSell(player, shop.getItem(),
 											shop.getTransactionQuantity())) {
 										AranarthPlayer seller = AranarthPlayerUtils.getPlayer(player.getUniqueId());
-										buyer.setBalance(buyer.getBalance() + shop.getSellAmount());
-										seller.setBalance(seller.getBalance() - shop.getSellAmount());
+										buyer.setBalance(buyer.getBalance() - shop.getSellAmount());
+										seller.setBalance(seller.getBalance() + shop.getSellAmount());
 										AranarthShopUtils.sellItems(chestInventory, player, shop.getItem(), shop.getTransactionQuantity());
 										NumberFormat formatter = NumberFormat.getCurrencyInstance();
 										player.sendMessage(ChatUtils.translateToColor("&7You have earned &6" + formatter.format(shop.getSellAmount())));
