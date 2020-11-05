@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -89,6 +88,71 @@ public class AranarthShopUtils {
 		return totalAmount >= transactionQuantity;
 	}
 
+	public static boolean hasEnoughSpaceToSell(Inventory chestInventory, ItemStack item, int transactionQuantity) {
+		ItemStack[] contents = chestInventory.getContents();
+		for (ItemStack stack : contents) {
+			if (stack == null) {
+				return true;
+			}
+			
+			int stackSize = stack.getAmount();
+			if (stack.isSimilar(item)) {
+				while (stackSize < 64 && transactionQuantity > 0) {
+					stackSize++;
+					transactionQuantity--;
+					if (transactionQuantity == 0) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean hasItemsToSell(Player player, ItemStack item, int transactionQuantity) {
+		ItemStack[] contents = player.getInventory().getStorageContents();
+		int amountInInventory = 0;
+		for (ItemStack stack : contents) {
+			if (stack == null) {
+				continue;
+			}
+			
+			if (stack.isSimilar(item)) {
+				amountInInventory += stack.getAmount();
+			}
+		}
+		
+		return amountInInventory > transactionQuantity;
+	}
+	
+	/**
+	 * Transports the items from the buyer's inventory to the shop chest.
+	 * 
+	 * @param chestInventory
+	 * @param player
+	 * @param item
+	 * @param transactionQuantity
+	 */
+	public static void sellItems(Inventory chestInventory, Player player, ItemStack item, int transactionQuantity) {
+		ItemStack[] contents = player.getInventory().getStorageContents();
+		int amountTransferred = 0;
+		for (ItemStack stack : contents) {
+			if (stack == null) {
+				continue;
+			}
+
+			if (stack.isSimilar(item) && amountTransferred < transactionQuantity) {
+				while (amountTransferred < transactionQuantity) {
+					stack.setAmount(stack.getAmount() - 1);
+					amountTransferred++;
+				}
+			} else if (amountTransferred == transactionQuantity) {
+				break;
+			}
+		}
+		chestInventory.addItem(new ItemStack(item.getType(), transactionQuantity));
+	}
+
 	/**
 	 * Transports the items from the shop chest to the buyer's inventory.
 	 * 
@@ -107,7 +171,7 @@ public class AranarthShopUtils {
 
 			int stackAmount = stack.getAmount();
 
-			if (stack.getType() == item.getType()) {
+			if (stack.isSimilar(item)) {
 				while (stackAmount > 0 && addedAmount < transactionQuantity) {
 					stackAmount--;
 					stack.setAmount(stack.getAmount() - 1);
@@ -121,9 +185,9 @@ public class AranarthShopUtils {
 	/**
 	 * Determines whether or not there is enough inventory space for a given item.
 	 * 
-	 * Returns 0 if the entire item can be added.
-	 * Returns -1 if there is no space for any of the item.
-	 * Returns a the remainder of what could not be fit if only some could be added.
+	 * Returns 0 if the entire item can be added. Returns -1 if there is no space
+	 * for any of the item. Returns a the remainder of what could not be fit if only
+	 * some could be added.
 	 * 
 	 * @param inventory
 	 * @param item
@@ -251,7 +315,7 @@ public class AranarthShopUtils {
 
 		UUID ownerUuid = AranarthPlayerUtils.getUUID(owner);
 
-		if (!ownerUuid.equals(uuid) && isCreating) {
+		if (ownerUuid == null || !ownerUuid.equals(uuid) && isCreating) {
 			return false;
 		}
 

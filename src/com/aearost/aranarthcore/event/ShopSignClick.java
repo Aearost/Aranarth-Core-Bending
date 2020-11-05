@@ -1,5 +1,6 @@
 package com.aearost.aranarthcore.event;
 
+import java.text.NumberFormat;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -79,12 +80,34 @@ public class ShopSignClick implements Listener {
 								}
 							} else {
 								player.sendMessage(
-										ChatUtils.translateToColor("&cThe shop does not have enough items to sell!"));
+										ChatUtils.translateToColor("&cThis shop does not have enough items to sell!"));
 							}
 						}
 						// Selling to the shop
 						else if (e.getHand() == EquipmentSlot.HAND && e.getAction() == Action.LEFT_CLICK_BLOCK) {
-							Bukkit.broadcastMessage("Trying to sell");
+							if (AranarthShopUtils.hasEnoughSpaceToSell(chestInventory, shop.getItem(),
+									shop.getTransactionQuantity())) {
+								AranarthPlayer buyer = AranarthPlayerUtils.getPlayer(shop.getUUID());
+								if (buyer.getBalance() > shop.getSellAmount()) {
+									if (AranarthShopUtils.hasItemsToSell(player, shop.getItem(),
+											shop.getTransactionQuantity())) {
+										AranarthPlayer seller = AranarthPlayerUtils.getPlayer(player.getUniqueId());
+										buyer.setBalance(buyer.getBalance() + shop.getSellAmount());
+										seller.setBalance(seller.getBalance() - shop.getSellAmount());
+										AranarthShopUtils.sellItems(chestInventory, player, shop.getItem(), shop.getTransactionQuantity());
+										NumberFormat formatter = NumberFormat.getCurrencyInstance();
+										player.sendMessage(ChatUtils.translateToColor("&7You have earned &6" + formatter.format(shop.getSellAmount())));
+									} else {
+										player.sendMessage(ChatUtils.translateToColor("&cYou do not have enough of this item!"));
+									}
+								} else {
+									player.sendMessage(
+											ChatUtils.translateToColor("&cThis shop owner cannot afford this!"));
+								}
+							} else {
+								player.sendMessage(
+										ChatUtils.translateToColor("&cThis shop does not have enough free space!"));
+							}
 						}
 					}
 				}
