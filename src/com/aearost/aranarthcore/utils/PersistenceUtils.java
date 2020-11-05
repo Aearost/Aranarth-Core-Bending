@@ -240,7 +240,8 @@ public class PersistenceUtils {
 		Scanner reader;
 		try {
 			reader = new Scanner(file);
-			int fieldCount = 0;
+			// UUID must not be reset each time
+			int fieldCount = 1;
 			String fieldName = null;
 			String fieldValue = null;
 
@@ -255,12 +256,13 @@ public class PersistenceUtils {
 			int z = 0;
 
 			while (reader.hasNextLine()) {
+				
 				String line = reader.nextLine();
+				Bukkit.getLogger().info(line);
 				String[] parts = line.split("\"");
 
 				if (line.endsWith(": {") && !parts[1].equals("shops") && !isRegularNumber(parts[1])) {
 					uuid = UUID.fromString(parts[1]);
-					fieldCount++;
 					continue;
 				} else if (parts[parts.length - 1].equals(",") || isRegularNumber(parts[parts.length - 1])) {
 					fieldName = parts[1];
@@ -293,6 +295,7 @@ public class PersistenceUtils {
 				} else if (fieldName.equals("z")) {
 					z = Integer.parseInt(fieldValue);
 					fieldCount++;
+					Bukkit.getLogger().info("fieldCount is: " + fieldCount);
 				}
 
 				if (fieldCount == 9) {
@@ -307,7 +310,7 @@ public class PersistenceUtils {
 						AranarthShopUtils.addShop(uuid,
 								new AranarthShop(uuid, transactionQuantity, buyAmount, item, sellAmount, location));
 					}
-					fieldCount = 0;
+					fieldCount = 1;
 				}
 			}
 			reader.close();

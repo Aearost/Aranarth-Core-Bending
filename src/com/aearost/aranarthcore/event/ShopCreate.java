@@ -44,6 +44,9 @@ public class ShopCreate implements Listener {
 									signLocation.getBlockY() - 1, signLocation.getBlockZ());
 
 							if (AranarthShopUtils.isAlreadyShop(chestLocation)) {
+								if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
+									return;
+								}
 								player.sendMessage(ChatUtils.translateToColor("&cThis is already a player shop!"));
 								e.setCancelled(true);
 								return;
