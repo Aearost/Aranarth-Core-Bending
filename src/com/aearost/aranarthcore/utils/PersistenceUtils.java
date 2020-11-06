@@ -245,6 +245,7 @@ public class PersistenceUtils {
 			String fieldName = null;
 			String fieldValue = null;
 
+			boolean areServerShopsBeingIterated = false;
 			UUID uuid = null;
 			int transactionQuantity = 0;
 			double buyAmount = 0.0;
@@ -256,14 +257,20 @@ public class PersistenceUtils {
 			int z = 0;
 
 			while (reader.hasNextLine()) {
-				
+
 				String line = reader.nextLine();
 				Bukkit.getLogger().info(line);
 				String[] parts = line.split("\"");
 
 				if (line.endsWith(": {") && !parts[1].equals("shops") && !isRegularNumber(parts[1])) {
-					uuid = UUID.fromString(parts[1]);
-					continue;
+					if (parts[1].equals("ARANARTH_SERVER_SHOPS")) {
+						areServerShopsBeingIterated = true;
+						continue;
+					} else {
+						areServerShopsBeingIterated = false;
+						uuid = UUID.fromString(parts[1]);
+						continue;
+					}
 				} else if (parts[parts.length - 1].equals(",") || isRegularNumber(parts[parts.length - 1])) {
 					fieldName = parts[1];
 					fieldValue = parts[3];
@@ -295,21 +302,34 @@ public class PersistenceUtils {
 				} else if (fieldName.equals("z")) {
 					z = Integer.parseInt(fieldValue);
 					fieldCount++;
-					Bukkit.getLogger().info("fieldCount is: " + fieldCount);
 				}
 
 				if (fieldCount == 9) {
 					Location location = new Location(world, x, y, z);
-					if (sellAmount == -1) {
-						AranarthShopUtils.addShop(uuid,
-								new AranarthShop(uuid, transactionQuantity, buyAmount, item, location));
-					} else if (buyAmount == -1) {
-						AranarthShopUtils.addShop(uuid,
-								new AranarthShop(uuid, transactionQuantity, item, sellAmount, location));
+					if (areServerShopsBeingIterated) {
+						if (sellAmount == -1) {
+							AranarthShopUtils.addServerShop(
+									new AranarthShop(null, transactionQuantity, buyAmount, item, location));
+						} else if (buyAmount == -1) {
+							AranarthShopUtils.addServerShop(
+									new AranarthShop(null, transactionQuantity, item, sellAmount, location));
+						} else {
+							AranarthShopUtils.addServerShop(
+									new AranarthShop(null, transactionQuantity, buyAmount, item, sellAmount, location));
+						}
 					} else {
-						AranarthShopUtils.addShop(uuid,
-								new AranarthShop(uuid, transactionQuantity, buyAmount, item, sellAmount, location));
+						if (sellAmount == -1) {
+							AranarthShopUtils.addShop(uuid,
+									new AranarthShop(uuid, transactionQuantity, buyAmount, item, location));
+						} else if (buyAmount == -1) {
+							AranarthShopUtils.addShop(uuid,
+									new AranarthShop(uuid, transactionQuantity, item, sellAmount, location));
+						} else {
+							AranarthShopUtils.addShop(uuid,
+									new AranarthShop(uuid, transactionQuantity, buyAmount, item, sellAmount, location));
+						}
 					}
+
 					fieldCount = 1;
 				}
 			}
@@ -325,7 +345,8 @@ public class PersistenceUtils {
 	 */
 	public static void writeShopSignsToFile() {
 		HashMap<UUID, List<AranarthShop>> shops = AranarthShopUtils.getShops();
-		if (shops.size() > 0) {
+		List<AranarthShop> serverShops = AranarthShopUtils.getServerShops();
+		if (shops.size() > 0 || serverShops.size() > 0) {
 
 			String currentPath = System.getProperty("user.dir");
 			String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore"
@@ -355,15 +376,12 @@ public class PersistenceUtils {
 					writer.write("\"shops\": {\n");
 					int playerCounter = 1;
 
-					for (Map.Entry<UUID, List<AranarthShop>> entry : shops.entrySet()) {
-						UUID uuid = entry.getKey();
+					int shopCounter = 1;
+					
+					if (serverShops.size() > 0) {
+						writer.write("    \"ARANARTH_SERVER_SHOPS\": {\n");
 
-						writer.write("    \"" + uuid.toString() + "\": {\n");
-						List<AranarthShop> playerShops = entry.getValue();
-
-						int shopCounter = 1;
-						for (AranarthShop shop : playerShops) {
-
+						for (AranarthShop shop : serverShops) {
 							writer.write("        \"" + shopCounter + "\": {\n");
 							writer.write("            \"transactionQuantity\": \"" + shop.getTransactionQuantity()
 									+ "\",\n");
@@ -376,22 +394,58 @@ public class PersistenceUtils {
 							writer.write("            \"y\": \"" + shop.getChestLocation().getBlockY() + "\",\n");
 							writer.write("            \"z\": \"" + shop.getChestLocation().getBlockZ() + "\"\n");
 
-							if (shopCounter == playerShops.size()) {
+							if (shopCounter == serverShops.size()) {
 								writer.write("        }\n");
 							} else {
 								writer.write("        },\n");
+								shopCounter++;
 							}
-							shopCounter++;
 						}
-
-						if (playerCounter == shops.size()) {
-							writer.write("    }\n");
-						} else {
-							writer.write("    },\n");
-						}
-
-						playerCounter++;
 					}
+
+					if (shops.size() > 0) {
+						writer.write("    },\n");
+						for (Map.Entry<UUID, List<AranarthShop>> entry : shops.entrySet()) {
+							UUID uuid = entry.getKey();
+
+							writer.write("    \"" + uuid.toString() + "\": {\n");
+							List<AranarthShop> playerShops = entry.getValue();
+
+							shopCounter = 1;
+							for (AranarthShop shop : playerShops) {
+
+								writer.write("        \"" + shopCounter + "\": {\n");
+								writer.write("            \"transactionQuantity\": \"" + shop.getTransactionQuantity()
+										+ "\",\n");
+								writer.write("            \"buyAmount\": \"" + shop.getBuyAmount() + "\",\n");
+								writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
+								writer.write("            \"sellAmount\": \"" + shop.getSellAmount() + "\",\n");
+								writer.write("            \"worldName\": \"" + shop.getChestLocation().getWorld().getName()
+										+ "\",\n");
+								writer.write("            \"x\": \"" + shop.getChestLocation().getBlockX() + "\",\n");
+								writer.write("            \"y\": \"" + shop.getChestLocation().getBlockY() + "\",\n");
+								writer.write("            \"z\": \"" + shop.getChestLocation().getBlockZ() + "\"\n");
+
+								if (shopCounter == playerShops.size()) {
+									writer.write("        }\n");
+								} else {
+									writer.write("        },\n");
+									shopCounter++;
+								}
+							}
+
+							if (playerCounter == shops.size()) {
+								writer.write("    }\n");
+							} else {
+								writer.write("    },\n");
+							}
+
+							playerCounter++;
+						}
+					} else {
+						writer.write("    }\n");
+					}
+					
 					writer.write("}\n");
 					writer.close();
 				} catch (IOException e) {

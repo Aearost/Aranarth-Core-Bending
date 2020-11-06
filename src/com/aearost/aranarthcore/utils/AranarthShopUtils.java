@@ -19,6 +19,20 @@ import com.aearost.aranarthcore.objects.AranarthShop;
 public class AranarthShopUtils {
 
 	private static HashMap<UUID, List<AranarthShop>> shops = new HashMap<>();
+	private static List<AranarthShop> serverShops = new ArrayList<>();
+
+	public static AranarthShop getServerShop(Location signLocation) {
+		if (serverShops == null) {
+			return null;
+		}
+
+		for (AranarthShop shop : serverShops) {
+			if (shop.getChestLocation().equals(signLocation)) {
+				return shop;
+			}
+		}
+		return null;
+	}
 
 	public static AranarthShop getShop(UUID uuid, Location chestLocation) {
 		List<AranarthShop> playerShops = getPlayerShopList(uuid);
@@ -64,6 +78,18 @@ public class AranarthShopUtils {
 			removePlayerShops(uuid);
 		}
 	}
+	
+	public static void addServerShop(AranarthShop shop) {
+		serverShops.add(shop);
+	}
+	
+	public static void removeServerShop(AranarthShop shop) {
+		for (AranarthShop serverShop : serverShops) {
+			if (serverShop.equals(shop)) {
+				serverShops.remove(serverShop);
+			}
+		}
+	}
 
 	/**
 	 * Determines whether or not the shop chest has enough of the item to sell.
@@ -73,7 +99,7 @@ public class AranarthShopUtils {
 	 * @param transactionQuantity
 	 * @return
 	 */
-	public static boolean hasEnoughMoneyToBuy(Inventory chestInventory, ItemStack item, int transactionQuantity) {
+	public static boolean hasEnoughItemsToBuy(Inventory chestInventory, ItemStack item, int transactionQuantity) {
 		ItemStack[] contents = chestInventory.getContents();
 		int totalAmount = 0;
 		for (ItemStack stack : contents) {
@@ -94,7 +120,7 @@ public class AranarthShopUtils {
 			if (stack == null) {
 				return true;
 			}
-			
+
 			int stackSize = stack.getAmount();
 			if (stack.isSimilar(item)) {
 				while (stackSize < 64 && transactionQuantity > 0) {
@@ -108,7 +134,7 @@ public class AranarthShopUtils {
 		}
 		return false;
 	}
-	
+
 	public static boolean hasItemsToSell(Player player, ItemStack item, int transactionQuantity) {
 		ItemStack[] contents = player.getInventory().getStorageContents();
 		int amountInInventory = 0;
@@ -116,15 +142,15 @@ public class AranarthShopUtils {
 			if (stack == null) {
 				continue;
 			}
-			
+
 			if (stack.isSimilar(item)) {
 				amountInInventory += stack.getAmount();
 			}
 		}
-		
-		return amountInInventory > transactionQuantity;
+
+		return amountInInventory >= transactionQuantity;
 	}
-	
+
 	/**
 	 * Transports the items from the buyer's inventory to the shop chest.
 	 * 
@@ -132,8 +158,10 @@ public class AranarthShopUtils {
 	 * @param player
 	 * @param item
 	 * @param transactionQuantity
+	 * @param isPlayerShop
 	 */
-	public static void sellItems(Inventory chestInventory, Player player, ItemStack item, int transactionQuantity) {
+	public static void sellItems(Inventory chestInventory, Player player, ItemStack item, int transactionQuantity,
+			boolean isPlayerShop) {
 		ItemStack[] contents = player.getInventory().getStorageContents();
 		int amountTransferred = 0;
 		for (ItemStack stack : contents) {
@@ -150,7 +178,9 @@ public class AranarthShopUtils {
 				break;
 			}
 		}
-		chestInventory.addItem(new ItemStack(item.getType(), transactionQuantity));
+		if (isPlayerShop) {
+			chestInventory.addItem(new ItemStack(item.getType(), transactionQuantity));
+		}
 	}
 
 	/**
@@ -160,25 +190,30 @@ public class AranarthShopUtils {
 	 * @param player
 	 * @param item
 	 * @param transactionQuantity
+	 * @param isPlayerShop
 	 */
-	public static void purchaseItems(Inventory chestInventory, Player player, ItemStack item, int transactionQuantity) {
-		ItemStack[] contents = chestInventory.getContents();
-		int addedAmount = 0;
-		for (ItemStack stack : contents) {
-			if (stack == null) {
-				continue;
-			}
+	public static void purchaseItems(Inventory chestInventory, Player player, ItemStack item, int transactionQuantity,
+			boolean isPlayerShop) {
+		if (isPlayerShop) {
+			ItemStack[] contents = chestInventory.getContents();
+			int addedAmount = 0;
+			for (ItemStack stack : contents) {
+				if (stack == null) {
+					continue;
+				}
 
-			int stackAmount = stack.getAmount();
+				int stackAmount = stack.getAmount();
 
-			if (stack.isSimilar(item)) {
-				while (stackAmount > 0 && addedAmount < transactionQuantity) {
-					stackAmount--;
-					stack.setAmount(stack.getAmount() - 1);
-					addedAmount++;
+				if (stack.isSimilar(item)) {
+					while (stackAmount > 0 && addedAmount < transactionQuantity) {
+						stackAmount--;
+						stack.setAmount(stack.getAmount() - 1);
+						addedAmount++;
+					}
 				}
 			}
 		}
+
 		player.getInventory().addItem(new ItemStack(item.getType(), transactionQuantity));
 	}
 
@@ -306,6 +341,10 @@ public class AranarthShopUtils {
 	public static HashMap<UUID, List<AranarthShop>> getShops() {
 		return shops;
 	}
+	
+	public static List<AranarthShop> getServerShops() {
+		return serverShops;
+	}
 
 	public static boolean isProperShopFormat(Sign sign, UUID uuid, boolean isCreating) {
 		String owner = sign.getLine(0);
@@ -313,10 +352,12 @@ public class AranarthShopUtils {
 		String line3 = sign.getLine(2);
 		String line4 = sign.getLine(3);
 
-		UUID ownerUuid = AranarthPlayerUtils.getUUID(owner);
-
-		if (ownerUuid == null || !ownerUuid.equals(uuid) && isCreating) {
-			return false;
+		// If it's not being called from canMakeAdminShop()
+		if (uuid != null) {
+			UUID ownerUuid = AranarthPlayerUtils.getUUID(owner);
+			if (ownerUuid == null || !ownerUuid.equals(uuid) && isCreating) {
+				return false;
+			}
 		}
 
 		try {
