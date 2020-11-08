@@ -64,6 +64,10 @@ public class ShopCreate implements Listener {
 							UUID uuid = player.getUniqueId();
 							int transactionAmount = Integer.parseInt(sign.getLine(1));
 							ItemStack item = new ItemStack(player.getInventory().getItemInMainHand().getType(), 1);
+							if (item.getType() == Material.AIR) {
+								player.sendMessage(ChatUtils.translateToColor("&cPlease select an item"));
+								return;
+							}
 							player.getInventory().getItemInMainHand()
 									.setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
 
@@ -139,7 +143,7 @@ public class ShopCreate implements Listener {
 			if (sign.getLine(0).equals("[Aranarth]") && player.hasPermission("aranarthcore.shop.create.admin")) {
 				return true;
 			} else {
-				player.sendMessage(ChatUtils.translateToColor("&cYou must rank up to Baron to create player shops!"));
+				player.sendMessage(ChatUtils.translateToColor("&cYou cannot create server shops!"));
 			}
 		}
 		return false;

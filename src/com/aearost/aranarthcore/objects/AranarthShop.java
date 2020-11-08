@@ -12,36 +12,36 @@ public class AranarthShop {
 	private double buyAmount;
 	private ItemStack item;
 	private double sellAmount;
-	private Location chestLocation;
+	private Location shopLocation;
 
 	public AranarthShop(UUID uuid, int transactionQuantity, double buyAmount, ItemStack item, double sellAmount,
-			Location chestLocation) {
+			Location shopLocation) {
 		this.uuid = uuid;
 		this.transactionQuantity = transactionQuantity;
 		this.buyAmount = buyAmount;
 		this.item = item;
 		this.sellAmount = sellAmount;
-		this.chestLocation = chestLocation;
+		this.shopLocation = shopLocation;
 	}
 
 	public AranarthShop(UUID uuid, int transactionQuantity, double buyAmount, ItemStack item,
-			Location chestLocation) {
+			Location shopLocation) {
 		this.uuid = uuid;
 		this.transactionQuantity = transactionQuantity;
 		this.buyAmount = buyAmount;
 		this.item = item;
 		this.sellAmount = -1;
-		this.chestLocation = chestLocation;
+		this.shopLocation = shopLocation;
 	}
 
 	public AranarthShop(UUID uuid, int transactionQuantity, ItemStack item, double sellAmount,
-			Location chestLocation) {
+			Location shopLocation) {
 		this.uuid = uuid;
 		this.transactionQuantity = transactionQuantity;
 		this.buyAmount = -1;
 		this.item = item;
 		this.sellAmount = sellAmount;
-		this.chestLocation = chestLocation;
+		this.shopLocation = shopLocation;
 	}
 	
 	public UUID getUUID() {
@@ -84,12 +84,12 @@ public class AranarthShop {
 		this.sellAmount = sellAmount;
 	}
 	
-	public Location getChestLocation() {
-		return chestLocation;
+	public Location getShopLocation() {
+		return shopLocation;
 	}
 	
-	public void setChestLocation(Location chestLocation) {
-		this.chestLocation = chestLocation;
+	public void setShopLocation(Location shopLocation) {
+		this.shopLocation = shopLocation;
 	}
 
 }

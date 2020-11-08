@@ -27,7 +27,7 @@ public class AranarthShopUtils {
 		}
 
 		for (AranarthShop shop : serverShops) {
-			if (shop.getChestLocation().equals(signLocation)) {
+			if (shop.getShopLocation().equals(signLocation)) {
 				return shop;
 			}
 		}
@@ -42,7 +42,7 @@ public class AranarthShopUtils {
 		}
 
 		for (AranarthShop shop : playerShops) {
-			if (shop.getChestLocation().equals(chestLocation)) {
+			if (shop.getShopLocation().equals(chestLocation)) {
 				return shop;
 			}
 		}
@@ -66,7 +66,7 @@ public class AranarthShopUtils {
 		List<AranarthShop> playerShops = getPlayerShopList(uuid);
 		int counter = 0;
 		for (AranarthShop shop : playerShops) {
-			if (shop.getChestLocation().equals(chestLocation)) {
+			if (shop.getShopLocation().equals(chestLocation)) {
 				break;
 			}
 			counter++;
@@ -83,12 +83,8 @@ public class AranarthShopUtils {
 		serverShops.add(shop);
 	}
 	
-	public static void removeServerShop(AranarthShop shop) {
-		for (AranarthShop serverShop : serverShops) {
-			if (serverShop.equals(shop)) {
-				serverShops.remove(serverShop);
-			}
-		}
+	public static void removeServerShop(Location shopLocation) {
+		serverShops.remove(getServerShop(shopLocation));
 	}
 
 	/**
@@ -284,7 +280,7 @@ public class AranarthShopUtils {
 			return false;
 		}
 		for (AranarthShop shop : playerShops) {
-			if (shop.getChestLocation().equals(chestLocation)) {
+			if (shop.getShopLocation().equals(chestLocation)) {
 				return true;
 			}
 		}
@@ -302,7 +298,7 @@ public class AranarthShopUtils {
 				|| block == Material.SPRUCE_WALL_SIGN || block == Material.WARPED_WALL_SIGN;
 	}
 
-	public static Location getLocationIfBlockBreaksSign(Block clickedBlock) {
+	public static Location getLocationIfBlockBreaksShop(Block clickedBlock, boolean isPlayerShop) {
 		Location location = clickedBlock.getLocation();
 
 		Location locationPlusX = new Location(location.getWorld(), location.getBlockX() + 1, location.getBlockY(),
@@ -314,24 +310,51 @@ public class AranarthShopUtils {
 		Location locationMinusZ = new Location(location.getWorld(), location.getBlockX(), location.getBlockY(),
 				location.getBlockZ() - 1);
 
+//		if (isWallSign(locationPlusX.getBlock().getType())) {
+//			return true;
+//		} else if (isWallSign(locationMinusX.getBlock().getType())) {
+//			return true;
+//		} else if (isWallSign(locationPlusZ.getBlock().getType())) {
+//			return true;
+//		} else if (isWallSign(locationMinusZ.getBlock().getType())) {
+//			return true;
+//		}
+//		return false;
+		
 		if (isWallSign(locationPlusX.getBlock().getType())) {
-			locationPlusX.setY(locationPlusX.getY() - 1);
-			if (locationPlusX.getBlock().getType() == Material.CHEST) {
+			if (isPlayerShop) {
+				locationPlusX.setY(locationPlusX.getY() - 1);
+				if (locationPlusX.getBlock().getType() == Material.CHEST) {
+					return locationPlusX;
+				}
+			} else {
 				return locationPlusX;
 			}
 		} else if (isWallSign(locationMinusX.getBlock().getType())) {
-			locationMinusX.setY(locationMinusX.getY() - 1);
-			if (locationMinusX.getBlock().getType() == Material.CHEST) {
+			if (isPlayerShop) {
+				locationMinusX.setY(locationMinusX.getY() - 1);
+				if (locationMinusX.getBlock().getType() == Material.CHEST) {
+					return locationMinusX;
+				}
+			} else {
 				return locationMinusX;
 			}
 		} else if (isWallSign(locationPlusZ.getBlock().getType())) {
-			locationPlusZ.setY(locationPlusZ.getY() - 1);
-			if (locationPlusZ.getBlock().getType() == Material.CHEST) {
+			if (isPlayerShop) {
+				locationPlusZ.setY(locationPlusZ.getY() - 1);
+				if (locationPlusZ.getBlock().getType() == Material.CHEST) {
+					return locationPlusZ;
+				}
+			} else {
 				return locationPlusZ;
 			}
 		} else if (isWallSign(locationMinusZ.getBlock().getType())) {
-			locationMinusZ.setY(locationMinusZ.getY() - 1);
-			if (locationMinusZ.getBlock().getType() == Material.CHEST) {
+			if (isPlayerShop) {
+				locationMinusZ.setY(locationMinusZ.getY() - 1);
+				if (locationMinusZ.getBlock().getType() == Material.CHEST) {
+					return locationMinusZ;
+				}
+			} else {
 				return locationMinusZ;
 			}
 		}
@@ -352,7 +375,7 @@ public class AranarthShopUtils {
 		String line3 = sign.getLine(2);
 		String line4 = sign.getLine(3);
 
-		// If it's not being called from canMakeAdminShop()
+		// If it's not a server shop
 		if (uuid != null) {
 			UUID ownerUuid = AranarthPlayerUtils.getUUID(owner);
 			if (ownerUuid == null || !ownerUuid.equals(uuid) && isCreating) {
@@ -443,7 +466,7 @@ public class AranarthShopUtils {
 	public static boolean isAlreadyShop(Location chestLocation) {
 		for (Map.Entry<UUID, List<AranarthShop>> entry : shops.entrySet()) {
 			for (AranarthShop shop : entry.getValue()) {
-				if (shop.getChestLocation().equals(chestLocation)) {
+				if (shop.getShopLocation().equals(chestLocation)) {
 					return true;
 				}
 			}

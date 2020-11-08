@@ -259,7 +259,6 @@ public class PersistenceUtils {
 			while (reader.hasNextLine()) {
 
 				String line = reader.nextLine();
-				Bukkit.getLogger().info(line);
 				String[] parts = line.split("\"");
 
 				if (line.endsWith(": {") && !parts[1].equals("shops") && !isRegularNumber(parts[1])) {
@@ -388,11 +387,11 @@ public class PersistenceUtils {
 							writer.write("            \"buyAmount\": \"" + shop.getBuyAmount() + "\",\n");
 							writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
 							writer.write("            \"sellAmount\": \"" + shop.getSellAmount() + "\",\n");
-							writer.write("            \"worldName\": \"" + shop.getChestLocation().getWorld().getName()
+							writer.write("            \"worldName\": \"" + shop.getShopLocation().getWorld().getName()
 									+ "\",\n");
-							writer.write("            \"x\": \"" + shop.getChestLocation().getBlockX() + "\",\n");
-							writer.write("            \"y\": \"" + shop.getChestLocation().getBlockY() + "\",\n");
-							writer.write("            \"z\": \"" + shop.getChestLocation().getBlockZ() + "\"\n");
+							writer.write("            \"x\": \"" + shop.getShopLocation().getBlockX() + "\",\n");
+							writer.write("            \"y\": \"" + shop.getShopLocation().getBlockY() + "\",\n");
+							writer.write("            \"z\": \"" + shop.getShopLocation().getBlockZ() + "\"\n");
 
 							if (shopCounter == serverShops.size()) {
 								writer.write("        }\n");
@@ -420,11 +419,11 @@ public class PersistenceUtils {
 								writer.write("            \"buyAmount\": \"" + shop.getBuyAmount() + "\",\n");
 								writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
 								writer.write("            \"sellAmount\": \"" + shop.getSellAmount() + "\",\n");
-								writer.write("            \"worldName\": \"" + shop.getChestLocation().getWorld().getName()
+								writer.write("            \"worldName\": \"" + shop.getShopLocation().getWorld().getName()
 										+ "\",\n");
-								writer.write("            \"x\": \"" + shop.getChestLocation().getBlockX() + "\",\n");
-								writer.write("            \"y\": \"" + shop.getChestLocation().getBlockY() + "\",\n");
-								writer.write("            \"z\": \"" + shop.getChestLocation().getBlockZ() + "\"\n");
+								writer.write("            \"x\": \"" + shop.getShopLocation().getBlockX() + "\",\n");
+								writer.write("            \"y\": \"" + shop.getShopLocation().getBlockY() + "\",\n");
+								writer.write("            \"z\": \"" + shop.getShopLocation().getBlockZ() + "\"\n");
 
 								if (shopCounter == playerShops.size()) {
 									writer.write("        }\n");

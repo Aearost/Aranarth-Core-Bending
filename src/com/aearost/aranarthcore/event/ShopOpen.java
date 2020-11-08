@@ -24,19 +24,20 @@ public class ShopOpen implements Listener {
 	 */
 	@EventHandler
 	public void onShopSignClick(final InventoryOpenEvent e) {
-		
-		if (e.getInventory().getType().equals(InventoryType.CHEST))
-        {
+
+		if (e.getInventory().getType() == InventoryType.CHEST) {
 			if (AranarthShopUtils.isAlreadyShop(e.getInventory().getLocation())) {
-				AranarthShop shop = AranarthShopUtils.getShop(e.getPlayer().getUniqueId(), e.getInventory().getLocation());
-				if (shop == null) {
+				AranarthShop shop = AranarthShopUtils.getShop(e.getPlayer().getUniqueId(),
+						e.getInventory().getLocation());
+				if (shop == null || (!e.getPlayer().hasPermission("aranarthcore.shop.open.others")
+						&& !shop.getUUID().equals(e.getPlayer().getUniqueId()))) {
 					e.setCancelled(true);
 					e.getPlayer().sendMessage(ChatUtils.translateToColor("&cThis is not your shop!"));
 				}
 			}
-       
-        }
-		
+
+		}
+
 	}
 
 }
