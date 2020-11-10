@@ -51,6 +51,8 @@ public class PersistenceUtils {
 			String avatarStatus = "none";
 			int councilStatus = 0;
 
+			Bukkit.getLogger().info("Attempting to read the players file...");
+			
 			while (reader.hasNextLine()) {
 				String line = reader.nextLine();
 				String[] parts = line.split("\"");
@@ -145,6 +147,7 @@ public class PersistenceUtils {
 				}
 			}
 			reader.close();
+			Bukkit.getLogger().info("All players have been initialized");
 		} catch (FileNotFoundException e) {
 			Bukkit.getLogger().info("Something went wrong with reading the players!");
 			e.printStackTrace();
@@ -156,6 +159,7 @@ public class PersistenceUtils {
 	 */
 	public static void writePlayersToFile() {
 		HashMap<UUID, AranarthPlayer> players = AranarthPlayerUtils.getPlayers();
+		Bukkit.getLogger().info("Checking if there are any players...");
 		if (players.size() > 0) {
 
 			String currentPath = System.getProperty("user.dir");
@@ -181,6 +185,7 @@ public class PersistenceUtils {
 				}
 
 				try {
+					Bukkit.getLogger().info("Writing players to the players.json file");
 					FileWriter writer = new FileWriter(filePath);
 					writer.write("{\n");
 					writer.write("\"players\": {\n");
@@ -215,6 +220,7 @@ public class PersistenceUtils {
 					}
 					writer.write("}\n");
 					writer.close();
+					Bukkit.getLogger().info("All players have been written to the players.json file");
 				} catch (IOException e) {
 					Bukkit.getLogger().info("There was an error in saving the players");
 					e.printStackTrace();
@@ -231,7 +237,7 @@ public class PersistenceUtils {
 		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
 				+ "shops.json";
 		File file = new File(filePath);
-
+		
 		// First run of plugin
 		if (!file.exists()) {
 			return;
@@ -240,6 +246,7 @@ public class PersistenceUtils {
 		Scanner reader;
 		try {
 			reader = new Scanner(file);
+			
 			// UUID must not be reset each time
 			int fieldCount = 1;
 			String fieldName = null;
@@ -255,9 +262,10 @@ public class PersistenceUtils {
 			int x = 0;
 			int y = 0;
 			int z = 0;
-
+			
+			Bukkit.getLogger().info("Attempting to read the shops file...");
+			
 			while (reader.hasNextLine()) {
-
 				String line = reader.nextLine();
 				String[] parts = line.split("\"");
 
@@ -306,6 +314,7 @@ public class PersistenceUtils {
 				if (fieldCount == 9) {
 					Location location = new Location(world, x, y, z);
 					if (areServerShopsBeingIterated) {
+						
 						if (sellAmount == -1) {
 							AranarthShopUtils.addServerShop(
 									new AranarthShop(null, transactionQuantity, buyAmount, item, location));
@@ -328,13 +337,13 @@ public class PersistenceUtils {
 									new AranarthShop(uuid, transactionQuantity, buyAmount, item, sellAmount, location));
 						}
 					}
-
 					fieldCount = 1;
 				}
 			}
+			Bukkit.getLogger().info("All shops have been initialized");
 			reader.close();
 		} catch (FileNotFoundException e) {
-			Bukkit.getLogger().info("Something went wrong with reading the players!");
+			Bukkit.getLogger().info("Something went wrong with reading the shops!");
 			e.printStackTrace();
 		}
 	}
@@ -345,8 +354,8 @@ public class PersistenceUtils {
 	public static void writeShopSignsToFile() {
 		HashMap<UUID, List<AranarthShop>> shops = AranarthShopUtils.getShops();
 		List<AranarthShop> serverShops = AranarthShopUtils.getServerShops();
+		Bukkit.getLogger().info("Checking if there are any shops...");
 		if (shops.size() > 0 || serverShops.size() > 0) {
-
 			String currentPath = System.getProperty("user.dir");
 			String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore"
 					+ File.separator + "shops.json";
@@ -369,6 +378,7 @@ public class PersistenceUtils {
 					e.printStackTrace();
 				}
 
+				Bukkit.getLogger().info("Writing shops to the shops.json file");
 				try {
 					FileWriter writer = new FileWriter(filePath);
 					writer.write("{\n");
@@ -447,6 +457,7 @@ public class PersistenceUtils {
 					
 					writer.write("}\n");
 					writer.close();
+					Bukkit.getLogger().info("All shops have been written to the shops.json file");
 				} catch (IOException e) {
 					Bukkit.getLogger().info("There was an error in saving the shops");
 					e.printStackTrace();

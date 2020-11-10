@@ -41,6 +41,7 @@ public class ShopCreate implements Listener {
 					if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), true)) {
 
 						if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
+							e.setCancelled(true);
 							Location signLocation = e.getClickedBlock().getLocation();
 							Location chestLocation = new Location(player.getWorld(), signLocation.getBlockX(),
 									signLocation.getBlockY() - 1, signLocation.getBlockZ());

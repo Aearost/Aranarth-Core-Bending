@@ -31,7 +31,7 @@ public class AranarthCore extends JavaPlugin {
 	public void onEnable() {
 
 		new AranarthPlayerUtils(true);
-		
+
 		// Initialize Events
 		new ArenaDrops(this);
 		new PlayerJoinServer(this);
@@ -40,7 +40,7 @@ public class AranarthCore extends JavaPlugin {
 		new ShopDestroy(this);
 		new ShopOpen(this);
 		new ShopSignClick(this);
-		
+
 		// Initialize commands
 		getCommand("ac").setExecutor(new CommandAC());
 		getCommand("ac").setTabCompleter(new CommandACCompleter());
@@ -54,26 +54,28 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("pay").setTabCompleter(new CommandPayCompleter());
 		getCommand("ranks").setExecutor(new CommandRanks());
 		getCommand("ranks").setTabCompleter(new CommandRanksCompleter());
-		
+
 		// Create all holograms
 		// https://www.spigotmc.org/threads/tutorial-holograms-1-8.65183/
 		// Maybe even re-initialize all signs?
-		
-		// Updates the players.json file every 15 minutes in case of a crash
+
+		// Update the files every 15 minutes to protect from loss of data
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
-	        public void run() {
-	            PersistenceUtils.writePlayersToFile();
-	            PersistenceUtils.writeShopSignsToFile();
-	        }
+			public void run() {
+				PersistenceUtils.writePlayersToFile();
+				PersistenceUtils.writeShopSignsToFile();
+			}
 		}, 0, 18000);
+		
+		
 	}
-	
+
 	@Override
 	public void onDisable() {
-		
+
 		new AranarthPlayerUtils(false);
-		
+
 	}
 
 }

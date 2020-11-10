@@ -88,39 +88,25 @@ public class ShopDestroy implements Listener {
 				}
 			}
 		} else if (blockBreaksPlayerShop != null) {
-			Bukkit.broadcastMessage("Broke player shop");
 			Location signLocation = blockBreaksPlayerShop.clone();
 			signLocation.setY(signLocation.getY() + 1);
 			Sign sign = (Sign) signLocation.getBlock().getState();
 			if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), false)) {
-				Bukkit.broadcastMessage("Proper player shop format");
-				if (AranarthShopUtils.getShop(player.getUniqueId(), blockBreaksPlayerShop) != null) {
-					Bukkit.broadcastMessage("Shop is not null");
-					if (AranarthShopUtils.isShopOwner(player.getUniqueId(), blockBreaksPlayerShop)) {
-						Bukkit.broadcastMessage("Is shop owner");
-						if (player.hasPermission("aranarthcore.shop.destroy.admin")) {
-							player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this server shop"));
-							AranarthShopUtils.removeServerShop(blockBreaksServerShop);
-							return;
-						} else {
-							player.sendMessage(ChatUtils.translateToColor("&cYou cannot destroy a server shop!"));
-							e.setCancelled(true);
-							return;
-						}
-					} else {
-						player.sendMessage(ChatUtils.translateToColor("&cYou cannot destroy other players' shops!"));
-						e.setCancelled(true);
-						return;
-					}
+				if (AranarthShopUtils.isShopOwner(player.getUniqueId(), blockBreaksPlayerShop)
+						|| player.hasPermission("aranarthcore.shop.destroy.admin")) {
+					player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this shop"));
+					AranarthShopUtils.removeServerShop(blockBreaksServerShop);
+					return;
+				} else {
+					player.sendMessage(ChatUtils.translateToColor("&cYou cannot destroy other players' shops!"));
+					e.setCancelled(true);
+					return;
 				}
 			}
 		} else if (blockBreaksServerShop != null) {
-			Bukkit.broadcastMessage("Broke server shop");
 			Sign sign = (Sign) blockBreaksServerShop.getBlock().getState();
 			if (AranarthShopUtils.isProperShopFormat(sign, null, false)) {
-				Bukkit.broadcastMessage("Proper server shop format");
 				if (AranarthShopUtils.getServerShop(blockBreaksServerShop) != null) {
-					Bukkit.broadcastMessage("Shop is not null");
 					if (player.hasPermission("aranarthcore.shop.destroy.admin")) {
 						player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this server shop"));
 						AranarthShopUtils.removeServerShop(blockBreaksServerShop);
@@ -133,81 +119,5 @@ public class ShopDestroy implements Listener {
 				}
 			}
 		}
-
-//		boolean isClickedBlockChest = block.getType() == Material.CHEST;
-//		boolean isClickedBlockWallSign = AranarthShopUtils.isWallSign(block.getType());
-//		Location blockBreaksPlayerShop = AranarthShopUtils.getLocationIfBlockBreaksShop(block, true);
-//		Location blockBreaksServerShop = AranarthShopUtils.getLocationIfBlockBreaksShop(block, false);
-//		boolean hasProperPlayerShopFormat = false;
-//		boolean hasProperServerShopFormat = false;
-//
-//		if (blockBreaksPlayerShop != null) {
-//			Sign sign = (Sign) blockBreaksPlayerShop.getBlock().getState();
-//			hasProperPlayerShopFormat = AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), false);
-//		}
-//		if (blockBreaksServerShop != null) {
-//			Sign sign = (Sign) blockBreaksServerShop.getBlock().getState();
-//			hasProperServerShopFormat = AranarthShopUtils.isProperShopFormat(sign, null, false);
-//		}
-//
-////		Bukkit.broadcastMessage("isClickedBlockChest: " + isClickedBlockChest);
-////		Bukkit.broadcastMessage("isClickedBlockWallSign: " + isClickedBlockWallSign);
-////		Bukkit.broadcastMessage("hasProperPlayerShopFormat: " + hasProperPlayerShopFormat);
-////		Bukkit.broadcastMessage("hasProperServerShopFormat: " + hasProperServerShopFormat);
-//
-//		if (isClickedBlockChest || isClickedBlockWallSign || hasProperPlayerShopFormat || hasProperServerShopFormat) {
-//			Location shopLocation = null;
-//			if (isClickedBlockWallSign) {
-//				Sign sign = (Sign) block.getState();
-//				if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), false)) {
-//					hasProperPlayerShopFormat = true;
-//				} else if (AranarthShopUtils.isProperShopFormat(sign, null, false)) {
-//					hasProperServerShopFormat = true;
-//				}
-//			}
-//
-//			if (isClickedBlockChest || hasProperServerShopFormat) {
-//				shopLocation = block.getLocation();
-//			} else if (hasProperPlayerShopFormat) {
-//				shopLocation = block.getLocation();
-//				shopLocation.setY(block.getLocation().getY() - 1);
-//				if (shopLocation.getBlock().getType() != Material.CHEST) {
-//					return;
-//				}
-//			}
-//
-//			if (AranarthShopUtils.isAlreadyShop(shopLocation)
-//					|| AranarthShopUtils.getServerShop(shopLocation) != null) {
-//
-//				if (hasProperPlayerShopFormat) {
-//					// If player is not the owner
-//					if (!AranarthShopUtils.isShopOwner(player.getUniqueId(), shopLocation)) {
-//						player.sendMessage(
-//								ChatUtils.translateToColor("&cYou cannot destroy a shop that is not yours!"));
-//						e.setCancelled(true);
-//						return;
-//					} else {
-//						ItemStack item = AranarthShopUtils.getShop(player.getUniqueId(), shopLocation).getItem();
-//						AranarthShopUtils.removeShop(player.getUniqueId(), shopLocation);
-//						shopLocation.getWorld().dropItemNaturally(shopLocation, item);
-//						player.sendMessage(ChatUtils.translateToColor("&cYou have destroyed the shop!"));
-//					}
-//				} else if (hasProperServerShopFormat) {
-//					if (!player.hasPermission("aranarthcore.shop.destroy.admin")) {
-//						player.sendMessage(ChatUtils.translateToColor("&cYou cannot destroy a server shop!"));
-//						e.setCancelled(true);
-//						return;
-//					} else {
-//						ItemStack item = AranarthShopUtils.getServerShop(shopLocation).getItem();
-//						AranarthShopUtils.removeServerShop(shopLocation);
-//						shopLocation.getWorld().dropItemNaturally(shopLocation, item);
-//						player.sendMessage(ChatUtils.translateToColor("&cYou have destroyed the server shop!"));
-//					}
-//				}
-//
-//			}
-//		}
-
 	}
-
 }
