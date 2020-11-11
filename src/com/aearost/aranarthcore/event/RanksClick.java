@@ -1,5 +1,7 @@
 package com.aearost.aranarthcore.event;
 
+import java.text.NumberFormat;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -11,6 +13,7 @@ import com.aearost.aranarthcore.AranarthCore;
 import com.aearost.aranarthcore.gui.RankupGui;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
+import com.aearost.aranarthcore.utils.PersistenceUtils;
 
 public class RanksClick implements Listener {
 
@@ -42,8 +45,8 @@ public class RanksClick implements Listener {
 					"&6&lDuke", "&b&lPrince", "&9&lKing", "&4&lEmperor" };
 			String[] femaleRanks = new String[] { "&a&lPeasant", "&d&lEsquire", "&7&lKnight", "&5&lBaroness",
 					"&8&lCountess", "&6&lDuchess", "&b&lPrincess", "&9&lQueen", "&4&lEmpress" };
-			String[] rankupCosts = new String[] { "FREE", "$250", "$750", "$1,500", "$3,000", "$7,500", "$12,500", "$30,000",
-					"$50,000" };
+			String[] rankupCosts = new String[] { "FREE", "$250", "$750", "$1,500", "$3,000", "$7,500", "$12,500",
+					"$30,000", "$50,000" };
 			int[] positions = new int[] { 4, 12, 14, 20, 22, 24, 30, 32, 40 };
 			int clickedPosition = 0;
 
@@ -114,7 +117,7 @@ public class RanksClick implements Listener {
 				player.closeInventory();
 			} else if (isRankup) {
 				String rankupCost = rankupCosts[clickedPosition];
-				
+
 				String rankName = maleRanks[clickedPosition];
 				if (!isMalePlayer) {
 					rankName = femaleRanks[clickedPosition];
@@ -131,29 +134,32 @@ public class RanksClick implements Listener {
 				double balance = AranarthPlayerUtils.getBalance(player);
 				String clickedItem = e.getClickedInventory().getItem(slot).getItemMeta().getDisplayName();
 				String[] parts = clickedItem.split(" ");
-				
+
 				String priceWithoutDollarSign = ChatUtils.stripColor(parts[parts.length - 1]).substring(1);
 				String priceWithoutCommas = priceWithoutDollarSign.replaceAll(",", "");
 				double price = Double.parseDouble(priceWithoutCommas);
 
 				if (balance >= price) {
-					AranarthPlayerUtils.setBalance(player, balance - price);
-					AranarthPlayerUtils.setRank(player, AranarthPlayerUtils.getRank(player) + 1);
-					
-					ChatUtils.updatePlayerPrefixAndRank(player);
-					
-					
-					
 					String rankDisplay = clickedItem.split(" ")[2];
 					String aOrAn = "a";
-					if (ChatUtils.stripColor(rankDisplay).equals("Esquire") || ChatUtils.stripColor(rankDisplay).equals("Emperor")) {
+
+					NumberFormat formatter = NumberFormat.getCurrencyInstance();
+					PersistenceUtils.logTransaction(player.getName() + " (" + formatter.format(balance) + ") spent "
+							+ price + " and has ranked up to " + rankDisplay);
+					AranarthPlayerUtils.setBalance(player, balance - price);
+					AranarthPlayerUtils.setRank(player, AranarthPlayerUtils.getRank(player) + 1);
+
+					ChatUtils.updatePlayerPrefixAndRank(player);
+					if (ChatUtils.stripColor(rankDisplay).equals("Esquire")
+							|| ChatUtils.stripColor(rankDisplay).equals("Emperor")) {
 						aOrAn = "an";
 					}
 					if (AranarthPlayerUtils.getRank(player) < 6) {
-						player.sendMessage(ChatUtils.chatMessage("&7You have become " + aOrAn + " " + rankDisplay + "&7!"));
+						player.sendMessage(
+								ChatUtils.chatMessage("&7You have become " + aOrAn + " " + rankDisplay + "&7!"));
 					} else {
-						Bukkit.broadcastMessage(ChatUtils
-								.chatMessage("&e" + player.getName() + " &7has become " + aOrAn + " " + rankDisplay + "&7!"));
+						Bukkit.broadcastMessage(ChatUtils.chatMessage(
+								"&e" + player.getName() + " &7has become " + aOrAn + " " + rankDisplay + "&7!"));
 					}
 					player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0F, 1.0F);
 					player.closeInventory();

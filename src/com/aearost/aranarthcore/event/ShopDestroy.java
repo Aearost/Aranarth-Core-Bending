@@ -77,7 +77,7 @@ public class ShopDestroy implements Listener {
 			}
 			// Server shop
 			else if (AranarthShopUtils.isProperShopFormat(sign, null, false)) {
-				if (player.hasPermission("aranarthcore.shop.destroy.admin")) {
+				if (player.hasPermission("aranarthcore.shop.destroy.admin") && AranarthShopUtils.getServerShop(sign.getLocation()) != null) {
 					player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this server shop"));
 					AranarthShopUtils.removeServerShop(block.getLocation());
 					return;

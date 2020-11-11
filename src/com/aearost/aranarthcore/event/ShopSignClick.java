@@ -22,6 +22,7 @@ import com.aearost.aranarthcore.objects.AranarthShop;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.AranarthShopUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
+import com.aearost.aranarthcore.utils.PersistenceUtils;
 
 public class ShopSignClick implements Listener {
 
@@ -45,11 +46,12 @@ public class ShopSignClick implements Listener {
 				UUID signUuid = AranarthPlayerUtils.getUUID(sign.getLine(0));
 
 				Location signLocation = e.getClickedBlock().getLocation();
+				NumberFormat formatter = NumberFormat.getCurrencyInstance();
 				// If it's a player shop
 				if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), false)) {
 					Location chestLocation = new Location(signLocation.getWorld(), signLocation.getBlockX(),
 							signLocation.getBlockY() - 1, signLocation.getBlockZ());
-
+					
 					AranarthShop shop = AranarthShopUtils.getShop(signUuid, chestLocation);
 
 					// Shop exists and the owner isn't the one clicking
@@ -68,12 +70,26 @@ public class ShopSignClick implements Listener {
 												player.getInventory().getStorageContents(), shop.getItem(),
 												shop.getTransactionQuantity()) == 0) {
 											AranarthPlayer seller = AranarthPlayerUtils.getPlayer(shop.getUUID());
+											PersistenceUtils.logTransaction(buyer.getUsername() + " ("
+													+ formatter.format(buyer.getBalance()) + ") has bought "
+													+ shop.getTransactionQuantity() + " "
+													+ shop.getItem().getType().name() + " from " + seller.getUsername()
+													+ " (" + formatter.format(seller.getBalance()) + ") for $"
+													+ shop.getBuyAmount());
 											buyer.setBalance(buyer.getBalance() - shop.getBuyAmount());
 											seller.setBalance(seller.getBalance() + shop.getBuyAmount());
 											AranarthShopUtils.purchaseItems(chestInventory, player, shop.getItem(),
 													shop.getTransactionQuantity(), true);
 											player.sendMessage(ChatUtils
 													.translateToColor("&7The items have been added to your inventory"));
+											String formattedAmount = formatter.format(shop.getSellAmount());
+											if (Bukkit.getOnlinePlayers()
+													.contains(Bukkit.getPlayer(seller.getUsername()))) {
+												Bukkit.getPlayer(seller.getUsername()).sendMessage(
+														ChatUtils.translateToColor("&e" + buyer.getUsername()
+																+ " &7has bought &6" + formattedAmount
+																+ " &7worth of items from your shop"));
+											}
 										} else {
 											player.sendMessage(ChatUtils.translateToColor(
 													"&cYou do not have enough inventory space for this!"));
@@ -100,13 +116,26 @@ public class ShopSignClick implements Listener {
 													shop.getTransactionQuantity())) {
 												AranarthPlayer seller = AranarthPlayerUtils
 														.getPlayer(player.getUniqueId());
+												PersistenceUtils.logTransaction(seller.getUsername() + " ("
+														+ formatter.format(seller.getBalance()) + ") has sold "
+														+ shop.getTransactionQuantity() + " "
+														+ shop.getItem().getType().name() + " to " + buyer.getUsername()
+														+ " (" + formatter.format(buyer.getBalance()) + ") for $"
+														+ shop.getBuyAmount());
 												buyer.setBalance(buyer.getBalance() - shop.getSellAmount());
 												seller.setBalance(seller.getBalance() + shop.getSellAmount());
 												AranarthShopUtils.sellItems(chestInventory, player, shop.getItem(),
 														shop.getTransactionQuantity(), true);
-												NumberFormat formatter = NumberFormat.getCurrencyInstance();
-												player.sendMessage(ChatUtils.translateToColor("&7You have earned &6"
-														+ formatter.format(shop.getSellAmount())));
+												String formattedAmount = formatter.format(shop.getSellAmount());
+												player.sendMessage(ChatUtils
+														.translateToColor("&7You have earned &6" + formattedAmount));
+												if (Bukkit.getOnlinePlayers()
+														.contains(Bukkit.getPlayer(buyer.getUsername()))) {
+													Bukkit.getPlayer(buyer.getUsername()).sendMessage(
+															ChatUtils.translateToColor("&e" + seller.getUsername()
+																	+ " &7has sold &6" + formattedAmount
+																	+ " &7worth of items to your shop"));
+												}
 											} else {
 												player.sendMessage(ChatUtils
 														.translateToColor("&cYou do not have enough of this item!"));
@@ -143,6 +172,11 @@ public class ShopSignClick implements Listener {
 							if (buyer.getBalance() >= serverShop.getBuyAmount()) {
 								if (AranarthShopUtils.hasInventorySpace(player.getInventory().getStorageContents(),
 										serverShop.getItem(), serverShop.getTransactionQuantity()) == 0) {
+									PersistenceUtils.logTransaction(
+											buyer.getUsername() + " (" + formatter.format(buyer.getBalance())
+													+ ") has bought " + serverShop.getTransactionQuantity() + " "
+													+ serverShop.getItem().getType().name()
+													+ " from the server shop for $" + serverShop.getBuyAmount());
 									buyer.setBalance(buyer.getBalance() - serverShop.getBuyAmount());
 									AranarthShopUtils.purchaseItems(null, player, serverShop.getItem(),
 											serverShop.getTransactionQuantity(), false);
@@ -165,10 +199,14 @@ public class ShopSignClick implements Listener {
 								if (AranarthShopUtils.hasItemsToSell(player, serverShop.getItem(),
 										serverShop.getTransactionQuantity())) {
 									AranarthPlayer seller = AranarthPlayerUtils.getPlayer(player.getUniqueId());
+									PersistenceUtils.logTransaction(
+											seller.getUsername() + " (" + formatter.format(seller.getBalance())
+													+ ") has sold " + serverShop.getTransactionQuantity() + " "
+													+ serverShop.getItem().getType().name()
+													+ " to the server shop for $" + serverShop.getSellAmount());
 									seller.setBalance(seller.getBalance() + serverShop.getSellAmount());
 									AranarthShopUtils.sellItems(null, player, serverShop.getItem(),
 											serverShop.getTransactionQuantity(), false);
-									NumberFormat formatter = NumberFormat.getCurrencyInstance();
 									player.sendMessage(ChatUtils.translateToColor(
 											"&7You have earned &6" + formatter.format(serverShop.getSellAmount())));
 								} else {

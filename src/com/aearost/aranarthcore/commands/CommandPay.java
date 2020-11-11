@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
+import com.aearost.aranarthcore.utils.PersistenceUtils;
 
 public class CommandPay implements CommandExecutor {
 
@@ -22,12 +23,12 @@ public class CommandPay implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			
+
 			if (args[0].toLowerCase().equals(player.getName().toLowerCase())) {
 				sender.sendMessage(ChatUtils.translateToColor("&cYou cannot pay yourself!"));
 				return false;
 			}
-			
+
 			if (args.length > 1) {
 
 				if (AranarthPlayerUtils.getUUID(args[0]) != null) {
@@ -36,13 +37,11 @@ public class CommandPay implements CommandExecutor {
 						isPlayerOnline = true;
 					}
 
-					OfflinePlayer offlinePlayerToPay = Bukkit
-							.getOfflinePlayer(AranarthPlayerUtils.getUUID(args[0]));
+					OfflinePlayer offlinePlayerToPay = Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(args[0]));
 
 					AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 					AranarthPlayer aranarthPlayerToPay = AranarthPlayerUtils.getPlayer(offlinePlayerToPay);
-					
-					
+
 					if (args.length > 1) {
 						NumberFormat formatter = NumberFormat.getCurrencyInstance();
 						String formattedAmount = "";
@@ -68,10 +67,14 @@ public class CommandPay implements CommandExecutor {
 										ChatUtils.translateToColor("&cYou do not have enough money for this!"));
 								return false;
 							} else {
+								PersistenceUtils.logTransaction(aranarthPlayer.getUsername() + " ("
+										+ formatter.format(aranarthPlayer.getBalance()) + ") has sent "
+										+ aranarthPlayerToPay.getUsername() + " ("
+										+ formatter.format(aranarthPlayerToPay.getBalance()) + ") " + formattedAmount);
 								aranarthPlayer.setBalance(aranarthPlayer.getBalance() - amount);
 								AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-								player.sendMessage(ChatUtils.translateToColor(
-										"&aYou have sent &6&l" + formattedAmount + " &ato &e" + aranarthPlayerToPay.getUsername()));
+								player.sendMessage(ChatUtils.translateToColor("&aYou have sent &6&l" + formattedAmount
+										+ " &ato &e" + aranarthPlayerToPay.getUsername()));
 								aranarthPlayerToPay.setBalance(aranarthPlayerToPay.getBalance() + amount);
 								if (isPlayerOnline) {
 									Player playerToPlayOnline = Bukkit.getPlayer(args[0]);

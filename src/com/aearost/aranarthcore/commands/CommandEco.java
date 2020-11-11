@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
+import com.aearost.aranarthcore.utils.PersistenceUtils;
 
 public class CommandEco implements CommandExecutor {
 
@@ -34,13 +35,13 @@ public class CommandEco implements CommandExecutor {
 							player = Bukkit.getPlayer(args[1]);
 							isPlayerOnline = true;
 						}
-
+						NumberFormat formatter = NumberFormat.getCurrencyInstance();
 						OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(args[1]));
 
 						if (args.length >= 3 && args[0].toLowerCase().equals("give")
 								|| args[0].toLowerCase().equals("set") || args[0].toLowerCase().equals("take")) {
 							double amount = 0.00;
-							NumberFormat formatter = NumberFormat.getCurrencyInstance();
+							
 							String amountAsMoney = "0.00";
 							try {
 								amount = Double.parseDouble(args[2]);
@@ -51,7 +52,8 @@ public class CommandEco implements CommandExecutor {
 							}
 
 							if (amount == 0.00) {
-								sender.sendMessage(ChatUtils.translateToColor("&Please supply a number greater than 0!"));
+								sender.sendMessage(
+										ChatUtils.translateToColor("&Please supply a number greater than 0!"));
 								return false;
 							} else if (amount < 0) {
 								sender.sendMessage(ChatUtils.translateToColor("&cYou must supply a positive number"));
@@ -61,6 +63,8 @@ public class CommandEco implements CommandExecutor {
 								if (args[0].toLowerCase().equals("give")) {
 									double balance = aranarthPlayer.getBalance();
 									balance += amount;
+									PersistenceUtils.logTransaction(aranarthPlayer.getUsername() + " (" + formatter.format(balance)
+											+ ") has been given " + amountAsMoney);
 									aranarthPlayer.setBalance(balance);
 									sender.sendMessage(
 											ChatUtils.translateToColor("&6" + amountAsMoney + " &7has been added to &6"
@@ -71,6 +75,9 @@ public class CommandEco implements CommandExecutor {
 									}
 									return true;
 								} else if (args[0].toLowerCase().equals("set")) {
+									PersistenceUtils.logTransaction(
+											aranarthPlayer.getUsername() + "'s (" + formatter.format(aranarthPlayer.getBalance())
+													+ ") balance has been set to " + amountAsMoney);
 									aranarthPlayer.setBalance(amount);
 									sender.sendMessage(ChatUtils.translateToColor("&6" + aranarthPlayer.getUsername()
 											+ "'s &7balance has been set to &6" + amountAsMoney));
@@ -89,17 +96,21 @@ public class CommandEco implements CommandExecutor {
 										return false;
 									} else if (balance > amount) {
 										balance -= amount;
+										PersistenceUtils.logTransaction(
+												amountAsMoney + " has been taken from " + aranarthPlayer.getUsername()
+														+ " (" + formatter.format(aranarthPlayer.getBalance()) + ")");
 										aranarthPlayer.setBalance(balance);
 										sender.sendMessage(ChatUtils.translateToColor("&6" + amountAsMoney
 												+ " &7has been taken from &6" + aranarthPlayer.getUsername()));
 										if (isPlayerOnline) {
-											player.sendMessage(ChatUtils
-													.translateToColor("&6" + amountAsMoney + " &7has been taken from you!"));
+											player.sendMessage(ChatUtils.translateToColor(
+													"&6" + amountAsMoney + " &7has been taken from you!"));
 										}
 										return true;
 									} else {
+										PersistenceUtils.logTransaction("The rest of " + aranarthPlayer.getUsername()
+												+ "'s (" + formatter.format(aranarthPlayer.getBalance()) + ") balance has been taken");
 										aranarthPlayer.setBalance(0);
-
 										sender.sendMessage(ChatUtils.translateToColor("&7The rest of &6"
 												+ aranarthPlayer.getUsername() + "'s &7money has been taken"));
 										if (isPlayerOnline) {
@@ -115,10 +126,12 @@ public class CommandEco implements CommandExecutor {
 						else {
 							AranarthPlayer aranarthPlayer = AranarthPlayerUtils
 									.getPlayer(AranarthPlayerUtils.getUUID(args[1]));
+							PersistenceUtils.logTransaction(aranarthPlayer.getUsername() + "'s ("
+									+ formatter.format(aranarthPlayer.getBalance()) + ") balance has been reset");
 							aranarthPlayer.setBalance(50);
 
-							sender.sendMessage(ChatUtils
-									.translateToColor("&6" + aranarthPlayer.getUsername() + "'s &7balance has been reset"));
+							sender.sendMessage(ChatUtils.translateToColor(
+									"&6" + aranarthPlayer.getUsername() + "'s &7balance has been reset"));
 							if (isPlayerOnline) {
 								player.sendMessage(ChatUtils.translateToColor("&7Your balance has been reset!"));
 							}

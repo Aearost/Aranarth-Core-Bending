@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +56,7 @@ public class PersistenceUtils {
 			int councilStatus = 0;
 
 			Bukkit.getLogger().info("Attempting to read the players file...");
-			
+
 			while (reader.hasNextLine()) {
 				String line = reader.nextLine();
 				String[] parts = line.split("\"");
@@ -237,7 +241,7 @@ public class PersistenceUtils {
 		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
 				+ "shops.json";
 		File file = new File(filePath);
-		
+
 		// First run of plugin
 		if (!file.exists()) {
 			return;
@@ -246,7 +250,7 @@ public class PersistenceUtils {
 		Scanner reader;
 		try {
 			reader = new Scanner(file);
-			
+
 			// UUID must not be reset each time
 			int fieldCount = 1;
 			String fieldName = null;
@@ -262,9 +266,9 @@ public class PersistenceUtils {
 			int x = 0;
 			int y = 0;
 			int z = 0;
-			
+
 			Bukkit.getLogger().info("Attempting to read the shops file...");
-			
+
 			while (reader.hasNextLine()) {
 				String line = reader.nextLine();
 				String[] parts = line.split("\"");
@@ -314,7 +318,7 @@ public class PersistenceUtils {
 				if (fieldCount == 9) {
 					Location location = new Location(world, x, y, z);
 					if (areServerShopsBeingIterated) {
-						
+
 						if (sellAmount == -1) {
 							AranarthShopUtils.addServerShop(
 									new AranarthShop(null, transactionQuantity, buyAmount, item, location));
@@ -386,7 +390,7 @@ public class PersistenceUtils {
 					int playerCounter = 1;
 
 					int shopCounter = 1;
-					
+
 					if (serverShops.size() > 0) {
 						writer.write("    \"ARANARTH_SERVER_SHOPS\": {\n");
 
@@ -429,8 +433,8 @@ public class PersistenceUtils {
 								writer.write("            \"buyAmount\": \"" + shop.getBuyAmount() + "\",\n");
 								writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
 								writer.write("            \"sellAmount\": \"" + shop.getSellAmount() + "\",\n");
-								writer.write("            \"worldName\": \"" + shop.getShopLocation().getWorld().getName()
-										+ "\",\n");
+								writer.write("            \"worldName\": \""
+										+ shop.getShopLocation().getWorld().getName() + "\",\n");
 								writer.write("            \"x\": \"" + shop.getShopLocation().getBlockX() + "\",\n");
 								writer.write("            \"y\": \"" + shop.getShopLocation().getBlockY() + "\",\n");
 								writer.write("            \"z\": \"" + shop.getShopLocation().getBlockZ() + "\"\n");
@@ -454,7 +458,7 @@ public class PersistenceUtils {
 					} else {
 						writer.write("    }\n");
 					}
-					
+
 					writer.write("}\n");
 					writer.close();
 					Bukkit.getLogger().info("All shops have been written to the shops.json file");
@@ -464,6 +468,52 @@ public class PersistenceUtils {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Called to log a transaction to the transactions.txt file.
+	 * 
+	 * @param transaction
+	 */
+	public static void logTransaction(String transaction) {
+		String currentPath = System.getProperty("user.dir");
+		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
+				+ "transactions.txt";
+		File pluginDirectory = new File(currentPath + File.separator + "plugins" + File.separator + "AranarthCore");
+		File file = new File(filePath);
+
+		// If the directory exists
+		boolean isDirectoryCreated = true;
+		if (!pluginDirectory.isDirectory()) {
+			isDirectoryCreated = pluginDirectory.mkdir();
+		}
+		if (isDirectoryCreated) {
+			try {
+				// If the file isn't already there
+				if (file.createNewFile()) {
+					FileWriter writer = new FileWriter(filePath);
+					writer.write("# NOTE: All balances are listed in parentheses i.e ($420.69)\n");
+					writer.write("# The amount gained/spent in a transaction is listed as well\n");
+					writer.write("# This is used to verify whether or not a transaction properly occurred\n");
+					writer.close();
+					Bukkit.getLogger().info("A new transactions.txt file has been generated");
+				}
+			} catch (IOException e) {
+				Bukkit.getLogger().info("An error occured in the creation of transactions.txt");
+				e.printStackTrace();
+			}
+
+			try {
+				Files.write(Paths.get(filePath),
+						("[" + new Timestamp(System.currentTimeMillis()) + "] " + transaction + "\n").getBytes(),
+						StandardOpenOption.APPEND);
+				Bukkit.getLogger().info("[TRANSACTION] " + transaction);
+			} catch (IOException e) {
+				Bukkit.getLogger().info("There was an error in logging a transaction");
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public static boolean isRegularNumber(String part) {

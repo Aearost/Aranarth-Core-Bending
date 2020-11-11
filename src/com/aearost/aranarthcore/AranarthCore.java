@@ -66,7 +66,7 @@ public class AranarthCore extends JavaPlugin {
 				PersistenceUtils.writePlayersToFile();
 				PersistenceUtils.writeShopSignsToFile();
 			}
-		}, 0, 18000);
+		}, 0, 36000);
 		
 		
 	}
