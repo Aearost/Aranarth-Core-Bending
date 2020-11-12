@@ -154,15 +154,6 @@ public class ChatUtils {
 		} else {
 			Bukkit.dispatchCommand(commandSender, "manudelv " + offlinePlayer.getName() + " prefix");
 		}
-		
-		// Execute in Arena
-		Bukkit.dispatchCommand(commandSender, "manselect Arena");
-		Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
-		if (hasSpecialPrefix || hasFemalePrefix) {
-			Bukkit.dispatchCommand(commandSender, "manuaddv " + offlinePlayer.getName() + " prefix " + prefix);
-		} else {
-			Bukkit.dispatchCommand(commandSender, "manudelv " + offlinePlayer.getName() + " prefix");
-		}
 	}
 	
 }

@@ -98,9 +98,6 @@ public class CommandAC implements CommandExecutor {
 									// Execute in Theia
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
 									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + " avatar");
-									// Execute in Arena
-									Bukkit.dispatchCommand(commandSender, "manselect Arena");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + " avatar");
 									
 									ChatUtils.updatePlayerPrefixAndRank(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
 								} else if (args[2].toLowerCase().equals("saint1")) {
@@ -108,29 +105,20 @@ public class CommandAC implements CommandExecutor {
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
 									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "saint1");
-									Bukkit.dispatchCommand(commandSender, "manselect Arena");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "saint1");
 								} else if (args[2].toLowerCase().equals("saint2")) {
 									aranarthPlayer.setSaintStatus(2);
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "saint2");
-									Bukkit.dispatchCommand(commandSender, "manselect Arena");
 									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "saint2");
 								} else if (args[2].toLowerCase().equals("saint3")) {
 									aranarthPlayer.setSaintStatus(3);
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
 									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "saint3");
-									Bukkit.dispatchCommand(commandSender, "manselect Arena");
-									Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + "saint3");
 								} else if (args[2].toLowerCase().equals("council1")) {
 									aranarthPlayer.setCouncilStatus(1);
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
-									Bukkit.dispatchCommand(commandSender,
-											"manuaddsub " + player.getName() + "CouncilHelper");
-									Bukkit.dispatchCommand(commandSender, "manselect Arena");
 									Bukkit.dispatchCommand(commandSender,
 											"manuaddsub " + player.getName() + "CouncilHelper");
 								} else if (args[2].toLowerCase().equals("council2")) {
@@ -139,16 +127,10 @@ public class CommandAC implements CommandExecutor {
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
 									Bukkit.dispatchCommand(commandSender,
 											"manuaddsub " + player.getName() + "CouncilModerator");
-									Bukkit.dispatchCommand(commandSender, "manselect Arena");
-									Bukkit.dispatchCommand(commandSender,
-											"manuaddsub " + player.getName() + "CouncilModerator");
 								} else if (args[2].toLowerCase().equals("council3")) {
 									aranarthPlayer.setCouncilStatus(3);
 									AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 									Bukkit.dispatchCommand(commandSender, "manselect Theia");
-									Bukkit.dispatchCommand(commandSender,
-											"manuaddsub " + player.getName() + "CouncilAdmin");
-									Bukkit.dispatchCommand(commandSender, "manselect Arena");
 									Bukkit.dispatchCommand(commandSender,
 											"manuaddsub " + player.getName() + "CouncilAdmin");
 								} else {
@@ -210,9 +192,6 @@ public class CommandAC implements CommandExecutor {
 										Bukkit.dispatchCommand(commandSender, "manselect Theia");
 										Bukkit.dispatchCommand(commandSender,
 												"manudelsub " + player.getName() + "saint1");
-										Bukkit.dispatchCommand(commandSender, "manselect Arena");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "saint1");
 									} else {
 										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Saint 1!"));
 									}
@@ -221,9 +200,6 @@ public class CommandAC implements CommandExecutor {
 										aranarthPlayer.setSaintStatus(0);
 										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "saint2");
-										Bukkit.dispatchCommand(commandSender, "manselect Arena");
 										Bukkit.dispatchCommand(commandSender,
 												"manudelsub " + player.getName() + "saint2");
 									} else {
@@ -236,9 +212,6 @@ public class CommandAC implements CommandExecutor {
 										Bukkit.dispatchCommand(commandSender, "manselect Theia");
 										Bukkit.dispatchCommand(commandSender,
 												"manudelsub " + player.getName() + "saint3");
-										Bukkit.dispatchCommand(commandSender, "manselect Arena");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "saint3");
 									} else {
 										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Saint 3!"));
 									}
@@ -247,9 +220,6 @@ public class CommandAC implements CommandExecutor {
 										aranarthPlayer.setCouncilStatus(0);
 										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "CouncilHelper");
-										Bukkit.dispatchCommand(commandSender, "manselect Arena");
 										Bukkit.dispatchCommand(commandSender,
 												"manudelsub " + player.getName() + "CouncilHelper");
 									} else {
@@ -262,9 +232,6 @@ public class CommandAC implements CommandExecutor {
 										Bukkit.dispatchCommand(commandSender, "manselect Theia");
 										Bukkit.dispatchCommand(commandSender,
 												"manudelsub " + player.getName() + "CouncilModerator");
-										Bukkit.dispatchCommand(commandSender, "manselect Arena");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "CouncilModerator");
 									} else {
 										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Council 2!"));
 									}
@@ -273,9 +240,6 @@ public class CommandAC implements CommandExecutor {
 										aranarthPlayer.setCouncilStatus(0);
 										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "CouncilAdmin");
-										Bukkit.dispatchCommand(commandSender, "manselect Arena");
 										Bukkit.dispatchCommand(commandSender,
 												"manudelsub " + player.getName() + "CouncilAdmin");
 									} else {
