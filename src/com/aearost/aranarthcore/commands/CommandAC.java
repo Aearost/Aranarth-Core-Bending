@@ -46,6 +46,12 @@ public class CommandAC implements CommandExecutor {
 						sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac givearmor <player>"));
 						return false;
 					}
+				} else if (args[0].toLowerCase().equals("arenareset")) {
+					if (args.length > 1 && args[1].toLowerCase().startsWith("arena")) {
+						Bukkit.broadcastMessage(ChatUtils.chatMessage("&e" + args[1] + " &7is being reset"));
+						return true;
+					}
+					return false;
 				} else if (args[0].toLowerCase().equals("set")) {
 					if (args.length > 1) {
 						if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1]))) {
@@ -155,6 +161,9 @@ public class CommandAC implements CommandExecutor {
 		sender.sendMessage(ChatUtils.translateToColor("&8      - - - &6&lAranarth Core &8- - -"));
 		if (sender.hasPermission("aranarthcore.admin.*")) {
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &earenaarmor <player>"));
+		}
+		sender.sendMessage(ChatUtils.translateToColor("&7/ac &ehelp"));
+		if (sender.hasPermission("aranarthcore.admin.*")) {
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &eset <player> <variable> [rank]"));
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &estats <player>"));
 		}
