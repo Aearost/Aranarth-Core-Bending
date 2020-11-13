@@ -74,6 +74,7 @@ public class AranarthPlayerUtils {
 		String currentAvatarName = "";
 		boolean isCurrentMadePrevious = false;
 		boolean isPreviousRemoved = false;
+//		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
 
 		for (Map.Entry<UUID, AranarthPlayer> entry : players.entrySet()) {
 			UUID uuid = entry.getKey();
@@ -82,12 +83,16 @@ public class AranarthPlayerUtils {
 				AranarthPlayer currentAvatar = getPlayer(uuid);
 				currentAvatarName = playerName;
 				currentAvatar.setAvatarStatus("previous");
-				players.put(uuid, currentAvatar);
+				addPlayer(uuid, currentAvatar);
 				isCurrentMadePrevious = true;
+//				Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " air");
+//				Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " water");
+//				Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " earth");
+//				Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " fire");
 			} else if (entry.getValue().getAvatarStatus().equals("previous")) {
 				AranarthPlayer previousAvatar = getPlayer(uuid);
 				previousAvatar.setAvatarStatus("none");
-				players.put(uuid, previousAvatar);
+				addPlayer(uuid, previousAvatar);
 				isPreviousRemoved = true;
 			}
 			// Skips the rest as they will not have the field
@@ -96,9 +101,13 @@ public class AranarthPlayerUtils {
 			}
 		}
 		if (player != null) {
+//			Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " chi");
+//			Bukkit.dispatchCommand(commandSender, "bending add air " + player.getName());
+//			Bukkit.dispatchCommand(commandSender, "bending add water " + player.getName());
+//			Bukkit.dispatchCommand(commandSender, "bending add earth " + player.getName());
+//			Bukkit.dispatchCommand(commandSender, "bending add fire " + player.getName());
 			AranarthPlayer newAvatar = getPlayer(player.getUniqueId());
 			newAvatar.setAvatarStatus("current");
-			addPlayer(player.getUniqueId(), newAvatar);
 		}
 		
 		return currentAvatarName;

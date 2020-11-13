@@ -1,5 +1,7 @@
 package com.aearost.aranarthcore.commands;
 
+import java.text.NumberFormat;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -50,7 +52,7 @@ public class CommandAC implements CommandExecutor {
 							Player player = Bukkit.getPlayer(args[1]);
 							if (args.length >= 3) {
 
-								boolean isSuccess = setAndUnsetPlayerGroupAndSubgroups(sender, player, args);
+								boolean isSuccess = setPlayerGroups(sender, player, args);
 								if (isSuccess) {
 									ChatUtils.updatePlayerPrefixAndRank(player);
 									return true;
@@ -72,11 +74,12 @@ public class CommandAC implements CommandExecutor {
 						if (AranarthPlayerUtils.getPlayer(AranarthPlayerUtils.getUUID(args[1])) != null) {
 							AranarthPlayer aranarthPlayer = AranarthPlayerUtils
 									.getPlayer(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(args[1])));
+							NumberFormat formatter = NumberFormat.getCurrencyInstance();
 							sender.sendMessage(ChatUtils.translateToColor("&6&l&n" + args[1] + "'s Aranarth Stats"));
 							sender.sendMessage(ChatUtils.translateToColor("&aRank: &e" + aranarthPlayer.getRank()));
 							sender.sendMessage(ChatUtils.translateToColor("&aMale: &e" + aranarthPlayer.getIsMale()));
-							sender.sendMessage(
-									ChatUtils.translateToColor("&aBalance: &e" + aranarthPlayer.getBalance()));
+							sender.sendMessage(ChatUtils
+									.translateToColor("&aBalance: &e" + formatter.format(aranarthPlayer.getBalance())));
 							sender.sendMessage(
 									ChatUtils.translateToColor("&aSaint Status: &e" + aranarthPlayer.getSaintStatus()));
 							sender.sendMessage(ChatUtils
@@ -91,90 +94,14 @@ public class CommandAC implements CommandExecutor {
 						if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1]))) {
 							Player player = Bukkit.getPlayer(args[1]);
 							if (args.length >= 3) {
-								AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
-								CommandSender commandSender = Bukkit.getServer().getConsoleSender();
-								if (args[2].toLowerCase().equals("avatar")) {
-									if (aranarthPlayer.getAvatarStatus().equals("current")) {
-										AranarthPlayerUtils.replaceAvatar(null);
-										Bukkit.dispatchCommand(commandSender,
-												"bending remove " + aranarthPlayer.getUsername());
-										Bukkit.broadcastMessage(ChatUtils.translateToColor(
-												"&5&lAvatar &d&l" + player.getName() + " &5&lhas passed away..."));
 
-										for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-											onlinePlayer.playSound(onlinePlayer.getLocation(),
-													Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
-										}
-									} else {
-										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not the avatar!"));
-									}
-								} else if (args[2].toLowerCase().equals("saint1")) {
-									if (aranarthPlayer.getSaintStatus() == 1) {
-										aranarthPlayer.setSaintStatus(0);
-										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "saint1");
-									} else {
-										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Saint 1!"));
-									}
-								} else if (args[2].toLowerCase().equals("saint2")) {
-									if (aranarthPlayer.getSaintStatus() == 2) {
-										aranarthPlayer.setSaintStatus(0);
-										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "saint2");
-									} else {
-										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Saint 2!"));
-									}
-								} else if (args[2].toLowerCase().equals("saint3")) {
-									if (aranarthPlayer.getSaintStatus() == 3) {
-										aranarthPlayer.setSaintStatus(0);
-										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "saint3");
-									} else {
-										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Saint 3!"));
-									}
-								} else if (args[2].toLowerCase().equals("council1")) {
-									if (aranarthPlayer.getCouncilStatus() == 1) {
-										aranarthPlayer.setCouncilStatus(0);
-										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "CouncilHelper");
-									} else {
-										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Council 1!"));
-									}
-								} else if (args[2].toLowerCase().equals("council2")) {
-									if (aranarthPlayer.getCouncilStatus() == 2) {
-										aranarthPlayer.setCouncilStatus(0);
-										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "CouncilModerator");
-									} else {
-										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Council 2!"));
-									}
-								} else if (args[2].toLowerCase().equals("council3")) {
-									if (aranarthPlayer.getCouncilStatus() == 3) {
-										aranarthPlayer.setCouncilStatus(0);
-										AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-										Bukkit.dispatchCommand(commandSender, "manselect Theia");
-										Bukkit.dispatchCommand(commandSender,
-												"manudelsub " + player.getName() + "CouncilAdmin");
-									} else {
-										sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Council 3!"));
-									}
+								boolean isSuccess = unsetPlayerGroups(sender, player, args);
+								if (isSuccess) {
+									ChatUtils.updatePlayerPrefixAndRank(player);
+									return true;
 								} else {
-									player.sendMessage(
-											ChatUtils.chatMessage("&7Proper Usage: &e/ac unset <player> <rank>"));
-									return false;
+									return true;
 								}
-								ChatUtils.updatePlayerPrefixAndRank(player);
-								return true;
 							}
 						} else {
 							sender.sendMessage(ChatUtils.chatMessage("&7" + args[1] + " &ccould not be found!"));
@@ -238,11 +165,10 @@ public class CommandAC implements CommandExecutor {
 		return true;
 	}
 
-	private boolean setAndUnsetPlayerGroupAndSubgroups(CommandSender sender, Player player, String[] args) {
+	private boolean setPlayerGroups(CommandSender sender, Player player, String[] args) {
 		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
 		Bukkit.dispatchCommand(commandSender, "manselect Theia");
-		boolean isCouncil = aranarthPlayer.getCouncilStatus() > 0;
 
 		if (args[2].toLowerCase().equals("rank")) {
 			if (args.length >= 4) {
@@ -268,7 +194,9 @@ public class CommandAC implements CommandExecutor {
 					sender.sendMessage(ChatUtils.chatMessage("&cThat is not a valid rank!"));
 					return false;
 				}
-				ChatUtils.updatePlayerPrefixAndRank(player);
+			} else {
+				player.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac set <player> <variable> [rank]"));
+				return false;
 			}
 		} else if (args[2].toLowerCase().equals("avatar")) {
 			String previousAvatar = AranarthPlayerUtils.replaceAvatar(player);
@@ -280,47 +208,96 @@ public class CommandAC implements CommandExecutor {
 			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 				onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
 			}
-			Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " chi");
-			Bukkit.dispatchCommand(commandSender, "bending add air " + player.getName());
-			Bukkit.dispatchCommand(commandSender, "bending add water " + player.getName());
-			Bukkit.dispatchCommand(commandSender, "bending add earth " + player.getName());
-			Bukkit.dispatchCommand(commandSender, "bending add fire " + player.getName());
-
-			Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + " avatar");
-
 			ChatUtils.updatePlayerPrefixAndRank(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
 		}
 		// Saint
 		else if (args[2].toLowerCase().equals("saint1")) {
 			aranarthPlayer.setSaintStatus(1);
-			AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-			Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + " saint1");
 		} else if (args[2].toLowerCase().equals("saint2")) {
 			aranarthPlayer.setSaintStatus(2);
-			AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-			Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + " saint2");
 		} else if (args[2].toLowerCase().equals("saint3")) {
 			aranarthPlayer.setSaintStatus(3);
-			AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-			Bukkit.dispatchCommand(commandSender, "manuaddsub " + player.getName() + " saint3");
 		}
 		// Council
 		else if (args[2].toLowerCase().equals("council1")) {
 			aranarthPlayer.setCouncilStatus(1);
-			AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-			Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " CouncilHelper");
 		} else if (args[2].toLowerCase().equals("council2")) {
 			aranarthPlayer.setCouncilStatus(2);
-			AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-			Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " CouncilModerator");
 		} else if (args[2].toLowerCase().equals("council3")) {
 			aranarthPlayer.setCouncilStatus(3);
-			AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
-			Bukkit.dispatchCommand(commandSender, "manuadd " + player.getName() + " CouncilAdmin");
 		} else {
 			player.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac set <player> <variable> [rank]"));
 			return false;
 		}
+		AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
+		return true;
+	}
+
+	private boolean unsetPlayerGroups(CommandSender sender, Player player, String[] args) {
+		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
+		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
+		if (args[2].toLowerCase().equals("avatar")) {
+			if (aranarthPlayer.getAvatarStatus().equals("current")) {
+				AranarthPlayerUtils.replaceAvatar(null);
+				Bukkit.dispatchCommand(commandSender, "bending remove " + aranarthPlayer.getUsername());
+				Bukkit.broadcastMessage(
+						ChatUtils.translateToColor("&5&lAvatar &d&l" + player.getName() + " &5&lhas passed away..."));
+
+				for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+					onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
+				}
+				return true;
+			} else {
+				sender.sendMessage(ChatUtils.chatMessage("&cThis player is not the avatar!"));
+				return false;
+			}
+		} else if (args[2].toLowerCase().equals("saint1")) {
+			if (aranarthPlayer.getSaintStatus() == 1) {
+				aranarthPlayer.setSaintStatus(0);
+			} else {
+				sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Saint 1!"));
+				return false;
+			}
+		} else if (args[2].toLowerCase().equals("saint2")) {
+			if (aranarthPlayer.getSaintStatus() == 2) {
+				aranarthPlayer.setSaintStatus(0);
+			} else {
+				sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Saint 2!"));
+				return false;
+			}
+		} else if (args[2].toLowerCase().equals("saint3")) {
+			if (aranarthPlayer.getSaintStatus() == 3) {
+				aranarthPlayer.setSaintStatus(0);
+			} else {
+				sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Saint 3!"));
+				return false;
+			}
+		} else if (args[2].toLowerCase().equals("council1")) {
+			if (aranarthPlayer.getCouncilStatus() == 1) {
+				aranarthPlayer.setCouncilStatus(0);
+			} else {
+				sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Council 1!"));
+				return false;
+			}
+		} else if (args[2].toLowerCase().equals("council2")) {
+			if (aranarthPlayer.getCouncilStatus() == 2) {
+				aranarthPlayer.setCouncilStatus(0);
+			} else {
+				sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Council 2!"));
+				return false;
+			}
+		} else if (args[2].toLowerCase().equals("council3")) {
+			if (aranarthPlayer.getCouncilStatus() == 3) {
+				aranarthPlayer.setCouncilStatus(0);
+			} else {
+				sender.sendMessage(ChatUtils.chatMessage("&cThis player is not Council 3!"));
+				return false;
+			}
+		} else {
+			player.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac unset <player> <rank>"));
+			return false;
+		}
+		AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 		return true;
 	}
 
