@@ -12,6 +12,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 
+/**
+ * A chest GUI that appears when the user enters /ranks. This GUI displays all
+ * available ranks on the server, including ranks available through earning
+ * money on the server, as well as ranks available through donations.
+ * 
+ * @author Aearost
+ *
+ */
 public class RanksGui {
 
 	private Player player;
@@ -21,7 +29,7 @@ public class RanksGui {
 		this.player = player;
 		this.initializedGui = initializeGui(player);
 	}
-	
+
 	public void openGui() {
 		player.openInventory(initializedGui);
 	}
@@ -29,10 +37,10 @@ public class RanksGui {
 	private Inventory initializeGui(Player player) {
 		Inventory gui = Bukkit.getServer().createInventory(player, 54,
 				ChatUtils.translateToColor("&0&lAranarth Ranks"));
-		
+
 		boolean isMalePlayer = AranarthPlayerUtils.getPlayer(player).getIsMale();
 		int currentRank = AranarthPlayerUtils.getPlayer(player).getRank();
-		
+
 		// Initialize Items
 		ItemStack yellowPane = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
 		ItemStack blackPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -237,7 +245,7 @@ public class RanksGui {
 				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($50,000)"));
 			}
 		}
-		
+
 		emperorLore.add(ChatUtils.translateToColor("&f&lBending"));
 		emperorLore.add(ChatUtils.translateToColor("&f&o- &4&oCombustionbending"));
 		emperorLore.add(ChatUtils.translateToColor("&f&lPerks"));
@@ -248,7 +256,8 @@ public class RanksGui {
 		// Saint 1
 		ItemMeta saint1Meta = saint1.getItemMeta();
 		ArrayList<String> saint1Lore = new ArrayList<>();
-		saint1Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (I)"));
+		saint1Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P &d&l&nSaint (I)"));
+//		saint1Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (I)"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- Colored chat and signs"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- /nick, /hat, /craft"));
@@ -263,7 +272,8 @@ public class RanksGui {
 		// Saint 2
 		ItemMeta saint2Meta = saint2.getItemMeta();
 		ArrayList<String> saint2Lore = new ArrayList<>();
-		saint2Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (II)"));
+		saint2Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P &d&l&nSaint (II)"));
+//		saint2Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (II)"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- Colored nickname"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- /enderchest"));
@@ -278,7 +288,8 @@ public class RanksGui {
 		// Saint 3
 		ItemMeta saint3Meta = saint3.getItemMeta();
 		ArrayList<String> saint3Lore = new ArrayList<>();
-		saint3Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (III)"));
+		saint3Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P &d&l&nSaint (III)"));
+//		saint3Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (III)"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Bold chat and nickname"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Ability to join the server when it's full"));

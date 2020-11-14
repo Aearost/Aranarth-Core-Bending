@@ -27,6 +27,7 @@ public class CommandAC implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender.hasPermission("aranarthcore.admin.*")) {
 			if (args.length > 0) {
+				// arenaarmor
 				if (args[0].toLowerCase().equals("arenaarmor")) {
 					if (args.length > 1) {
 						if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1]))) {
@@ -49,13 +50,19 @@ public class CommandAC implements CommandExecutor {
 						sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac givearmor <player>"));
 						return false;
 					}
-				} else if (args[0].toLowerCase().equals("arenareset")) {
+				}
+
+				// arenareset
+				else if (args[0].toLowerCase().equals("arenareset")) {
 					if (args.length > 1 && args[1].toLowerCase().startsWith("arena")) {
 						Bukkit.broadcastMessage(ChatUtils.chatMessage("&e" + args[1] + " &7is being reset"));
 						return true;
 					}
 					return false;
-				} else if (args[0].toLowerCase().equals("element")) {
+				}
+
+				// element
+				else if (args[0].toLowerCase().equals("element")) {
 					if (args.length > 2) {
 						Player player = Bukkit.getPlayer(args[2]);
 						AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
@@ -92,11 +99,11 @@ public class CommandAC implements CommandExecutor {
 								if (bendingPlayer == null) {
 									GeneralMethods.createBendingPlayer(player.getUniqueId(), player.getName());
 								}
-								
+
 								Element element = Element.fromString(args[1]);
 								bendingPlayer.addElement(element);
 								aranarthPlayer.setIsAbleToChangeElement(false);
-								
+
 								int rank = aranarthPlayer.getRank();
 								if (element == Element.AIR) {
 									player.sendMessage(ChatUtils.chatMessage("&7You are now an Airbender!"));
@@ -140,13 +147,15 @@ public class CommandAC implements CommandExecutor {
 								GeneralMethods.saveSubElements(bendingPlayer);
 								return true;
 							} else {
-								player.sendMessage(ChatUtils.chatMessage("&cYou must purchase an element change first!"));
+								player.sendMessage(
+										ChatUtils.chatMessage("&cYou must purchase an element change first!"));
 								return false;
 							}
 						}
 					}
 				}
 
+				// set
 				else if (args[0].toLowerCase().equals("set")) {
 					if (args.length > 1) {
 						if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1]))) {
@@ -155,7 +164,7 @@ public class CommandAC implements CommandExecutor {
 
 								boolean isSuccess = setPlayerGroups(sender, player, args);
 								if (isSuccess) {
-									ChatUtils.updatePlayerPrefixAndRank(player);
+									ChatUtils.updatePlayerGroupsAndPrefix(player);
 									return true;
 								} else {
 									return false;
@@ -170,7 +179,10 @@ public class CommandAC implements CommandExecutor {
 								ChatUtils.chatMessage("&7Proper Usage: &e/ac set <player> <variable> [rank]"));
 						return false;
 					}
-				} else if (args[0].toLowerCase().equals("stats")) {
+				}
+
+				// stats
+				else if (args[0].toLowerCase().equals("stats")) {
 					if (args.length > 1) {
 						if (AranarthPlayerUtils.getPlayer(AranarthPlayerUtils.getUUID(args[1])) != null) {
 							AranarthPlayer aranarthPlayer = AranarthPlayerUtils
@@ -192,7 +204,10 @@ public class CommandAC implements CommandExecutor {
 							return true;
 						}
 					}
-				} else if (args[0].toLowerCase().equals("unset")) {
+				}
+
+				// unset
+				else if (args[0].toLowerCase().equals("unset")) {
 					if (args.length > 1) {
 						if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1]))) {
 							Player player = Bukkit.getPlayer(args[1]);
@@ -200,7 +215,7 @@ public class CommandAC implements CommandExecutor {
 
 								boolean isSuccess = unsetPlayerGroups(sender, player, args);
 								if (isSuccess) {
-									ChatUtils.updatePlayerPrefixAndRank(player);
+									ChatUtils.updatePlayerGroupsAndPrefix(player);
 									return true;
 								} else {
 									return true;
@@ -220,6 +235,7 @@ public class CommandAC implements CommandExecutor {
 
 		// Non-restricted commands
 		if (args.length > 0) {
+			// title
 			if (args[0].toLowerCase().equals("title")) {
 				if (sender instanceof Player) {
 					Player player = (Player) sender;
@@ -243,7 +259,7 @@ public class CommandAC implements CommandExecutor {
 							player.sendMessage(
 									ChatUtils.chatMessage("&7Your rank titles will now be displayed as a female."));
 						}
-						ChatUtils.updatePlayerPrefixAndRank(player);
+						ChatUtils.updatePlayerGroupsAndPrefix(player);
 						return true;
 					}
 					sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac title <male | female>"));
@@ -271,6 +287,15 @@ public class CommandAC implements CommandExecutor {
 		return true;
 	}
 
+	/**
+	 * Sets a player's group and subgroup, based on the fields of their
+	 * AranarthPlayer object.
+	 * 
+	 * @param sender
+	 * @param player
+	 * @param args
+	 * @return
+	 */
 	private boolean setPlayerGroups(CommandSender sender, Player player, String[] args) {
 		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
@@ -314,7 +339,7 @@ public class CommandAC implements CommandExecutor {
 			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 				onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
 			}
-			ChatUtils.updatePlayerPrefixAndRank(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
+			ChatUtils.updatePlayerGroupsAndPrefix(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
 		}
 		// Saint
 		else if (args[2].toLowerCase().equals("saint1")) {
@@ -339,6 +364,15 @@ public class CommandAC implements CommandExecutor {
 		return true;
 	}
 
+	/**
+	 * Unsets a player's group and subgroup, based on the fields of their
+	 * AranarthPlayer object.
+	 * 
+	 * @param sender
+	 * @param player
+	 * @param args
+	 * @return
+	 */
 	private boolean unsetPlayerGroups(CommandSender sender, Player player, String[] args) {
 		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 		CommandSender commandSender = Bukkit.getServer().getConsoleSender();

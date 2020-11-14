@@ -4,6 +4,13 @@ import java.util.Comparator;
 
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 
+/**
+ * A comparator to determine which of the two AranarthPlayer objects has a
+ * larger balance.
+ * 
+ * @author Aearost
+ *
+ */
 public class BalanceComparator implements Comparator<AranarthPlayer> {
 
 	@Override

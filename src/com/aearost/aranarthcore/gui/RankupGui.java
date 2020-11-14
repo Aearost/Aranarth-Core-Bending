@@ -9,6 +9,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.aearost.aranarthcore.utils.ChatUtils;
 
+/**
+ * A chest GUI that appears once a user clicks on the rank they are to rank up
+ * to next. This GUI simply allows the user to confirm their upgrade to the
+ * following rank.
+ * 
+ * @author Aearost
+ *
+ */
 public class RankupGui {
 
 	private Player player;
@@ -45,8 +53,8 @@ public class RankupGui {
 		cancelMeta.setDisplayName(ChatUtils.translateToColor("&c&lCancel Rankup"));
 		cancel.setItemMeta(cancelMeta);
 		ItemMeta rankupMeta = rankup.getItemMeta();
-		rankupMeta.setDisplayName(
-				ChatUtils.translateToColor("&a&lRankup to " + rankName + " &a&lfor &6&l" + rankupCost));
+		rankupMeta
+				.setDisplayName(ChatUtils.translateToColor("&a&lRankup to " + rankName + " &a&lfor &6&l" + rankupCost));
 		rankup.setItemMeta(rankupMeta);
 
 		// Initialize GUI

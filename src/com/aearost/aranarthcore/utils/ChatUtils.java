@@ -7,10 +7,18 @@ import org.bukkit.command.CommandSender;
 
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 
+/**
+ * Provides utility methods to facilitate the formatting of all chat related
+ * content.
+ * 
+ * @author Aearost
+ *
+ */
 public class ChatUtils {
 
 	/**
-	 * Allows the formatting of messages to contain Minecraft colors
+	 * Allows the formatting of messages to contain Minecraft colors, and begin with
+	 * the AranarthCore prefix.
 	 * 
 	 * @param msg
 	 * @return
@@ -29,6 +37,12 @@ public class ChatUtils {
 		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 
+	/**
+	 * Removes the styling from Strings.
+	 * 
+	 * @param msg
+	 * @return
+	 */
 	public static String stripColor(String msg) {
 		String colorStripped = ChatColor.stripColor(msg);
 		while (colorStripped.startsWith("&")) {
@@ -37,7 +51,13 @@ public class ChatUtils {
 		return colorStripped;
 	}
 
-	public static void updatePlayerPrefixAndRank(OfflinePlayer offlinePlayer) {
+	/**
+	 * Handles updating a player's group, sub-group, and prefix according to the
+	 * ranks they are.
+	 * 
+	 * @param offlinePlayer
+	 */
+	public static void updatePlayerGroupsAndPrefix(OfflinePlayer offlinePlayer) {
 		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(offlinePlayer);
 		int rank = aranarthPlayer.getRank();
 		boolean isAvatar = aranarthPlayer.getAvatarStatus().equals("current");
@@ -138,21 +158,9 @@ public class ChatUtils {
 				prefix += "&6[&4Empress&6] &r";
 			}
 		}
-		
-		// Delete all potential sub-groups. Player does not receive a message saying this
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint3");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint2");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint1");
+
+		// Other sub-elements can stay, avatar must be removed if no longer the Avatar.
 		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Avatar");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Emperor");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " King");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Prince");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Duke");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Count");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Baron");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Knight");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Esquire");
-//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Peasant");
 
 		// If they are not a regular player
 		if (isCouncil || isSaint || isAvatar || !isMalePlayer) {
@@ -182,7 +190,7 @@ public class ChatUtils {
 				if (isAvatar) {
 					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Avatar");
 				}
-				
+
 				if (isSaint1) {
 					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Saint1");
 				} else if (isSaint2) {
@@ -197,7 +205,7 @@ public class ChatUtils {
 			} else {
 				Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
 			}
-			
+
 			Bukkit.dispatchCommand(commandSender, "manuaddv " + offlinePlayer.getName() + " prefix " + prefix);
 		} else {
 			Bukkit.dispatchCommand(commandSender, "manudelv " + offlinePlayer.getName() + " prefix");

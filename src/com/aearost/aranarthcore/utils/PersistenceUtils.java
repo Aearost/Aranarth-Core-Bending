@@ -23,6 +23,13 @@ import org.bukkit.inventory.ItemStack;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.objects.AranarthShop;
 
+/**
+ * Provides utility methods to facilitate the reading and writing of json and
+ * txt files stored in the AranarthCore plugin folder.
+ * 
+ * @author Aearost
+ *
+ */
 public class PersistenceUtils {
 
 	/**
@@ -209,7 +216,8 @@ public class PersistenceUtils {
 						writer.write("        \"rank\": \"" + aranarthPlayer.getRank() + "\",\n");
 						writer.write("        \"isMale\": \"" + aranarthPlayer.getIsMale() + "\",\n");
 						writer.write("        \"balance\": \"" + aranarthPlayer.getBalance() + "\",\n");
-						writer.write("        \"isAbleToChangeElement\": \"" + aranarthPlayer.getIsAbleToChangeElement() + "\",\n");
+						writer.write("        \"isAbleToChangeElement\": \"" + aranarthPlayer.getIsAbleToChangeElement()
+								+ "\",\n");
 						if (aranarthPlayer.getSaintStatus() != 0) {
 							writer.write("        \"saintStatus\": \"" + aranarthPlayer.getSaintStatus() + "\",\n");
 						}
@@ -522,6 +530,12 @@ public class PersistenceUtils {
 
 	}
 
+	/**
+	 * Determines if the input String can be parsed to an int.
+	 * 
+	 * @param part
+	 * @return
+	 */
 	public static boolean isRegularNumber(String part) {
 		try {
 			@SuppressWarnings("unused")

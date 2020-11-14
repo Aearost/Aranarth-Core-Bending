@@ -1,5 +1,13 @@
 package com.aearost.aranarthcore.objects;
 
+/**
+ * An AranarthPlayer object stores all variables representing a player on the
+ * server. The plugin heavily utilizes this object through the
+ * AranarthPlayerUtils class.
+ * 
+ * @author Aearost
+ *
+ */
 public class AranarthPlayer {
 
 	private String username;

@@ -23,11 +23,13 @@ public class RanksClick implements Listener {
 	public RanksClick(AranarthCore plugin) {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
-
+	
 	/**
-	 * Handles clicking of a slot in the Aranarth Ranks GUI.
+	 * Deals with all clicks of the ranks GUI elements. This includes both the
+	 * Aranarth Ranks GUI, as well as the Rankup Confirm GUI.
 	 * 
-	 * @param e
+	 * @author Aearost
+	 *
 	 */
 	@EventHandler
 	public void onRankClick(final InventoryClickEvent e) {
@@ -152,7 +154,7 @@ public class RanksClick implements Listener {
 					AranarthPlayerUtils.setBalance(player, balance - price);
 					AranarthPlayerUtils.setRank(player, AranarthPlayerUtils.getRank(player) + 1);
 
-					ChatUtils.updatePlayerPrefixAndRank(player);
+					ChatUtils.updatePlayerGroupsAndPrefix(player);
 					if (ChatUtils.stripColor(rankDisplay).equals("Esquire")
 							|| ChatUtils.stripColor(rankDisplay).equals("Emperor")) {
 						aOrAn = "an";
@@ -164,7 +166,7 @@ public class RanksClick implements Listener {
 						Bukkit.broadcastMessage(ChatUtils.chatMessage(
 								"&e" + player.getName() + " &7has become " + aOrAn + " " + rankDisplay + "&7!"));
 					}
-					
+
 					BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(player);
 					int rank = AranarthPlayerUtils.getRank(player);
 					if (bendingPlayer.getElements().get(0) == Element.EARTH) {
@@ -194,7 +196,7 @@ public class RanksClick implements Listener {
 						}
 					}
 					GeneralMethods.saveSubElements(bendingPlayer);
-					
+
 					player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0F, 1.0F);
 					player.closeInventory();
 				} else {

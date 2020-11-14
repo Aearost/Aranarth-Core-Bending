@@ -16,11 +16,24 @@ import org.bukkit.inventory.ItemStack;
 
 import com.aearost.aranarthcore.objects.AranarthShop;
 
+/**
+ * Provides utility methods to facilitate the manipulation of server and player
+ * shops.
+ * 
+ * @author Aearost
+ *
+ */
 public class AranarthShopUtils {
 
 	private static HashMap<UUID, List<AranarthShop>> shops = new HashMap<>();
 	private static List<AranarthShop> serverShops = new ArrayList<>();
 
+	/**
+	 * Gets an AranarthShop if it corresponds to a sign location.
+	 * 
+	 * @param signLocation
+	 * @return
+	 */
 	public static AranarthShop getServerShop(Location signLocation) {
 		if (serverShops == null) {
 			return null;
@@ -34,6 +47,14 @@ public class AranarthShopUtils {
 		return null;
 	}
 
+	/**
+	 * Gets an AranarthShop if it corresponds to both a player's UUID and the
+	 * chest's location.
+	 * 
+	 * @param uuid
+	 * @param chestLocation
+	 * @return
+	 */
 	public static AranarthShop getShop(UUID uuid, Location chestLocation) {
 		List<AranarthShop> playerShops = getPlayerShopList(uuid);
 
@@ -49,10 +70,22 @@ public class AranarthShopUtils {
 		return null;
 	}
 
+	/**
+	 * Gets a list of all player shops corresponding to a player's UUID.
+	 * 
+	 * @param uuid
+	 * @return
+	 */
 	public static List<AranarthShop> getPlayerShopList(UUID uuid) {
 		return shops.get(uuid);
 	}
 
+	/**
+	 * Adds a shop to a player's list of shops.
+	 * 
+	 * @param uuid
+	 * @param shop
+	 */
 	public static void addShop(UUID uuid, AranarthShop shop) {
 		List<AranarthShop> playerShops = getPlayerShopList(uuid);
 		if (playerShops == null) {
@@ -62,6 +95,12 @@ public class AranarthShopUtils {
 		shops.put(uuid, playerShops);
 	}
 
+	/**
+	 * Removes a shop from a player's list of shops, provided the chest's location.
+	 * 
+	 * @param uuid
+	 * @param chestLocation
+	 */
 	public static void removeShop(UUID uuid, Location chestLocation) {
 		List<AranarthShop> playerShops = getPlayerShopList(uuid);
 		int counter = 0;
@@ -78,11 +117,21 @@ public class AranarthShopUtils {
 			removePlayerShops(uuid);
 		}
 	}
-	
+
+	/**
+	 * Adds a server shop.
+	 * 
+	 * @param shop
+	 */
 	public static void addServerShop(AranarthShop shop) {
 		serverShops.add(shop);
 	}
-	
+
+	/**
+	 * Removes a server shop.
+	 * 
+	 * @param shopLocation
+	 */
 	public static void removeServerShop(Location shopLocation) {
 		serverShops.remove(getServerShop(shopLocation));
 	}
@@ -110,6 +159,15 @@ public class AranarthShopUtils {
 		return totalAmount >= transactionQuantity;
 	}
 
+	/**
+	 * Determines whether or not the shop has enough space for the player to sell
+	 * to.
+	 * 
+	 * @param chestInventory
+	 * @param item
+	 * @param transactionQuantity
+	 * @return
+	 */
 	public static boolean hasEnoughSpaceToSell(Inventory chestInventory, ItemStack item, int transactionQuantity) {
 		ItemStack[] contents = chestInventory.getContents();
 		for (ItemStack stack : contents) {
@@ -131,6 +189,15 @@ public class AranarthShopUtils {
 		return false;
 	}
 
+	/**
+	 * Determines whether or not the player has enough of the item to sell to the
+	 * shop.
+	 * 
+	 * @param player
+	 * @param item
+	 * @param transactionQuantity
+	 * @return
+	 */
 	public static boolean hasItemsToSell(Player player, ItemStack item, int transactionQuantity) {
 		ItemStack[] contents = player.getInventory().getStorageContents();
 		int amountInInventory = 0;
@@ -274,6 +341,13 @@ public class AranarthShopUtils {
 		return 0;
 	}
 
+	/**
+	 * Determines whether or not the input UUID is the owner of the player shop.
+	 * 
+	 * @param uuid
+	 * @param chestLocation
+	 * @return
+	 */
 	public static boolean isShopOwner(UUID uuid, Location chestLocation) {
 		List<AranarthShop> playerShops = getPlayerShopList(uuid);
 		if (playerShops == null) {
@@ -287,10 +361,21 @@ public class AranarthShopUtils {
 		return false;
 	}
 
+	/**
+	 * Remove all of a player's shops.
+	 * 
+	 * @param uuid
+	 */
 	public static void removePlayerShops(UUID uuid) {
 		shops.remove(uuid);
 	}
 
+	/**
+	 * Determines if the input material is a wall sign.
+	 * 
+	 * @param block
+	 * @return
+	 */
 	public static boolean isWallSign(Material block) {
 		return block == Material.ACACIA_WALL_SIGN || block == Material.BIRCH_WALL_SIGN
 				|| block == Material.CRIMSON_WALL_SIGN || block == Material.DARK_OAK_WALL_SIGN
@@ -298,6 +383,14 @@ public class AranarthShopUtils {
 				|| block == Material.SPRUCE_WALL_SIGN || block == Material.WARPED_WALL_SIGN;
 	}
 
+	/**
+	 * Returns the location of the shop if breaking the input block would also break
+	 * the shop sign.
+	 * 
+	 * @param clickedBlock
+	 * @param isPlayerShop
+	 * @return
+	 */
 	public static Location getLocationIfBlockBreaksShop(Block clickedBlock, boolean isPlayerShop) {
 		Location location = clickedBlock.getLocation();
 
@@ -310,17 +403,6 @@ public class AranarthShopUtils {
 		Location locationMinusZ = new Location(location.getWorld(), location.getBlockX(), location.getBlockY(),
 				location.getBlockZ() - 1);
 
-//		if (isWallSign(locationPlusX.getBlock().getType())) {
-//			return true;
-//		} else if (isWallSign(locationMinusX.getBlock().getType())) {
-//			return true;
-//		} else if (isWallSign(locationPlusZ.getBlock().getType())) {
-//			return true;
-//		} else if (isWallSign(locationMinusZ.getBlock().getType())) {
-//			return true;
-//		}
-//		return false;
-		
 		if (isWallSign(locationPlusX.getBlock().getType())) {
 			if (isPlayerShop) {
 				locationPlusX.setY(locationPlusX.getY() - 1);
@@ -361,14 +443,33 @@ public class AranarthShopUtils {
 		return null;
 	}
 
+	/**
+	 * Gets all player shops.
+	 * 
+	 * @return
+	 */
 	public static HashMap<UUID, List<AranarthShop>> getShops() {
 		return shops;
 	}
-	
+
+	/**
+	 * Gets all server shops.
+	 * 
+	 * @return
+	 */
 	public static List<AranarthShop> getServerShops() {
 		return serverShops;
 	}
 
+	/**
+	 * Determines if the sign is the proper shop format. This works for both player
+	 * shops as well as server shops.
+	 * 
+	 * @param sign
+	 * @param uuid
+	 * @param isCreating
+	 * @return
+	 */
 	public static boolean isProperShopFormat(Sign sign, UUID uuid, boolean isCreating) {
 		String owner = sign.getLine(0);
 		int transactionAmount = 0;
@@ -459,10 +560,22 @@ public class AranarthShopUtils {
 		}
 	}
 
+	/**
+	 * Determines whether or not the item has meta.
+	 * 
+	 * @param item
+	 * @return
+	 */
 	public static boolean isItemWithoutMeta(ItemStack item) {
 		return !item.hasItemMeta();
 	}
 
+	/**
+	 * Determines if there is already a player shop at the chest location.
+	 * 
+	 * @param chestLocation
+	 * @return
+	 */
 	public static boolean isAlreadyShop(Location chestLocation) {
 		for (Map.Entry<UUID, List<AranarthShop>> entry : shops.entrySet()) {
 			for (AranarthShop shop : entry.getValue()) {
