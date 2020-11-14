@@ -14,6 +14,9 @@ import org.bukkit.inventory.ItemStack;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
+import com.projectkorra.projectkorra.BendingPlayer;
+import com.projectkorra.projectkorra.Element;
+import com.projectkorra.projectkorra.GeneralMethods;
 
 public class CommandAC implements CommandExecutor {
 
@@ -52,7 +55,99 @@ public class CommandAC implements CommandExecutor {
 						return true;
 					}
 					return false;
-				} else if (args[0].toLowerCase().equals("set")) {
+				} else if (args[0].toLowerCase().equals("element")) {
+					if (args.length > 2) {
+						Player player = Bukkit.getPlayer(args[2]);
+						AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
+						if (aranarthPlayer.getAvatarStatus().equals("current")) {
+							player.sendMessage(ChatUtils.chatMessage("&cYou cannot change elements as the Avatar!"));
+							return false;
+						}
+						BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(player);
+						if (args[1].toLowerCase().equals("change")) {
+
+							if (aranarthPlayer.getIsAbleToChangeElement()) {
+								player.sendMessage(ChatUtils.chatMessage("&7You can already change elements!"));
+								return false;
+							} else {
+								if (aranarthPlayer.getBalance() >= 250.00) {
+									aranarthPlayer.setBalance(aranarthPlayer.getBalance() - 250.00);
+									aranarthPlayer.setIsAbleToChangeElement(true);
+
+									for (Element e : Element.getAllElements()) {
+										if (bendingPlayer.hasElement(e)) {
+											bendingPlayer.getElements().remove(e);
+										}
+									}
+									player.sendMessage(ChatUtils.chatMessage("&7You can now change elements!"));
+									return true;
+								} else {
+									player.sendMessage(
+											ChatUtils.chatMessage("&cYou don't have enough money to change elements!"));
+									return false;
+								}
+							}
+						} else {
+							if (aranarthPlayer.getIsAbleToChangeElement()) {
+								if (bendingPlayer == null) {
+									GeneralMethods.createBendingPlayer(player.getUniqueId(), player.getName());
+								}
+								
+								Element element = Element.fromString(args[1]);
+								bendingPlayer.addElement(element);
+								aranarthPlayer.setIsAbleToChangeElement(false);
+								
+								int rank = aranarthPlayer.getRank();
+								if (element == Element.AIR) {
+									player.sendMessage(ChatUtils.chatMessage("&7You are now an Airbender!"));
+								} else if (element == Element.CHI) {
+									player.sendMessage(ChatUtils.chatMessage("&6You are now a Chiblocker!"));
+									bendingPlayer.setElement(Element.CHI);
+								} else if (element == Element.EARTH) {
+									player.sendMessage(ChatUtils.chatMessage("&aYou are now an Earthbender!"));
+									bendingPlayer.setElement(Element.EARTH);
+									if (rank >= 2) {
+										bendingPlayer.addSubElement(Element.METAL);
+										player.sendMessage(ChatUtils.chatMessage("&2You are also a Metalbender!"));
+									}
+									if (rank >= 7) {
+										bendingPlayer.addSubElement(Element.LAVA);
+										player.sendMessage(ChatUtils.chatMessage("&2As well as a Lavabender!"));
+									}
+								} else if (element == Element.FIRE) {
+									player.sendMessage(ChatUtils.chatMessage("&cYou are now a Firebender!"));
+									bendingPlayer.setElement(Element.FIRE);
+									if (rank >= 6) {
+										bendingPlayer.addSubElement(Element.LIGHTNING);
+										player.sendMessage(ChatUtils.chatMessage("&4You are also a Lightningbender!"));
+									}
+									if (rank >= 8) {
+										bendingPlayer.addSubElement(Element.COMBUSTION);
+										player.sendMessage(ChatUtils.chatMessage("&4As well as a Combustionbender!"));
+									}
+								} else if (element == Element.WATER) {
+									player.sendMessage(ChatUtils.chatMessage("&bYou are now a Waterbender!"));
+									bendingPlayer.setElement(Element.WATER);
+									bendingPlayer.addElement(Element.ICE);
+									if (rank >= 1) {
+										bendingPlayer.addSubElement(Element.HEALING);
+										player.sendMessage(ChatUtils.chatMessage("&3You are also a Healer!"));
+										bendingPlayer.addSubElement(Element.PLANT);
+										player.sendMessage(ChatUtils.chatMessage("&3As well as a Plantbender!"));
+									}
+								}
+								GeneralMethods.saveElements(bendingPlayer);
+								GeneralMethods.saveSubElements(bendingPlayer);
+								return true;
+							} else {
+								player.sendMessage(ChatUtils.chatMessage("&cYou must purchase an element change first!"));
+								return false;
+							}
+						}
+					}
+				}
+
+				else if (args[0].toLowerCase().equals("set")) {
 					if (args.length > 1) {
 						if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[1]))) {
 							Player player = Bukkit.getPlayer(args[1]);
@@ -86,6 +181,8 @@ public class CommandAC implements CommandExecutor {
 							sender.sendMessage(ChatUtils.translateToColor("&aMale: &e" + aranarthPlayer.getIsMale()));
 							sender.sendMessage(ChatUtils
 									.translateToColor("&aBalance: &e" + formatter.format(aranarthPlayer.getBalance())));
+							sender.sendMessage(ChatUtils.translateToColor(
+									"&aCan Change Element: &e" + aranarthPlayer.getIsAbleToChangeElement()));
 							sender.sendMessage(
 									ChatUtils.translateToColor("&aSaint Status: &e" + aranarthPlayer.getSaintStatus()));
 							sender.sendMessage(ChatUtils

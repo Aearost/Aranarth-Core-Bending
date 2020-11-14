@@ -6,25 +6,30 @@ public class AranarthPlayer {
 	private int rankLevel;
 	private boolean isMale;
 	private double balance;
+	private boolean isAbleToChangeElement;
 	private int saintStatus;
 	private String avatarStatus;
 	private int councilStatus;
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance,
+			boolean isAbleToChangeElement) {
 		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
+		this.isAbleToChangeElement = isAbleToChangeElement;
 		saintStatus = 0;
 		avatarStatus = "none";
 		councilStatus = 0;
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, int saintOrCouncilStatus) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
+			int saintOrCouncilStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
+		this.isAbleToChangeElement = isAbleToChangeElement;
 		if (saintOrCouncilStatus > 3) {
 			this.councilStatus = saintOrCouncilStatus - 3;
 			this.saintStatus = 0;
@@ -35,33 +40,37 @@ public class AranarthPlayer {
 		this.avatarStatus = "none";
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, String avatarStatus) {
-		this.username = username;
-		this.rankLevel = rankLevel;
-		this.isMale = isMale;
-		this.balance = balance;
-		this.saintStatus = 0;
-		this.avatarStatus = avatarStatus;
-		councilStatus = 0;
-	}
-
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, String avatarStatus,
-			int councilStatus) {
-		this.username = username;
-		this.rankLevel = rankLevel;
-		this.isMale = isMale;
-		this.balance = balance;
-		this.saintStatus = 0;
-		this.avatarStatus = avatarStatus;
-		this.councilStatus = councilStatus;
-	}
-
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, int saintOrCouncilStatus,
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
 			String avatarStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
+		this.isAbleToChangeElement = isAbleToChangeElement;
+		this.saintStatus = 0;
+		this.avatarStatus = avatarStatus;
+		councilStatus = 0;
+	}
+
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
+			String avatarStatus, int councilStatus) {
+		this.username = username;
+		this.rankLevel = rankLevel;
+		this.isMale = isMale;
+		this.balance = balance;
+		this.isAbleToChangeElement = isAbleToChangeElement;
+		this.saintStatus = 0;
+		this.avatarStatus = avatarStatus;
+		this.councilStatus = councilStatus;
+	}
+
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
+			int saintOrCouncilStatus, String avatarStatus) {
+		this.username = username;
+		this.rankLevel = rankLevel;
+		this.isMale = isMale;
+		this.balance = balance;
+		this.isAbleToChangeElement = isAbleToChangeElement;
 		if (saintOrCouncilStatus > 3) {
 			this.councilStatus = saintOrCouncilStatus - 3;
 			this.saintStatus = 0;
@@ -73,32 +82,34 @@ public class AranarthPlayer {
 		councilStatus = 0;
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, int saintStatus,
-			int councilStatus) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
+			int saintStatus, int councilStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
+		this.isAbleToChangeElement = isAbleToChangeElement;
 		this.saintStatus = saintStatus;
 		this.avatarStatus = "none";
 		this.councilStatus = councilStatus;
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, int saintStatus,
-			String avatarStatus, int councilStatus) {
+	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
+			int saintStatus, String avatarStatus, int councilStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
 		this.isMale = isMale;
 		this.balance = balance;
+		this.isAbleToChangeElement = isAbleToChangeElement;
 		this.saintStatus = saintStatus;
 		this.avatarStatus = avatarStatus;
 		this.councilStatus = councilStatus;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -125,6 +136,14 @@ public class AranarthPlayer {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
+	}
+
+	public boolean getIsAbleToChangeElement() {
+		return isAbleToChangeElement;
+	}
+
+	public void setIsAbleToChangeElement(boolean isAbleToChangeElement) {
+		this.isAbleToChangeElement = isAbleToChangeElement;
 	}
 
 	public int getSaintStatus() {

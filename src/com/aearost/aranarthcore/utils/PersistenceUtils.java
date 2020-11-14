@@ -51,6 +51,7 @@ public class PersistenceUtils {
 			int rank = 0;
 			boolean isMale = true;
 			double balance = 0.00;
+			boolean isAbleToChangeElement = false;
 			int saintStatus = 0;
 			String avatarStatus = "none";
 			int councilStatus = 0;
@@ -61,8 +62,8 @@ public class PersistenceUtils {
 				String line = reader.nextLine();
 				String[] parts = line.split("\"");
 
-				if ((line.endsWith("},") || line.endsWith("}")) && fieldCount >= 4) {
-					fieldCount = 8;
+				if ((line.endsWith("},") || line.endsWith("}")) && fieldCount >= 5) {
+					fieldCount = 9;
 					fieldName = "none";
 					fieldValue = "none";
 				}
@@ -94,6 +95,9 @@ public class PersistenceUtils {
 				} else if (fieldName.equals("balance")) {
 					balance = Double.parseDouble(fieldValue);
 					fieldCount++;
+				} else if (fieldName.equals("isAbleToChangeElement")) {
+					isAbleToChangeElement = Boolean.parseBoolean(fieldValue);
+					fieldCount++;
 				} else if (fieldName.equals("avatarStatus")) {
 					avatarStatus = fieldValue;
 					fieldCount++;
@@ -105,7 +109,7 @@ public class PersistenceUtils {
 					fieldCount++;
 				}
 
-				if (fieldCount == 8) {
+				if (fieldCount == 9) {
 					boolean hasAvatarStatus = false;
 					boolean hasSaintStatus = false;
 					boolean hasCouncilStatus = false;
@@ -121,27 +125,28 @@ public class PersistenceUtils {
 
 					if (hasSaintStatus && hasAvatarStatus && hasCouncilStatus) {
 						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance,
-								saintStatus, avatarStatus, councilStatus));
+								isAbleToChangeElement, saintStatus, avatarStatus, councilStatus));
 					} else if (hasSaintStatus && hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(uuid,
-								new AranarthPlayer(username, rank, isMale, balance, saintStatus, avatarStatus));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance,
+								isAbleToChangeElement, saintStatus, avatarStatus));
 					} else if (hasAvatarStatus && hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid,
-								new AranarthPlayer(username, rank, isMale, balance, councilStatus + 3, avatarStatus));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance,
+								isAbleToChangeElement, councilStatus + 3, avatarStatus));
 					} else if (hasSaintStatus && hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid,
-								new AranarthPlayer(username, rank, isMale, balance, saintStatus, councilStatus));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance,
+								isAbleToChangeElement, saintStatus, councilStatus));
 					} else if (hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(uuid,
-								new AranarthPlayer(username, rank, isMale, balance, avatarStatus));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance,
+								isAbleToChangeElement, avatarStatus));
 					} else if (hasSaintStatus) {
-						AranarthPlayerUtils.addPlayer(uuid,
-								new AranarthPlayer(username, rank, isMale, balance, saintStatus));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance,
+								isAbleToChangeElement, saintStatus));
 					} else if (hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid,
-								new AranarthPlayer(username, rank, isMale, balance, councilStatus + 3));
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance,
+								isAbleToChangeElement, councilStatus + 3));
 					} else {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance));
+						AranarthPlayerUtils.addPlayer(uuid,
+								new AranarthPlayer(username, rank, isMale, balance, isAbleToChangeElement));
 					}
 
 					// Reset these as rank, isMale, and balance are always overwritten
@@ -204,6 +209,7 @@ public class PersistenceUtils {
 						writer.write("        \"rank\": \"" + aranarthPlayer.getRank() + "\",\n");
 						writer.write("        \"isMale\": \"" + aranarthPlayer.getIsMale() + "\",\n");
 						writer.write("        \"balance\": \"" + aranarthPlayer.getBalance() + "\",\n");
+						writer.write("        \"isAbleToChangeElement\": \"" + aranarthPlayer.getIsAbleToChangeElement() + "\",\n");
 						if (aranarthPlayer.getSaintStatus() != 0) {
 							writer.write("        \"saintStatus\": \"" + aranarthPlayer.getSaintStatus() + "\",\n");
 						}

@@ -140,19 +140,19 @@ public class ChatUtils {
 		}
 		
 		// Delete all potential sub-groups. Player does not receive a message saying this
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint3");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint2");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint1");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint3");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint2");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Saint1");
 		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Avatar");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Emperor");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " King");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Prince");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Duke");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Count");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Baron");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Knight");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Esquire");
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Peasant");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Emperor");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " King");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Prince");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Duke");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Count");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Baron");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Knight");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Esquire");
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Peasant");
 
 		// If they are not a regular player
 		if (isCouncil || isSaint || isAvatar || !isMalePlayer) {
