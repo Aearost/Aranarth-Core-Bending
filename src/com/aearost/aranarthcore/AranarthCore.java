@@ -16,6 +16,7 @@ import com.aearost.aranarthcore.commands.CommandPayCompleter;
 import com.aearost.aranarthcore.commands.CommandRanks;
 import com.aearost.aranarthcore.commands.CommandRanksCompleter;
 import com.aearost.aranarthcore.event.ArenaDrops;
+import com.aearost.aranarthcore.event.ArmorStandEquipCancel;
 import com.aearost.aranarthcore.event.PlayerJoinServer;
 import com.aearost.aranarthcore.event.RanksClick;
 import com.aearost.aranarthcore.event.ShopCreate;
@@ -23,17 +24,21 @@ import com.aearost.aranarthcore.event.ShopDestroy;
 import com.aearost.aranarthcore.event.ShopOpen;
 import com.aearost.aranarthcore.event.ShopSignClick;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
+import com.aearost.aranarthcore.utils.AranarthShopUtils;
 import com.aearost.aranarthcore.utils.PersistenceUtils;
 
 public class AranarthCore extends JavaPlugin {
-
+	
 	@Override
 	public void onEnable() {
 
+		// Initialize Utils
+		new AranarthShopUtils(this);
 		new AranarthPlayerUtils(true);
 
 		// Initialize Events
 		new ArenaDrops(this);
+		new ArmorStandEquipCancel(this);
 		new PlayerJoinServer(this);
 		new RanksClick(this);
 		new ShopCreate(this);
@@ -65,6 +70,7 @@ public class AranarthCore extends JavaPlugin {
 			public void run() {
 				PersistenceUtils.writePlayersToFile();
 				PersistenceUtils.writeShopSignsToFile();
+				AranarthShopUtils.displayAllPlayerShopHolograms();
 			}
 		}, 0, 36000);
 		
@@ -75,6 +81,7 @@ public class AranarthCore extends JavaPlugin {
 	public void onDisable() {
 
 		new AranarthPlayerUtils(false);
+		AranarthShopUtils.removeAllPlayerShopHolograms();
 
 	}
 

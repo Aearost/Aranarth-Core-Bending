@@ -90,6 +90,7 @@ public class ShopCreate implements Listener {
 							}
 							AranarthShopUtils.addShop(uuid, shop);
 							player.sendMessage(ChatUtils.translateToColor("&aA player shop has been created!"));
+							AranarthShopUtils.displayPlayerShopHologram(shop);
 						} else {
 							player.sendMessage(ChatUtils.translateToColor("&cYou cannot make a shop out of this!"));
 						}

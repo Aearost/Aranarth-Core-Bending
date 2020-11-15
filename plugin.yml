@@ -4,6 +4,7 @@ author: Aearost
 main: com.aearost.aranarthcore.AranarthCore
 api-version: 1.16
 depend: [Multiverse-Core]
+softdepend: [HolographicDisplays]
 description: Contains a large variety of features and functionality to be used specifically for the Aranarth Minecraft server.
 loadbefore: [mcMMO, Essentials]
 commands:

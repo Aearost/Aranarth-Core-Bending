@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -14,7 +15,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.aearost.aranarthcore.AranarthCore;
 import com.aearost.aranarthcore.objects.AranarthShop;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
 /**
  * Provides utility methods to facilitate the manipulation of server and player
@@ -27,6 +31,12 @@ public class AranarthShopUtils {
 
 	private static HashMap<UUID, List<AranarthShop>> shops = new HashMap<>();
 	private static List<AranarthShop> serverShops = new ArrayList<>();
+	private static HashMap<AranarthShop, Hologram> playerShopHolograms = new HashMap<>();
+	private static AranarthCore plugin;
+
+	public AranarthShopUtils(AranarthCore plugin) {
+		AranarthShopUtils.plugin = plugin;
+	}
 
 	/**
 	 * Gets an AranarthShop if it corresponds to a sign location.
@@ -56,17 +66,30 @@ public class AranarthShopUtils {
 	 * @return
 	 */
 	public static AranarthShop getShop(UUID uuid, Location chestLocation) {
-		List<AranarthShop> playerShops = getPlayerShopList(uuid);
+		if (uuid != null) {
+			List<AranarthShop> playerShops = getPlayerShopList(uuid);
 
-		if (playerShops == null) {
-			return null;
-		}
+			if (playerShops == null) {
+				Bukkit.broadcastMessage("No shops at all");
+				return null;
+			}
 
-		for (AranarthShop shop : playerShops) {
-			if (shop.getShopLocation().equals(chestLocation)) {
-				return shop;
+			for (AranarthShop shop : playerShops) {
+				if (shop.getShopLocation().equals(chestLocation)) {
+					return shop;
+				}
+			}
+		} else {
+			for (Map.Entry<UUID, List<AranarthShop>> entry : shops.entrySet()) {
+				for (AranarthShop shop : entry.getValue()) {
+					if (shop.getShopLocation().equals(chestLocation)) {
+						return shop;
+					}
+				}
 			}
 		}
+		
+		
 		return null;
 	}
 
@@ -102,20 +125,31 @@ public class AranarthShopUtils {
 	 * @param chestLocation
 	 */
 	public static void removeShop(UUID uuid, Location chestLocation) {
-		List<AranarthShop> playerShops = getPlayerShopList(uuid);
-		int counter = 0;
-		for (AranarthShop shop : playerShops) {
-			if (shop.getShopLocation().equals(chestLocation)) {
-				break;
+		if (uuid != null) {
+			List<AranarthShop> playerShops = getPlayerShopList(uuid);
+			int counter = 0;
+			for (AranarthShop shop : playerShops) {
+				if (shop.getShopLocation().equals(chestLocation)) {
+					break;
+				}
+				counter++;
 			}
-			counter++;
-		}
-		playerShops.remove(counter);
-		if (playerShops.size() > 0) {
-			shops.put(uuid, playerShops);
+			playerShops.remove(counter);
+			if (playerShops.size() > 0) {
+				shops.put(uuid, playerShops);
+			} else {
+				removePlayerShops(uuid);
+			}
 		} else {
-			removePlayerShops(uuid);
+			for (Map.Entry<UUID, List<AranarthShop>> entry : shops.entrySet()) {
+				for (AranarthShop shop : entry.getValue()) {
+					if (shop.getShopLocation().equals(chestLocation)) {
+						shops.remove(entry.getKey(), shop);
+					}
+				}
+			}
 		}
+		
 	}
 
 	/**
@@ -587,4 +621,37 @@ public class AranarthShopUtils {
 		return false;
 	}
 
+	public static void displayPlayerShopHologram(AranarthShop shop) {
+		Location hologramLocation = shop.getShopLocation().clone();
+		hologramLocation.add(0.5, 2.45, 0.5);
+		Hologram shopHologram = HologramsAPI.createHologram(plugin, hologramLocation);
+		shopHologram.appendItemLine(shop.getItem());
+
+		playerShopHolograms.put(shop, shopHologram);
+	}
+
+	public static void displayAllPlayerShopHolograms() {
+		for (Map.Entry<UUID, List<AranarthShop>> entry : shops.entrySet()) {
+			for (AranarthShop shop : entry.getValue()) {
+				Location hologramLocation = shop.getShopLocation().clone();
+				hologramLocation.add(0.5, 2.45, 0.5);
+				Hologram shopHologram = HologramsAPI.createHologram(plugin, hologramLocation);
+				shopHologram.appendItemLine(shop.getItem());
+
+				playerShopHolograms.put(shop, shopHologram);
+			}
+		}
+	}
+
+	public static void removePlayerShopHologram(AranarthShop shop) {
+		Hologram shopHologram = playerShopHolograms.get(shop);
+		shopHologram.delete();
+	}
+
+	public static void removeAllPlayerShopHolograms() {
+		for (Map.Entry<AranarthShop, Hologram> entry : playerShopHolograms.entrySet()) {
+			Hologram shopHologram = entry.getValue();
+			shopHologram.delete();
+		}
+	}
 }

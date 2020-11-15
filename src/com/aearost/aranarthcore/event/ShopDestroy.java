@@ -61,11 +61,18 @@ public class ShopDestroy implements Listener {
 			if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), false)) {
 				Location chestLocation = sign.getLocation();
 				chestLocation.setY(chestLocation.getY() - 1);
+				
+				if (!AranarthShopUtils.isAlreadyShop(chestLocation)) {
+					return;
+				}
+				
 				// If it's their shop
 				AranarthShop shop = AranarthShopUtils.getShop(player.getUniqueId(), chestLocation);
 				if (shop != null || player.hasPermission("aranarthcore.shop.destroy.others")) {
-					player.sendMessage(ChatUtils.translateToColor("&cYou have destroyed this shop."));
+					player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this shop."));
 					block.getWorld().dropItemNaturally(block.getLocation(), shop.getItem());
+					
+					AranarthShopUtils.removePlayerShopHologram(shop);
 					AranarthShopUtils.removeShop(player.getUniqueId(), shop.getShopLocation());
 				} else {
 					if (AranarthShopUtils.isAlreadyShop(chestLocation)) {
@@ -77,7 +84,10 @@ public class ShopDestroy implements Listener {
 			}
 			// Server shop
 			else if (AranarthShopUtils.isProperShopFormat(sign, null, false)) {
-				if (player.hasPermission("aranarthcore.shop.destroy.admin") && AranarthShopUtils.getServerShop(sign.getLocation()) != null) {
+				if (player.hasPermission("aranarthcore.shop.destroy.admin")) {
+					if (AranarthShopUtils.getServerShop(sign.getLocation()) == null) {
+						return;
+					}
 					player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this server shop"));
 					AranarthShopUtils.removeServerShop(block.getLocation());
 					return;
@@ -92,10 +102,25 @@ public class ShopDestroy implements Listener {
 			signLocation.setY(signLocation.getY() + 1);
 			Sign sign = (Sign) signLocation.getBlock().getState();
 			if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), false)) {
-				if (AranarthShopUtils.isShopOwner(player.getUniqueId(), blockBreaksPlayerShop)
+				
+				if (!AranarthShopUtils.isAlreadyShop(blockBreaksPlayerShop)) {
+					return;
+				}
+				
+				boolean isShopOwner = AranarthShopUtils.isShopOwner(player.getUniqueId(), blockBreaksPlayerShop);
+				if (isShopOwner
 						|| player.hasPermission("aranarthcore.shop.destroy.admin")) {
 					player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this shop"));
-					AranarthShopUtils.removeServerShop(blockBreaksServerShop);
+					
+					AranarthShop shop = AranarthShopUtils.getShop(null, blockBreaksPlayerShop);
+					AranarthShopUtils.removePlayerShopHologram(shop);
+					
+					if (isShopOwner) {
+						AranarthShopUtils.removeShop(player.getUniqueId(), blockBreaksPlayerShop);
+					} else {
+						AranarthShopUtils.removeShop(null, blockBreaksPlayerShop);
+					}
+					
 					return;
 				} else {
 					player.sendMessage(ChatUtils.translateToColor("&cYou cannot destroy other players' shops!"));
