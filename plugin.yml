@@ -24,3 +24,5 @@ commands:
       description: Allows the user to pay another player some of their money
    ranks:
       description: Displays the ranks available in the server
+   rules:
+      description: Provides the user with the server rules

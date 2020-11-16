@@ -9,6 +9,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import com.aearost.aranarthcore.objects.AranarthPlayer;
+import com.projectkorra.projectkorra.BendingPlayer;
+import com.projectkorra.projectkorra.Element;
 
 /**
  * Provides utility methods to facilitate the manipulation of all AranarthPlayer
@@ -129,14 +131,13 @@ public class AranarthPlayerUtils {
 	/**
 	 * Replaces the current Avatar with a new input player.
 	 * 
-	 * @param player
+	 * @param playerNewAvatar
 	 * @return
 	 */
-	public static String replaceAvatar(Player player) {
-		String currentAvatarName = "";
+	public static String replaceAvatar(Player playerNewAvatar) {
+		String currentAvatarName = null;
 		boolean isCurrentMadePrevious = false;
 		boolean isPreviousRemoved = false;
-//		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
 
 		for (Map.Entry<UUID, AranarthPlayer> entry : players.entrySet()) {
 			UUID uuid = entry.getKey();
@@ -147,10 +148,17 @@ public class AranarthPlayerUtils {
 				currentAvatar.setAvatarStatus("previous");
 				addPlayer(uuid, currentAvatar);
 				isCurrentMadePrevious = true;
-//				Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " air");
-//				Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " water");
-//				Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " earth");
-//				Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " fire");
+				
+				// Removes old avatar's elements and allows them to return to an element for free
+				BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(Bukkit.getOfflinePlayer(uuid));
+				for (Element e : Element.getElements()) {
+					bendingPlayer.getElements().remove(e);
+				}
+				currentAvatar.setIsAbleToChangeElement(true);
+				
+				if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(uuid))) {
+					Bukkit.getPlayer(uuid).sendMessage(ChatUtils.translateToColor("&7You are no longer the avatar"));
+				}
 			} else if (entry.getValue().getAvatarStatus().equals("previous")) {
 				AranarthPlayer previousAvatar = getPlayer(uuid);
 				previousAvatar.setAvatarStatus("none");
@@ -162,14 +170,23 @@ public class AranarthPlayerUtils {
 				break;
 			}
 		}
-		if (player != null) {
-//			Bukkit.dispatchCommand(commandSender, "bending remove " + player.getName() + " chi");
-//			Bukkit.dispatchCommand(commandSender, "bending add air " + player.getName());
-//			Bukkit.dispatchCommand(commandSender, "bending add water " + player.getName());
-//			Bukkit.dispatchCommand(commandSender, "bending add earth " + player.getName());
-//			Bukkit.dispatchCommand(commandSender, "bending add fire " + player.getName());
-			AranarthPlayer newAvatar = getPlayer(player.getUniqueId());
+		if (playerNewAvatar != null) {
+			AranarthPlayer newAvatar = getPlayer(playerNewAvatar.getUniqueId());
 			newAvatar.setAvatarStatus("current");
+			
+			// Initializes the new avatar and gives them all elements for free
+			newAvatar.setIsAbleToChangeElement(false);
+			addPlayer(getUUID(newAvatar.getUsername()), newAvatar);
+			BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(Bukkit.getOfflinePlayer(playerNewAvatar.getUniqueId()));
+			for (Element e : Element.getAllElements()) {
+				if (bendingPlayer.hasElement(e)) {
+					bendingPlayer.getElements().remove(e);
+				}
+			}
+			bendingPlayer.addElement(Element.AIR);
+			bendingPlayer.addElement(Element.EARTH);
+			bendingPlayer.addElement(Element.FIRE);
+			bendingPlayer.addElement(Element.WATER);
 		}
 
 		return currentAvatarName;

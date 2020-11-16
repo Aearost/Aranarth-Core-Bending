@@ -15,8 +15,11 @@ import com.aearost.aranarthcore.commands.CommandPay;
 import com.aearost.aranarthcore.commands.CommandPayCompleter;
 import com.aearost.aranarthcore.commands.CommandRanks;
 import com.aearost.aranarthcore.commands.CommandRanksCompleter;
+import com.aearost.aranarthcore.commands.CommandRules;
+import com.aearost.aranarthcore.commands.CommandRulesCompleter;
 import com.aearost.aranarthcore.event.ArenaDrops;
 import com.aearost.aranarthcore.event.ArmorStandEquipCancel;
+import com.aearost.aranarthcore.event.AvatarDeath;
 import com.aearost.aranarthcore.event.PlayerJoinServer;
 import com.aearost.aranarthcore.event.RanksClick;
 import com.aearost.aranarthcore.event.ShopCreate;
@@ -39,6 +42,7 @@ public class AranarthCore extends JavaPlugin {
 		// Initialize Events
 		new ArenaDrops(this);
 		new ArmorStandEquipCancel(this);
+		new AvatarDeath(this);
 		new PlayerJoinServer(this);
 		new RanksClick(this);
 		new ShopCreate(this);
@@ -59,10 +63,8 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("pay").setTabCompleter(new CommandPayCompleter());
 		getCommand("ranks").setExecutor(new CommandRanks());
 		getCommand("ranks").setTabCompleter(new CommandRanksCompleter());
-
-		// Create all holograms
-		// https://www.spigotmc.org/threads/tutorial-holograms-1-8.65183/
-		// Maybe even re-initialize all signs?
+		getCommand("rules").setExecutor(new CommandRules());
+		getCommand("rules").setTabCompleter(new CommandRulesCompleter());
 
 		// Update the files every 15 minutes to protect from loss of data
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {

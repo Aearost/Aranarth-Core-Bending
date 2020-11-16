@@ -94,13 +94,16 @@ public class ShopCreate implements Listener {
 						} else {
 							player.sendMessage(ChatUtils.translateToColor("&cYou cannot make a shop out of this!"));
 						}
+					} else if (!player.getName().equals(sign.getLine(0))) {
+						player.sendMessage(ChatUtils.translateToColor("&cYou cannot create a shop that is not yours!"));
+						return;
 					} else if (canMakeAdminShop(sign, player)) {
 						if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
 							Location signLocation = e.getClickedBlock().getLocation();
 							// If the shop does not yet exist
 							if (AranarthShopUtils.getServerShop(signLocation) == null) {
 								AranarthShop shop = null;
-								
+
 								int transactionAmount = Integer.parseInt(sign.getLine(1));
 								ItemStack item = new ItemStack(player.getInventory().getItemInMainHand().getType(), 1);
 								player.getInventory().getItemInMainHand()
@@ -141,6 +144,7 @@ public class ShopCreate implements Listener {
 	}
 
 	private boolean canMakeAdminShop(Sign sign, Player player) {
+
 		if (AranarthShopUtils.isProperShopFormat(sign, null, true)) {
 			if (sign.getLine(0).equals("[Aranarth]") && player.hasPermission("aranarthcore.shop.create.admin")) {
 				return true;

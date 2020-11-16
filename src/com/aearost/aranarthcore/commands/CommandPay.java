@@ -24,12 +24,12 @@ public class CommandPay implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 
-			if (args[0].toLowerCase().equals(player.getName().toLowerCase())) {
-				sender.sendMessage(ChatUtils.translateToColor("&cYou cannot pay yourself!"));
-				return false;
-			}
-
-			if (args.length > 1) {
+			if (args.length > 0) {
+				
+				if (args[0].toLowerCase().equals(player.getName().toLowerCase())) {
+					sender.sendMessage(ChatUtils.translateToColor("&cYou cannot pay yourself!"));
+					return false;
+				}
 
 				if (AranarthPlayerUtils.getUUID(args[0]) != null) {
 					boolean isPlayerOnline = false;

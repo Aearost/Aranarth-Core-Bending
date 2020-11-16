@@ -298,8 +298,6 @@ public class CommandAC implements CommandExecutor {
 	 */
 	private boolean setPlayerGroups(CommandSender sender, Player player, String[] args) {
 		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
-		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
-		Bukkit.dispatchCommand(commandSender, "manselect Theia");
 
 		if (args[2].toLowerCase().equals("rank")) {
 			if (args.length >= 4) {
@@ -331,15 +329,22 @@ public class CommandAC implements CommandExecutor {
 			}
 		} else if (args[2].toLowerCase().equals("avatar")) {
 			String previousAvatar = AranarthPlayerUtils.replaceAvatar(player);
-			Bukkit.broadcastMessage(
-					ChatUtils.translateToColor("&5&lAvatar &d&l" + previousAvatar + " &5&lhas passed away..."));
-			Bukkit.broadcastMessage(ChatUtils
-					.translateToColor("&5&lWelcome their successor, Avatar &d&l" + player.getName() + "&5&l!"));
+			if (previousAvatar == null) {
+				Bukkit.broadcastMessage(
+						ChatUtils.translateToColor("&5&lWelcome the first Avatar, &d&l" + player.getName() + "&5&l!"));
+			} else {
+				Bukkit.broadcastMessage(
+						ChatUtils.translateToColor("&5&lAvatar &d&l" + previousAvatar + " &5&lhas passed away..."));
+				Bukkit.broadcastMessage(ChatUtils
+						.translateToColor("&5&lWelcome their successor, Avatar &d&l" + player.getName() + "&5&l!"));
+			}
 
 			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 				onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
 			}
-			ChatUtils.updatePlayerGroupsAndPrefix(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
+			if (previousAvatar != null) {
+				ChatUtils.updatePlayerGroupsAndPrefix(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
+			}
 		}
 		// Saint
 		else if (args[2].toLowerCase().equals("saint1")) {
@@ -375,11 +380,9 @@ public class CommandAC implements CommandExecutor {
 	 */
 	private boolean unsetPlayerGroups(CommandSender sender, Player player, String[] args) {
 		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
-		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
 		if (args[2].toLowerCase().equals("avatar")) {
 			if (aranarthPlayer.getAvatarStatus().equals("current")) {
 				AranarthPlayerUtils.replaceAvatar(null);
-				Bukkit.dispatchCommand(commandSender, "bending remove " + aranarthPlayer.getUsername());
 				Bukkit.broadcastMessage(
 						ChatUtils.translateToColor("&5&lAvatar &d&l" + player.getName() + " &5&lhas passed away..."));
 
