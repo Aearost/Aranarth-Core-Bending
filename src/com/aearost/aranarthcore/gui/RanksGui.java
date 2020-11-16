@@ -253,13 +253,14 @@ public class RanksGui {
 		emperorLore.add(ChatUtils.translateToColor("&f&o- &4&oCombustionbending"));
 		emperorLore.add(ChatUtils.translateToColor("&f&lPerks"));
 		emperorLore.add(ChatUtils.translateToColor("&f&o- Ability to set 5 homes"));
+		emperorLore.add(ChatUtils.translateToColor("&f&o- Ability to create unlimited chest shops"));
 		emperorMeta.setLore(emperorLore);
 		emperor.setItemMeta(emperorMeta);
 
 		// Saint 1
 		ItemMeta saint1Meta = saint1.getItemMeta();
 		ArrayList<String> saint1Lore = new ArrayList<>();
-		saint1Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P &d&l&nSaint (I)"));
+		saint1Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P&r &d&l&nSaint (I)"));
 //		saint1Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (I)"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- Colored chat and signs"));
@@ -275,7 +276,7 @@ public class RanksGui {
 		// Saint 2
 		ItemMeta saint2Meta = saint2.getItemMeta();
 		ArrayList<String> saint2Lore = new ArrayList<>();
-		saint2Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P &d&l&nSaint (II)"));
+		saint2Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P&r &d&l&nSaint (II)"));
 //		saint2Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (II)"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- Colored nickname"));
@@ -291,7 +292,7 @@ public class RanksGui {
 		// Saint 3
 		ItemMeta saint3Meta = saint3.getItemMeta();
 		ArrayList<String> saint3Lore = new ArrayList<>();
-		saint3Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P &d&l&nSaint (III)"));
+		saint3Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P&r &d&l&nSaint (III)"));
 //		saint3Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (III)"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Bold chat and nickname"));

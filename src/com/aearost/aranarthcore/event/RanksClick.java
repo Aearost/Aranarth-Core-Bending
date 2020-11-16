@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import com.aearost.aranarthcore.AranarthCore;
 import com.aearost.aranarthcore.gui.RankupGui;
+import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 import com.aearost.aranarthcore.utils.PersistenceUtils;
@@ -168,36 +169,39 @@ public class RanksClick implements Listener {
 					}
 
 					BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(player);
-					int rank = AranarthPlayerUtils.getRank(player);
+					AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
+					int rank = aranarthPlayer.getRank();
 					
-					if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.EARTH) {
-						if (rank == 2) {
-							bendingPlayer.addSubElement(Element.METAL);
-							player.sendMessage(ChatUtils.chatMessage("&2You are now a Metalbender!"));
+					if (!aranarthPlayer.getAvatarStatus().equals("current")) {
+						if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.EARTH) {
+							if (rank == 2) {
+								bendingPlayer.addSubElement(Element.METAL);
+								player.sendMessage(ChatUtils.chatMessage("&2You are now a Metalbender!"));
+							}
+							if (rank == 7) {
+								bendingPlayer.addSubElement(Element.LAVA);
+								player.sendMessage(ChatUtils.chatMessage("&2You are now a Lavabender!"));
+							}
+						} else if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.FIRE) {
+							if (rank == 6) {
+								bendingPlayer.addSubElement(Element.LIGHTNING);
+								player.sendMessage(ChatUtils.chatMessage("&4You are now a Lightningbender!"));
+							}
+							if (rank == 8) {
+								bendingPlayer.addSubElement(Element.COMBUSTION);
+								player.sendMessage(ChatUtils.chatMessage("&4As well as a Combustionbender!"));
+							}
+						} else if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.WATER) {
+							if (rank == 1) {
+								bendingPlayer.addSubElement(Element.HEALING);
+								player.sendMessage(ChatUtils.chatMessage("&3You are now a Healer!"));
+								bendingPlayer.addSubElement(Element.PLANT);
+								player.sendMessage(ChatUtils.chatMessage("&3You are now a Plantbender!"));
+							}
 						}
-						if (rank == 7) {
-							bendingPlayer.addSubElement(Element.LAVA);
-							player.sendMessage(ChatUtils.chatMessage("&2You are now a Lavabender!"));
-						}
-					} else if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.FIRE) {
-						if (rank == 6) {
-							bendingPlayer.addSubElement(Element.LIGHTNING);
-							player.sendMessage(ChatUtils.chatMessage("&4You are now a Lightningbender!"));
-						}
-						if (rank == 8) {
-							bendingPlayer.addSubElement(Element.COMBUSTION);
-							player.sendMessage(ChatUtils.chatMessage("&4As well as a Combustionbender!"));
-						}
-					} else if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.WATER) {
-						if (rank == 1) {
-							bendingPlayer.addSubElement(Element.HEALING);
-							player.sendMessage(ChatUtils.chatMessage("&3You are now a Healer!"));
-							bendingPlayer.addSubElement(Element.PLANT);
-							player.sendMessage(ChatUtils.chatMessage("&3You are now a Plantbender!"));
-						}
+						GeneralMethods.saveSubElements(bendingPlayer);
 					}
-					GeneralMethods.saveSubElements(bendingPlayer);
-
+					
 					player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0F, 1.0F);
 					player.closeInventory();
 				} else {

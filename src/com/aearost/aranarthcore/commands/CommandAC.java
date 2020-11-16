@@ -17,6 +17,7 @@ import com.aearost.aranarthcore.utils.ChatUtils;
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
+import com.projectkorra.projectkorra.Element.SubElement;
 
 public class CommandAC implements CommandExecutor {
 
@@ -113,6 +114,7 @@ public class CommandAC implements CommandExecutor {
 								} else if (element == Element.EARTH) {
 									player.sendMessage(ChatUtils.chatMessage("&aYou are now an Earthbender!"));
 									bendingPlayer.setElement(Element.EARTH);
+									bendingPlayer.addSubElement(SubElement.SAND);
 									if (rank >= 2) {
 										bendingPlayer.addSubElement(Element.METAL);
 										player.sendMessage(ChatUtils.chatMessage("&2You are also a Metalbender!"));
@@ -135,7 +137,7 @@ public class CommandAC implements CommandExecutor {
 								} else if (element == Element.WATER) {
 									player.sendMessage(ChatUtils.chatMessage("&bYou are now a Waterbender!"));
 									bendingPlayer.setElement(Element.WATER);
-									bendingPlayer.addElement(Element.ICE);
+									bendingPlayer.addSubElement(SubElement.ICE);
 									if (rank >= 1) {
 										bendingPlayer.addSubElement(Element.HEALING);
 										player.sendMessage(ChatUtils.chatMessage("&3You are also a Healer!"));

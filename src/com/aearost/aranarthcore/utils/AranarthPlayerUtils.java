@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
+import com.projectkorra.projectkorra.Element.SubElement;
 
 /**
  * Provides utility methods to facilitate the manipulation of all AranarthPlayer
@@ -152,7 +153,9 @@ public class AranarthPlayerUtils {
 				// Removes old avatar's elements and allows them to return to an element for free
 				BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(Bukkit.getOfflinePlayer(uuid));
 				for (Element e : Element.getElements()) {
-					bendingPlayer.getElements().remove(e);
+					if (bendingPlayer.hasElement(e)) {
+						bendingPlayer.getElements().remove(e);
+					}
 				}
 				currentAvatar.setIsAbleToChangeElement(true);
 				
@@ -178,15 +181,26 @@ public class AranarthPlayerUtils {
 			newAvatar.setIsAbleToChangeElement(false);
 			addPlayer(getUUID(newAvatar.getUsername()), newAvatar);
 			BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(Bukkit.getOfflinePlayer(playerNewAvatar.getUniqueId()));
-			for (Element e : Element.getAllElements()) {
+			for (Element e : Element.getElements()) {
 				if (bendingPlayer.hasElement(e)) {
 					bendingPlayer.getElements().remove(e);
 				}
 			}
+			// Add main elements
 			bendingPlayer.addElement(Element.AIR);
 			bendingPlayer.addElement(Element.EARTH);
 			bendingPlayer.addElement(Element.FIRE);
-			bendingPlayer.addElement(Element.WATER);
+			bendingPlayer.addElement(Element.WATER); 
+			// Add sub-elements
+			bendingPlayer.addSubElement(SubElement.SAND);
+			bendingPlayer.addSubElement(SubElement.METAL);
+			bendingPlayer.addSubElement(SubElement.LAVA);
+			bendingPlayer.addSubElement(SubElement.LIGHTNING);
+			bendingPlayer.addSubElement(SubElement.COMBUSTION);
+			bendingPlayer.addSubElement(SubElement.LAVA);
+			bendingPlayer.addSubElement(SubElement.ICE);
+			bendingPlayer.addSubElement(SubElement.PLANT);
+			bendingPlayer.addSubElement(SubElement.HEALING);
 		}
 
 		return currentAvatarName;
