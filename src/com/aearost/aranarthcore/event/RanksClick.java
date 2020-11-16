@@ -169,7 +169,8 @@ public class RanksClick implements Listener {
 
 					BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(player);
 					int rank = AranarthPlayerUtils.getRank(player);
-					if (bendingPlayer.getElements().get(0) == Element.EARTH) {
+					
+					if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.EARTH) {
 						if (rank == 2) {
 							bendingPlayer.addSubElement(Element.METAL);
 							player.sendMessage(ChatUtils.chatMessage("&2You are now a Metalbender!"));
@@ -178,7 +179,7 @@ public class RanksClick implements Listener {
 							bendingPlayer.addSubElement(Element.LAVA);
 							player.sendMessage(ChatUtils.chatMessage("&2You are now a Lavabender!"));
 						}
-					} else if (bendingPlayer.getElements().get(0) == Element.FIRE) {
+					} else if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.FIRE) {
 						if (rank == 6) {
 							bendingPlayer.addSubElement(Element.LIGHTNING);
 							player.sendMessage(ChatUtils.chatMessage("&4You are now a Lightningbender!"));
@@ -187,7 +188,7 @@ public class RanksClick implements Listener {
 							bendingPlayer.addSubElement(Element.COMBUSTION);
 							player.sendMessage(ChatUtils.chatMessage("&4As well as a Combustionbender!"));
 						}
-					} else if (bendingPlayer.getElements().get(0) == Element.WATER) {
+					} else if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.WATER) {
 						if (rank == 1) {
 							bendingPlayer.addSubElement(Element.HEALING);
 							player.sendMessage(ChatUtils.chatMessage("&3You are now a Healer!"));

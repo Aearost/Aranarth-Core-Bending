@@ -100,6 +100,16 @@ public class AranarthShopUtils {
 	public static List<AranarthShop> getPlayerShopList(UUID uuid) {
 		return shops.get(uuid);
 	}
+	
+	/**
+	 * Gets the amount of shops the player has.
+	 * 
+	 * @param uuid
+	 * @return
+	 */
+	public static int getShopCount(UUID uuid) {
+		return getPlayerShopList(uuid).size();
+	}
 
 	/**
 	 * Adds a shop to a player's list of shops.

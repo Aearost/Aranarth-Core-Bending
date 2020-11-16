@@ -131,7 +131,7 @@ public class RanksGui {
 		baronLore.add(ChatUtils.translateToColor("&f&lBending"));
 		baronLore.add(ChatUtils.translateToColor("&f&o- &b&oWaterArms"));
 		baronLore.add(ChatUtils.translateToColor("&f&lPerks"));
-		baronLore.add(ChatUtils.translateToColor("&f&o- Ability to create chest shops"));
+		baronLore.add(ChatUtils.translateToColor("&f&o- Ability to create 3 chest shops"));
 		baronLore.add(ChatUtils.translateToColor("&f&o- Ability to set 2 homes"));
 		baronMeta.setLore(baronLore);
 		baron.setItemMeta(baronMeta);
@@ -156,6 +156,7 @@ public class RanksGui {
 		countLore.add(ChatUtils.translateToColor("&f&o- &7&oSonicBlast"));
 		countLore.add(ChatUtils.translateToColor("&f&lPerks"));
 		countLore.add(ChatUtils.translateToColor("&f&o- /back"));
+		countLore.add(ChatUtils.translateToColor("&f&o- Ability to create 7 chest shops"));
 		countLore.add(ChatUtils.translateToColor("&f&o- Ability to set 3 homes"));
 		countMeta.setLore(countLore);
 		count.setItemMeta(countMeta);
@@ -178,6 +179,7 @@ public class RanksGui {
 		}
 		dukeLore.add(ChatUtils.translateToColor("&f&lPerks"));
 		dukeLore.add(ChatUtils.translateToColor("&f&o- /near"));
+		dukeLore.add(ChatUtils.translateToColor("&f&o- Ability to create 15 chest shops"));
 		dukeMeta.setLore(dukeLore);
 		duke.setItemMeta(dukeMeta);
 
@@ -226,6 +228,7 @@ public class RanksGui {
 		kingLore.add(ChatUtils.translateToColor("&f&o- &c&lFireComet"));
 		kingLore.add(ChatUtils.translateToColor("&f&lPerks"));
 		kingLore.add(ChatUtils.translateToColor("&f&o- /tptoggle"));
+		kingLore.add(ChatUtils.translateToColor("&f&o- Ability to create 30 chest shops"));
 		kingMeta.setLore(kingLore);
 		king.setItemMeta(kingMeta);
 
