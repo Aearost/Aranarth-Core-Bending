@@ -24,28 +24,33 @@ public class CommandRules implements CommandExecutor {
 				sender.sendMessage(ChatUtils
 						.translateToColor("&4&l3. &eTeaming is allowed, however troll-like tactics are not permitted."));
 				return true;
+			} else if (args[0].toLowerCase().equals("general")) {
+				sender.sendMessage(ChatUtils.translateToColor("&6&l&nGeneral Rules"));
+				sender.sendMessage(ChatUtils
+						.translateToColor("&e&l1. &7&oBe kind to each other, and use common sense."));
+				sender.sendMessage(ChatUtils.translateToColor(
+						"&e&l2. &7&oRacism, homophobia, transphobia, sexism, and other forms of hate speech will not be tolerated. Sensitive topics should also be avoided."));
+				sender.sendMessage(ChatUtils.translateToColor(
+						"&e&l3. &7&oNo advertising other servers."));
+				sender.sendMessage(ChatUtils.translateToColor(
+						"&e&l4. &7&oNo advantage mods, or hacked clients. If you are unsure if you can use a mod, please contact a staff member."));
+				sender.sendMessage(ChatUtils.translateToColor(
+						"&e&l5. &7&oSpamming is not permitted"));
+				sender.sendMessage(
+						ChatUtils.translateToColor("&e&l6. &7&oSwearing is permitted, but please do not swear excessively."));
+				sender.sendMessage(
+						ChatUtils.translateToColor("&e&l7. &7&oRaiding and griefing is allowed."));
+				sender.sendMessage(ChatUtils.translateToColor(
+						"&e&l8. &7&oAutomatic farms and sorting systems are permitted."));
+				sender.sendMessage(ChatUtils
+						.translateToColor("&e&l9. &7&oNo using alt accounts to bypass a punishment."));
+				return true;
 			}
 		}
 
-		sender.sendMessage(ChatUtils.translateToColor("&6&l&nGeneral Rules"));
-		sender.sendMessage(ChatUtils
-				.translateToColor("&e&l1. &7&oBe kind to each other, and use common sense."));
-		sender.sendMessage(ChatUtils.translateToColor(
-				"&e&l2. &7&oRacism, homophobia, transphobia, sexism, and other forms of hate speech will not be tolerated. Sensitive topics should also be avoided."));
-		sender.sendMessage(ChatUtils.translateToColor(
-				"&e&l3. &7&oNo advertising other servers."));
-		sender.sendMessage(ChatUtils.translateToColor(
-				"&e&l4. &7&oNo advantage mods, or hacked clients. If you are unsure if you can use a mod, please contact a staff member."));
-		sender.sendMessage(ChatUtils.translateToColor(
-				"&e&l5. &7&oSpamming is not permitted"));
-		sender.sendMessage(
-				ChatUtils.translateToColor("&e&l6. &7&oSwearing is permitted, but please do not swear excessively."));
-		sender.sendMessage(
-				ChatUtils.translateToColor("&e&l7. &7&oRaiding and griefing is allowed."));
-		sender.sendMessage(ChatUtils.translateToColor(
-				"&e&l8. &7&oAutomatic farms and sorting systems are permitted."));
-		sender.sendMessage(ChatUtils
-				.translateToColor("&e&l9. &7&oNo using alt accounts to bypass a punishment."));
+		sender.sendMessage(ChatUtils.translateToColor("&8&l&nRules Pages"));
+		sender.sendMessage(ChatUtils.translateToColor("&7/rules &egeneral"));
+		sender.sendMessage(ChatUtils.translateToColor("&7/rules &earena"));
 		return true;
 
 	}
