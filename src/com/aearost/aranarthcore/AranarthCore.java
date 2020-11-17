@@ -33,11 +33,14 @@ import com.aearost.aranarthcore.utils.PersistenceUtils;
 public class AranarthCore extends JavaPlugin {
 	
 	@Override
-	public void onEnable() {
+	public void onEnable() {		
 
 		// Initialize Utils
 		new AranarthShopUtils(this);
 		new AranarthPlayerUtils(true);
+		
+		// Display Holograms
+		AranarthShopUtils.displayAllPlayerShopHolograms();
 
 		// Initialize Events
 		new ArenaDrops(this);
@@ -66,16 +69,14 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("rules").setExecutor(new CommandRules());
 		getCommand("rules").setTabCompleter(new CommandRulesCompleter());
 
-		// Update the files every 15 minutes to protect from loss of data
+		// Update the files every 30 minutes to protect from loss of data
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
 			public void run() {
 				PersistenceUtils.writePlayersToFile();
 				PersistenceUtils.writeShopSignsToFile();
-				AranarthShopUtils.displayAllPlayerShopHolograms();
 			}
 		}, 0, 36000);
-		
 		
 	}
 
