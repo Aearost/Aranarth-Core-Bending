@@ -1,6 +1,8 @@
 package com.aearost.aranarthcore.commands;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,6 +19,9 @@ import com.aearost.aranarthcore.utils.ChatUtils;
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
+import com.projectkorra.projectkorra.event.PlayerChangeElementEvent;
+import com.projectkorra.projectkorra.event.PlayerChangeElementEvent.Result;
+import com.projectkorra.projectkorra.event.PlayerChangeSubElementEvent;
 import com.projectkorra.projectkorra.Element.SubElement;
 
 public class CommandAC implements CommandExecutor {
@@ -78,8 +83,11 @@ public class CommandAC implements CommandExecutor {
 								player.sendMessage(ChatUtils.chatMessage("&7You can already change elements!"));
 								return false;
 							} else {
-								if (aranarthPlayer.getBalance() >= 250.00) {
-									aranarthPlayer.setBalance(aranarthPlayer.getBalance() - 250.00);
+								if (aranarthPlayer.getSaintStatus() > 0 || aranarthPlayer.getBalance() >= 250.00) {
+									
+									if (aranarthPlayer.getSaintStatus() == 0) {
+										aranarthPlayer.setBalance(aranarthPlayer.getBalance() - 250.00);
+									}
 									aranarthPlayer.setIsAbleToChangeElement(true);
 
 									for (Element e : Element.getAllElements()) {
@@ -87,7 +95,14 @@ public class CommandAC implements CommandExecutor {
 											bendingPlayer.getElements().remove(e);
 										}
 									}
+									bendingPlayer.getElements().clear();
+									bendingPlayer.getSubElements().clear();
+									GeneralMethods.saveElements(bendingPlayer);
+									GeneralMethods.saveSubElements(bendingPlayer);
+									GeneralMethods.removeUnusableAbilities(aranarthPlayer.getUsername());
 									player.sendMessage(ChatUtils.chatMessage("&7You can now change elements!"));
+									Bukkit.getServer().getPluginManager().callEvent(
+											new PlayerChangeElementEvent(sender, player, null, Result.REMOVE));
 									return true;
 								} else {
 									player.sendMessage(
@@ -106,6 +121,7 @@ public class CommandAC implements CommandExecutor {
 								aranarthPlayer.setIsAbleToChangeElement(false);
 
 								int rank = aranarthPlayer.getRank();
+								List<SubElement> subElements = new ArrayList<>();
 								if (element == Element.AIR) {
 									player.sendMessage(ChatUtils.chatMessage("&7You are now an Airbender!"));
 								} else if (element == Element.CHI) {
@@ -115,12 +131,15 @@ public class CommandAC implements CommandExecutor {
 									player.sendMessage(ChatUtils.chatMessage("&aYou are now an Earthbender!"));
 									bendingPlayer.setElement(Element.EARTH);
 									bendingPlayer.addSubElement(SubElement.SAND);
+									subElements.add(SubElement.SAND);
 									if (rank >= 2) {
 										bendingPlayer.addSubElement(Element.METAL);
+										subElements.add(SubElement.METAL);
 										player.sendMessage(ChatUtils.chatMessage("&2You are also a Metalbender!"));
 									}
 									if (rank >= 7) {
 										bendingPlayer.addSubElement(Element.LAVA);
+										subElements.add(SubElement.LAVA);
 										player.sendMessage(ChatUtils.chatMessage("&2As well as a Lavabender!"));
 									}
 								} else if (element == Element.FIRE) {
@@ -128,25 +147,38 @@ public class CommandAC implements CommandExecutor {
 									bendingPlayer.setElement(Element.FIRE);
 									if (rank >= 6) {
 										bendingPlayer.addSubElement(Element.LIGHTNING);
+										subElements.add(SubElement.LIGHTNING);
 										player.sendMessage(ChatUtils.chatMessage("&4You are also a Lightningbender!"));
 									}
 									if (rank >= 8) {
 										bendingPlayer.addSubElement(Element.COMBUSTION);
+										subElements.add(SubElement.COMBUSTION);
 										player.sendMessage(ChatUtils.chatMessage("&4As well as a Combustionbender!"));
 									}
 								} else if (element == Element.WATER) {
 									player.sendMessage(ChatUtils.chatMessage("&bYou are now a Waterbender!"));
 									bendingPlayer.setElement(Element.WATER);
 									bendingPlayer.addSubElement(SubElement.ICE);
+									subElements.add(SubElement.ICE);
 									if (rank >= 1) {
 										bendingPlayer.addSubElement(Element.HEALING);
+										subElements.add(SubElement.HEALING);
 										player.sendMessage(ChatUtils.chatMessage("&3You are also a Healer!"));
 										bendingPlayer.addSubElement(Element.PLANT);
+										subElements.add(SubElement.PLANT);
 										player.sendMessage(ChatUtils.chatMessage("&3As well as a Plantbender!"));
 									}
 								}
 								GeneralMethods.saveElements(bendingPlayer);
 								GeneralMethods.saveSubElements(bendingPlayer);
+								Bukkit.getServer().getPluginManager()
+										.callEvent(new PlayerChangeElementEvent(sender, player, element, Result.ADD));
+
+								for (SubElement sub : subElements) {
+									Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeSubElementEvent(
+											sender, player, sub,
+											com.projectkorra.projectkorra.event.PlayerChangeSubElementEvent.Result.ADD));
+								}
 								return true;
 							} else {
 								player.sendMessage(
@@ -345,7 +377,8 @@ public class CommandAC implements CommandExecutor {
 				onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
 			}
 			if (previousAvatar != null) {
-				ChatUtils.updatePlayerGroupsAndPrefix(Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
+				ChatUtils.updatePlayerGroupsAndPrefix(
+						Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
 			}
 		}
 		// Saint

@@ -178,6 +178,7 @@ public class RanksGui {
 			}
 		}
 		dukeLore.add(ChatUtils.translateToColor("&f&lPerks"));
+		dukeLore.add(ChatUtils.translateToColor("&f&o- /nick"));
 		dukeLore.add(ChatUtils.translateToColor("&f&o- /near"));
 		dukeLore.add(ChatUtils.translateToColor("&f&o- Ability to create 15 chest shops"));
 		dukeMeta.setLore(dukeLore);
@@ -252,6 +253,7 @@ public class RanksGui {
 		emperorLore.add(ChatUtils.translateToColor("&f&lBending"));
 		emperorLore.add(ChatUtils.translateToColor("&f&o- &4&oCombustionbending"));
 		emperorLore.add(ChatUtils.translateToColor("&f&lPerks"));
+		emperorLore.add(ChatUtils.translateToColor("&f&o- Access to #server-chat in Discord"));
 		emperorLore.add(ChatUtils.translateToColor("&f&o- Ability to set 5 homes"));
 		emperorLore.add(ChatUtils.translateToColor("&f&o- Ability to create unlimited chest shops"));
 		emperorMeta.setLore(emperorLore);
