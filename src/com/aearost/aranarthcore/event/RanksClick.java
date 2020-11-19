@@ -51,8 +51,8 @@ public class RanksClick implements Listener {
 					"&6&lDuke", "&b&lPrince", "&9&lKing", "&4&lEmperor" };
 			String[] femaleRanks = new String[] { "&a&lPeasant", "&d&lEsquire", "&7&lKnight", "&5&lBaroness",
 					"&8&lCountess", "&6&lDuchess", "&b&lPrincess", "&9&lQueen", "&4&lEmpress" };
-			String[] rankupCosts = new String[] { "FREE", "$250", "$750", "$1,500", "$3,000", "$7,500", "$12,500",
-					"$30,000", "$50,000" };
+			String[] rankupCosts = new String[] { "FREE", "$250", "$1,250", "$3,000", "$7,500", "$12,500", "$25,000",
+					"$50,000", "$100,000" };
 			int[] positions = new int[] { 4, 12, 14, 20, 22, 24, 30, 32, 40 };
 			int clickedPosition = 0;
 

@@ -101,9 +101,9 @@ public class RanksGui {
 		ItemMeta knightMeta = knight.getItemMeta();
 		ArrayList<String> knightLore = new ArrayList<>();
 		if (currentRank == 2) {
-			knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight&r&f&l ($750) - Current Rank"));
+			knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight&r&f&l ($1,250) - Current Rank"));
 		} else {
-			knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight&r&f&l ($750)"));
+			knightMeta.setDisplayName(ChatUtils.translateToColor("&7&l&nKnight&r&f&l ($1,250)"));
 		}
 		knightLore.add(ChatUtils.translateToColor("&f&lBending"));
 		knightLore.add(ChatUtils.translateToColor("&f&o- &2&oMetalbending"));
@@ -117,15 +117,15 @@ public class RanksGui {
 		ArrayList<String> baronLore = new ArrayList<>();
 		if (isMalePlayer) {
 			if (currentRank == 3) {
-				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($1,500) - Current Rank"));
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($3,000) - Current Rank"));
 			} else {
-				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($1,500)"));
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($3,000)"));
 			}
 		} else {
 			if (currentRank == 3) {
-				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($1,500) - Current Rank"));
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($3,000) - Current Rank"));
 			} else {
-				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($1,500)"));
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($3,000)"));
 			}
 		}
 		baronLore.add(ChatUtils.translateToColor("&f&lBending"));
@@ -141,15 +141,15 @@ public class RanksGui {
 		ArrayList<String> countLore = new ArrayList<>();
 		if (isMalePlayer) {
 			if (currentRank == 4) {
-				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($3,000) - Current Rank"));
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($7,500) - Current Rank"));
 			} else {
-				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($3,000)"));
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($7,500)"));
 			}
 		} else {
 			if (currentRank == 4) {
-				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCountess&r&f&l ($3,000) - Current Rank"));
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCountess&r&f&l ($7,500) - Current Rank"));
 			} else {
-				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCountess&r&f&l ($3,000)"));
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCountess&r&f&l ($7,500)"));
 			}
 		}
 		countLore.add(ChatUtils.translateToColor("&f&lBending"));
@@ -166,15 +166,15 @@ public class RanksGui {
 		ArrayList<String> dukeLore = new ArrayList<>();
 		if (isMalePlayer) {
 			if (currentRank == 5) {
-				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($7,500) - Current Rank"));
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($12,500) - Current Rank"));
 			} else {
-				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($7,500)"));
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($12,500)"));
 			}
 		} else {
 			if (currentRank == 5) {
-				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchess&r&f&l ($7,500) - Current Rank"));
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchess&r&f&l ($12,500) - Current Rank"));
 			} else {
-				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchess&r&f&l ($7,500)"));
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchess&r&f&l ($12,500)"));
 			}
 		}
 		dukeLore.add(ChatUtils.translateToColor("&f&lPerks"));
@@ -189,15 +189,15 @@ public class RanksGui {
 		ArrayList<String> princeLore = new ArrayList<>();
 		if (isMalePlayer) {
 			if (currentRank == 6) {
-				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($12,500) - Current Rank"));
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($25,000) - Current Rank"));
 			} else {
-				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($12,500)"));
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($25,000)"));
 			}
 		} else {
 			if (currentRank == 6) {
-				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrincess&r&f&l ($12,500) - Current Rank"));
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrincess&r&f&l ($25,000) - Current Rank"));
 			} else {
-				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrincess&r&f&l ($12,500)"));
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrincess&r&f&l ($25,000)"));
 			}
 		}
 		princeLore.add(ChatUtils.translateToColor("&f&lBending"));
@@ -213,15 +213,15 @@ public class RanksGui {
 		ArrayList<String> kingLore = new ArrayList<>();
 		if (isMalePlayer) {
 			if (currentRank == 7) {
-				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($30,000) - Current Rank"));
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($50,000) - Current Rank"));
 			} else {
-				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($30,000)"));
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($50,000)"));
 			}
 		} else {
 			if (currentRank == 7) {
-				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nQueen&r&f&l ($30,000) - Current Rank"));
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nQueen&r&f&l ($50,000) - Current Rank"));
 			} else {
-				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nQueen&r&f&l ($30,000)"));
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nQueen&r&f&l ($50,000)"));
 			}
 		}
 		kingLore.add(ChatUtils.translateToColor("&f&lBending"));
@@ -238,15 +238,15 @@ public class RanksGui {
 		ArrayList<String> emperorLore = new ArrayList<>();
 		if (isMalePlayer) {
 			if (currentRank == 8) {
-				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($50,000) - Current Rank"));
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($100,000) - Current Rank"));
 			} else {
-				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($50,000)"));
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($100,000)"));
 			}
 		} else {
 			if (currentRank == 8) {
-				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($50,000) - Current Rank"));
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($100,000) - Current Rank"));
 			} else {
-				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($50,000)"));
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmpress&r&f&l ($100,000)"));
 			}
 		}
 

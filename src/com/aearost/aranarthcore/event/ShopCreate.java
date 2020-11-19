@@ -178,9 +178,6 @@ public class ShopCreate implements Listener {
 						} else {
 							player.sendMessage(ChatUtils.translateToColor("&cYou cannot make a shop out of this!"));
 						}
-					} else if (!player.getName().equals(sign.getLine(0))) {
-						player.sendMessage(ChatUtils.translateToColor("&cYou cannot create a shop that is not yours!"));
-						return;
 					} else if (canMakeAdminShop(sign, player)) {
 						if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
 							Location signLocation = e.getClickedBlock().getLocation();
@@ -219,7 +216,10 @@ public class ShopCreate implements Listener {
 								player.sendMessage(ChatUtils.translateToColor("&cThis is already a server shop!"));
 							}
 						}
-					}
+					} else if (!player.getName().equals(sign.getLine(0))) {
+						player.sendMessage(ChatUtils.translateToColor("&cYou cannot create a shop that is not yours!"));
+						return;
+					} 
 
 				}
 			}

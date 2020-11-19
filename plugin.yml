@@ -18,8 +18,12 @@ commands:
       description: Displays a list of users and their balances, showing the highest balance first
       usage: /balancetop
       aliases: [baltop]
+   broadcast:
+      description: Broadcasts a message to the server
    eco:
       description: Allows the user to directly modify a player's balance
+   map:
+      description: Provides the user with a link to view the interactive map
    pay:
       description: Allows the user to pay another player some of their money
    ranks:
