@@ -33,7 +33,7 @@ public class AranarthAnnouncer {
 			
 			@Override
 			public void run() {
-				Bukkit.broadcastMessage(ChatUtils.translateToColor("&8[&6Aranarth&8]  &r" + messages.get(messageCounter)));
+				Bukkit.broadcastMessage(ChatUtils.translateToColor("&8[&6Aranarth&8] &r" + messages.get(messageCounter)));
 				
 				if (messageCounter < 4) {
 					messageCounter++;

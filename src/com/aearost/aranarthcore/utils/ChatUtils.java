@@ -1,5 +1,6 @@
 package com.aearost.aranarthcore.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -163,11 +164,12 @@ public class ChatUtils {
 
 		// If they are not a regular player
 		if (isCouncil || isSaint || isAvatar || !isMalePlayer) {
-			List<SubGroup> subGroups = aranarthPlayer.getSubGroups();
-			for (SubGroup subGroup : subGroups) {
+			List<SubGroup> subGroups = new ArrayList<>(aranarthPlayer.getSubGroups());
+			for (SubGroup subGroup : aranarthPlayer.getSubGroups()) {
 				Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " " + subGroup.name());
-				aranarthPlayer.removeSubGroup(subGroup);
+				subGroups.remove(subGroup);
 			}
+			aranarthPlayer.setSubGroups(subGroups);
 			
 			if (isCouncil) {
 				if (isAvatar) {

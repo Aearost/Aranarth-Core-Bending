@@ -3,6 +3,7 @@ package com.aearost.aranarthcore.commands;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,11 +19,11 @@ import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
+import com.projectkorra.projectkorra.Element.SubElement;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.event.PlayerChangeElementEvent;
 import com.projectkorra.projectkorra.event.PlayerChangeElementEvent.Result;
 import com.projectkorra.projectkorra.event.PlayerChangeSubElementEvent;
-import com.projectkorra.projectkorra.Element.SubElement;
 
 public class CommandAC implements CommandExecutor {
 
@@ -66,7 +67,27 @@ public class CommandAC implements CommandExecutor {
 					}
 					return false;
 				}
-
+				
+				// choseavatar
+				else if (args[0].toLowerCase().equals("chooseavatar")) {
+					Random random = new Random();
+					Player[] onlinePlayers = new Player[Bukkit.getOnlinePlayers().size()];
+					Bukkit.getOnlinePlayers().toArray(onlinePlayers);
+					Player avatar = onlinePlayers[random.nextInt(onlinePlayers.length)];
+					
+					String previousAvatar = AranarthPlayerUtils.replaceAvatar(avatar);
+					Bukkit.broadcastMessage(
+							ChatUtils.translateToColor("&5&lWelcome the first Avatar, &d&l" + avatar.getName() + "&5&l!"));
+					for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+						onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
+					}
+					if (previousAvatar != null) {
+						ChatUtils.updatePlayerGroupsAndPrefix(
+								Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
+					}
+					return true;
+				}
+				
 				// element
 				else if (args[0].toLowerCase().equals("element")) {
 					if (args.length > 2) {
