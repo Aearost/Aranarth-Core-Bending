@@ -1,5 +1,9 @@
 package com.aearost.aranarthcore.objects;
 
+import java.util.List;
+
+import com.aearost.aranarthcore.utils.SubGroup;
+
 /**
  * An AranarthPlayer object stores all variables representing a player on the
  * server. The plugin heavily utilizes this object through the
@@ -12,6 +16,7 @@ public class AranarthPlayer {
 
 	private String username;
 	private int rankLevel;
+	private List<SubGroup> subGroups;
 	private boolean isMale;
 	private double balance;
 	private boolean isAbleToChangeElement;
@@ -19,10 +24,11 @@ public class AranarthPlayer {
 	private String avatarStatus;
 	private int councilStatus;
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance,
+	public AranarthPlayer(String username, int rankLevel, List<SubGroup> subGroups, boolean isMale, double balance,
 			boolean isAbleToChangeElement) {
 		this.username = username;
 		this.rankLevel = rankLevel;
+		this.subGroups = subGroups;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.isAbleToChangeElement = isAbleToChangeElement;
@@ -31,10 +37,11 @@ public class AranarthPlayer {
 		councilStatus = 0;
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
-			int saintOrCouncilStatus) {
+	public AranarthPlayer(String username, int rankLevel, List<SubGroup> subGroups, boolean isMale, double balance,
+			boolean isAbleToChangeElement, int saintOrCouncilStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
+		this.subGroups = subGroups;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.isAbleToChangeElement = isAbleToChangeElement;
@@ -48,10 +55,11 @@ public class AranarthPlayer {
 		this.avatarStatus = "none";
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
-			String avatarStatus) {
+	public AranarthPlayer(String username, int rankLevel, List<SubGroup> subGroups, boolean isMale, double balance,
+			boolean isAbleToChangeElement, String avatarStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
+		this.subGroups = subGroups;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.isAbleToChangeElement = isAbleToChangeElement;
@@ -60,10 +68,11 @@ public class AranarthPlayer {
 		councilStatus = 0;
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
-			String avatarStatus, int councilStatus) {
+	public AranarthPlayer(String username, int rankLevel, List<SubGroup> subGroups, boolean isMale, double balance,
+			boolean isAbleToChangeElement, String avatarStatus, int councilStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
+		this.subGroups = subGroups;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.isAbleToChangeElement = isAbleToChangeElement;
@@ -72,10 +81,11 @@ public class AranarthPlayer {
 		this.councilStatus = councilStatus;
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
-			int saintOrCouncilStatus, String avatarStatus) {
+	public AranarthPlayer(String username, int rankLevel, List<SubGroup> subGroups, boolean isMale, double balance,
+			boolean isAbleToChangeElement, int saintOrCouncilStatus, String avatarStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
+		this.subGroups = subGroups;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.isAbleToChangeElement = isAbleToChangeElement;
@@ -90,10 +100,11 @@ public class AranarthPlayer {
 		councilStatus = 0;
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
-			int saintStatus, int councilStatus) {
+	public AranarthPlayer(String username, int rankLevel, List<SubGroup> subGroups, boolean isMale, double balance,
+			boolean isAbleToChangeElement, int saintStatus, int councilStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
+		this.subGroups = subGroups;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.isAbleToChangeElement = isAbleToChangeElement;
@@ -102,10 +113,11 @@ public class AranarthPlayer {
 		this.councilStatus = councilStatus;
 	}
 
-	public AranarthPlayer(String username, int rankLevel, boolean isMale, double balance, boolean isAbleToChangeElement,
-			int saintStatus, String avatarStatus, int councilStatus) {
+	public AranarthPlayer(String username, int rankLevel, List<SubGroup> subGroups, boolean isMale, double balance,
+			boolean isAbleToChangeElement, int saintStatus, String avatarStatus, int councilStatus) {
 		this.username = username;
 		this.rankLevel = rankLevel;
+		this.subGroups = subGroups;
 		this.isMale = isMale;
 		this.balance = balance;
 		this.isAbleToChangeElement = isAbleToChangeElement;
@@ -128,6 +140,33 @@ public class AranarthPlayer {
 
 	public void setRank(int rankLevel) {
 		this.rankLevel = rankLevel;
+	}
+	
+	public List<SubGroup> getSubGroups() {
+		return subGroups;
+	}
+	
+	public String getSubGroupsString() {
+		List<SubGroup> subGroups = getSubGroups();
+		if (subGroups.size() == 1) {
+			return subGroups.get(0).name();
+		} else if (subGroups.size() == 2) {
+			return subGroups.get(0).name() + "," + subGroups.get(0).name();
+		} else {
+			return "none";
+		}
+	}
+	
+	public void setSubGroups(List<SubGroup> subGroups) {
+		this.subGroups = subGroups;
+	}
+	
+	public void addSubGroup(SubGroup subGroup) {
+		subGroups.add(subGroup);
+	}
+	
+	public void removeSubGroup(SubGroup subGroup) {
+		subGroups.remove(subGroup);
 	}
 
 	public boolean getIsMale() {

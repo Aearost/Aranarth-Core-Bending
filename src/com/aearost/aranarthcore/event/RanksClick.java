@@ -206,6 +206,7 @@ public class RanksClick implements Listener {
 					player.closeInventory();
 				} else {
 					player.sendMessage(ChatUtils.chatMessage("&cYou do not have enough money to rankup!"));
+					player.closeInventory();
 				}
 			}
 			// Cancel

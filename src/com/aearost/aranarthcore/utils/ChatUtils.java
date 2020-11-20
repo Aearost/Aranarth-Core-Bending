@@ -1,5 +1,7 @@
 package com.aearost.aranarthcore.utils;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -159,22 +161,29 @@ public class ChatUtils {
 			}
 		}
 
-		// Other sub-elements can stay, avatar must be removed if no longer the Avatar.
-		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Avatar");
-
 		// If they are not a regular player
 		if (isCouncil || isSaint || isAvatar || !isMalePlayer) {
+			List<SubGroup> subGroups = aranarthPlayer.getSubGroups();
+			for (SubGroup subGroup : subGroups) {
+				Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " " + subGroup.name());
+				aranarthPlayer.removeSubGroup(subGroup);
+			}
+			
 			if (isCouncil) {
 				if (isAvatar) {
 					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Avatar");
+					aranarthPlayer.addSubGroup(SubGroup.AVATAR);
 				}
 				if (isSaint) {
 					if (isSaint1) {
 						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint1");
+						aranarthPlayer.addSubGroup(SubGroup.SAINT1);
 					} else if (isSaint2) {
 						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint2");
+						aranarthPlayer.addSubGroup(SubGroup.SAINT2);
 					} else {
 						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint3");
+						aranarthPlayer.addSubGroup(SubGroup.SAINT3);
 					}
 				}
 
@@ -186,9 +195,11 @@ public class ChatUtils {
 					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " CouncilAdmin");
 				}
 				Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
+				aranarthPlayer.addSubGroup(SubGroup.valueOf(rankName.toUpperCase()));
 			} else if (isSaint) {
 				if (isAvatar) {
 					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Avatar");
+					aranarthPlayer.addSubGroup(SubGroup.AVATAR);
 				}
 
 				if (isSaint1) {
@@ -199,9 +210,11 @@ public class ChatUtils {
 					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Saint3");
 				}
 				Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
+				aranarthPlayer.addSubGroup(SubGroup.valueOf(rankName.toUpperCase()));
 			} else if (isAvatar) {
 				Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Avatar");
 				Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
+				aranarthPlayer.addSubGroup(SubGroup.valueOf(rankName.toUpperCase()));
 			} else {
 				Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
 			}

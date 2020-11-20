@@ -1,5 +1,7 @@
 package com.aearost.aranarthcore.event;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +27,7 @@ public class PlayerJoinServer implements Listener {
 	public void onPlayerJoin(final PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 		if (!AranarthPlayerUtils.hasPlayedBefore(player)) {
-			AranarthPlayerUtils.addPlayer(player.getUniqueId(), new AranarthPlayer(player.getName(), 0, true, 50.00, true));
+			AranarthPlayerUtils.addPlayer(player.getUniqueId(), new AranarthPlayer(player.getName(), 0, new ArrayList<>(), true, 50.00, true));
 		}
 		// If the player changed their username
 		else if (!AranarthPlayerUtils.getUsername(player).equals(player.getName())) {
