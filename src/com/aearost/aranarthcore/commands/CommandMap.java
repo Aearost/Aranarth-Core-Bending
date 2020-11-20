@@ -13,7 +13,7 @@ public class CommandMap implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		sender.sendMessage(ChatUtils.chatMessage("&7Map URL: &ehttps://tinyurl.com/yxhug2z5"));
+		sender.sendMessage(ChatUtils.translateToColor("&8[&6Aranarth&8] &7Map URL: &ehttps://tinyurl.com/yxhug2z5"));
 		return true;
 	}
 

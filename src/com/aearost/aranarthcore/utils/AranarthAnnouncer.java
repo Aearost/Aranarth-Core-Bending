@@ -1,6 +1,7 @@
 package com.aearost.aranarthcore.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -14,10 +15,11 @@ public class AranarthAnnouncer {
 	public AranarthAnnouncer(AranarthCore plugin) {
 		messages = new ArrayList<>();
 		messages.add("&7Don't forget to &e/vote&7!");
-		messages.add("&7Be sure to know the &e/rules&7!");
-		messages.add("&7Join us on discord with &e/discord&7!");
-		messages.add("&7You can change your element for &e$250&7!");
 		messages.add("&7Earn money by selling items at &e/warp market&7!");
+		messages.add("&7Be sure to know the &e/rules&7.");
+		messages.add("&7Join our &e/discord&7!");
+		messages.add("&7View our &e/ranks &7to rankup!");
+		messages.add("&7Change elements for &e$250 &7at &e/warp info.");
 		makeAnnouncements(plugin);
 	}
 	
@@ -31,12 +33,13 @@ public class AranarthAnnouncer {
 			
 			@Override
 			public void run() {
-				Bukkit.broadcastMessage(ChatUtils.chatMessage(messages.get(messageCounter)));
+				Bukkit.broadcastMessage(ChatUtils.translateToColor("&8[&6Aranarth&8]  &r" + messages.get(messageCounter)));
 				
 				if (messageCounter < 4) {
 					messageCounter++;
 				} else {
 					messageCounter = 0;
+					Collections.shuffle(messages);
 				}
 			}
 		}, 0, 12000);
