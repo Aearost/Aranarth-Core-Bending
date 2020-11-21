@@ -1,6 +1,5 @@
 package com.aearost.aranarthcore.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -64,14 +63,8 @@ public class ChatUtils {
 		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(offlinePlayer);
 		int rank = aranarthPlayer.getRank();
 		boolean isAvatar = aranarthPlayer.getAvatarStatus().equals("current");
-		boolean isSaint1 = aranarthPlayer.getSaintStatus() == 1;
-		boolean isSaint2 = aranarthPlayer.getSaintStatus() == 2;
-		boolean isSaint3 = aranarthPlayer.getSaintStatus() == 3;
-		boolean isSaint = isSaint1 || isSaint2 || isSaint3;
-		boolean isCouncil1 = aranarthPlayer.getCouncilStatus() == 1;
-		boolean isCouncil2 = aranarthPlayer.getCouncilStatus() == 2;
-		boolean isCouncil3 = aranarthPlayer.getCouncilStatus() == 3;
-		boolean isCouncil = isCouncil1 || isCouncil2 || isCouncil3;
+		boolean isSaint = aranarthPlayer.getSaintStatus() > 0;
+		boolean isCouncil = aranarthPlayer.getCouncilStatus() > 0;
 
 		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
 
@@ -87,9 +80,9 @@ public class ChatUtils {
 
 		// Second part if applicable
 		if (isCouncil) {
-			if (isCouncil1) {
+			if (aranarthPlayer.getCouncilStatus() == 1) {
 				prefix += "&8[&3۞&8] ";
-			} else if (isCouncil2) {
+			} else if (aranarthPlayer.getCouncilStatus() == 2) {
 				prefix += "&8[&6۞&8] ";
 			} else {
 				prefix += "&8[&4۞&8] ";
@@ -98,9 +91,9 @@ public class ChatUtils {
 
 		// A saint but not a council member
 		if (isSaint && !isCouncil) {
-			if (isSaint1) {
+			if (aranarthPlayer.getSaintStatus() == 1) {
 				prefix += "&8[&b✵&8] ";
-			} else if (isSaint2) {
+			} else if (aranarthPlayer.getSaintStatus() == 2) {
 				prefix += "&8[&e✵&8] ";
 			} else {
 				prefix += "&8[&d✵&8] ";
@@ -161,71 +154,210 @@ public class ChatUtils {
 				prefix += "&6[&4Empress&6] &r";
 			}
 		}
-
-		// If they are not a regular player
-		if (isCouncil || isSaint || isAvatar || !isMalePlayer) {
-			List<SubGroup> subGroups = new ArrayList<>(aranarthPlayer.getSubGroups());
-			for (SubGroup subGroup : aranarthPlayer.getSubGroups()) {
-				Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " " + subGroup.name());
-				subGroups.remove(subGroup);
-			}
-			aranarthPlayer.setSubGroups(subGroups);
-			
-			if (isCouncil) {
-				if (isAvatar) {
-					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Avatar");
-					aranarthPlayer.addSubGroup(SubGroup.AVATAR);
-				}
-				if (isSaint) {
-					if (isSaint1) {
-						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint1");
-						aranarthPlayer.addSubGroup(SubGroup.SAINT1);
-					} else if (isSaint2) {
-						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint2");
-						aranarthPlayer.addSubGroup(SubGroup.SAINT2);
-					} else {
-						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint3");
-						aranarthPlayer.addSubGroup(SubGroup.SAINT3);
-					}
-				}
-
-				if (isCouncil1) {
-					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " CouncilHelper");
-				} else if (isCouncil2) {
-					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " CouncilModerator");
-				} else {
-					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " CouncilAdmin");
-				}
-				Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
-				aranarthPlayer.addSubGroup(SubGroup.valueOf(rankName.toUpperCase()));
-			} else if (isSaint) {
-				if (isAvatar) {
-					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Avatar");
-					aranarthPlayer.addSubGroup(SubGroup.AVATAR);
-				}
-
-				if (isSaint1) {
-					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Saint1");
-				} else if (isSaint2) {
-					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Saint2");
-				} else {
-					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Saint3");
-				}
-				Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
-				aranarthPlayer.addSubGroup(SubGroup.valueOf(rankName.toUpperCase()));
-			} else if (isAvatar) {
-				Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Avatar");
-				Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
-				aranarthPlayer.addSubGroup(SubGroup.valueOf(rankName.toUpperCase()));
-			} else {
-				Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
-			}
-
-			Bukkit.dispatchCommand(commandSender, "manuaddv " + offlinePlayer.getName() + " prefix " + prefix);
-		} else {
-			Bukkit.dispatchCommand(commandSender, "manudelv " + offlinePlayer.getName() + " prefix");
-			Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
+		
+		List<SubGroup> subGroups = aranarthPlayer.getSubGroups();
+		
+		if (subGroups.contains(SubGroup.AVATAR) && !isAvatar) {
+			Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Avatar");
+			subGroups.remove(SubGroup.AVATAR);
 		}
+
+		SubGroup subGroupToRemove = null;
+		for (SubGroup sub : subGroups) {
+			if (subGroupToRemove == null) {
+				subGroupToRemove = sub;
+			} else {
+				if (sub.compareTo(subGroupToRemove) <= 0) {
+					subGroupToRemove = sub;
+				}
+			}
+		}
+		if (subGroupToRemove != null) {
+			subGroups.remove(subGroupToRemove);
+			Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " " + subGroupToRemove.name());
+		}
+
+		if (isCouncil) {
+			aranarthPlayer = updateGroupsAsCouncil(commandSender, aranarthPlayer, isSaint, isAvatar);
+		} else if (isSaint) {
+			aranarthPlayer = updateGroupsAsSaint(commandSender, aranarthPlayer, isAvatar);
+		} else if (isAvatar) {
+			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " Avatar");
+		}
+
+		if (isCouncil || isSaint || isAvatar || !isMalePlayer) {
+			if (isCouncil || isSaint || isAvatar) {
+				if (!subGroups.contains(SubGroup.valueOf(rankName.toUpperCase()))) {
+					Bukkit.dispatchCommand(commandSender,
+							"manuaddsub " + aranarthPlayer.getUsername() + " " + rankName);
+					subGroups.add(SubGroup.valueOf(rankName.toUpperCase()));
+				}
+			} else {
+				Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " " + rankName);
+			}
+			Bukkit.dispatchCommand(commandSender, "manuaddv " + aranarthPlayer.getUsername() + " prefix " + prefix);
+		} else {
+			Bukkit.dispatchCommand(commandSender, "manudelv " + aranarthPlayer.getUsername() + " prefix");
+			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " " + rankName);
+		}
+		// Updates with new sub-groups
+		AranarthPlayerUtils.addPlayer(AranarthPlayerUtils.getUUID(aranarthPlayer.getUsername()), aranarthPlayer);
 	}
 
+	private static AranarthPlayer updateGroupsAsCouncil(CommandSender commandSender, AranarthPlayer aranarthPlayer,
+			boolean isSaint, boolean isAvatar) {
+		List<SubGroup> subGroups = aranarthPlayer.getSubGroups();		
+		// Sub-groups
+		if (isSaint) {
+			if (aranarthPlayer.getSaintStatus() == 1 && !subGroups.contains(SubGroup.SAINT1)) {
+				Bukkit.dispatchCommand(commandSender, "manuaddsub " + aranarthPlayer.getUsername() + " Saint1");
+				aranarthPlayer.addSubGroup(SubGroup.SAINT1);
+			} else if (aranarthPlayer.getSaintStatus() == 2 && !subGroups.contains(SubGroup.SAINT2)) {
+				Bukkit.dispatchCommand(commandSender, "manuaddsub " + aranarthPlayer.getUsername() + " Saint2");
+				aranarthPlayer.addSubGroup(SubGroup.SAINT2);
+			} else if (aranarthPlayer.getSaintStatus() == 3 && !subGroups.contains(SubGroup.SAINT3)) {
+				Bukkit.dispatchCommand(commandSender, "manuaddsub " + aranarthPlayer.getUsername() + " Saint3");
+				aranarthPlayer.addSubGroup(SubGroup.SAINT3);
+			}
+		}
+		if (isAvatar && !subGroups.contains(SubGroup.AVATAR)) {
+			Bukkit.dispatchCommand(commandSender, "manuaddsub " + aranarthPlayer.getUsername() + " Avatar");
+			aranarthPlayer.addSubGroup(SubGroup.AVATAR);
+		}
+
+		// Primary group
+		if (aranarthPlayer.getCouncilStatus() == 1) {
+			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " CouncilHelper");
+		} else if (aranarthPlayer.getCouncilStatus() == 2) {
+			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " CouncilModerator");
+		} else {
+			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " CouncilAdmin");
+		}
+		return aranarthPlayer;
+	}
+
+	private static AranarthPlayer updateGroupsAsSaint(CommandSender commandSender, AranarthPlayer aranarthPlayer,
+			boolean isAvatar) {
+		List<SubGroup> subGroups = aranarthPlayer.getSubGroups();	
+		
+		// Sub-group
+		if (isAvatar && !subGroups.contains(SubGroup.AVATAR)) {
+			Bukkit.dispatchCommand(commandSender, "manuaddsub " + aranarthPlayer.getUsername() + " Avatar");
+			aranarthPlayer.addSubGroup(SubGroup.AVATAR);
+		}
+
+		// Primary group
+		if (aranarthPlayer.getSaintStatus() == 1) {
+			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " Saint1");
+		} else if (aranarthPlayer.getSaintStatus() == 2) {
+			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " Saint2");
+		} else {
+			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " Saint3");
+		}
+		return aranarthPlayer;
+	}
+
+//		boolean wasAvatar = false;
+//
+//		// If they are not a regular player
+//		if (isCouncil || isSaint || isAvatar || !isMalePlayer) {
+//
+//			List<SubGroup> subGroups = removeOldSubGroups(commandSender, offlinePlayer, aranarthPlayer);
+//			
+//			if (!isAvatar && subGroups.contains(SubGroup.AVATAR)) {
+//				wasAvatar = true;
+//				Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " Avatar");
+//				subGroups.remove(SubGroup.AVATAR);
+//			}
+//
+//			if (isCouncil) {
+//				if (isAvatar && !subGroups.contains(SubGroup.AVATAR)) {
+//					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Avatar");
+//					aranarthPlayer.addSubGroup(SubGroup.AVATAR);
+//				}
+//				if (isSaint) {
+//					if (isSaint1 && !subGroups.contains(SubGroup.SAINT1)) {
+//						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint1");
+//						aranarthPlayer.addSubGroup(SubGroup.SAINT1);
+//					} else if (isSaint2 && !subGroups.contains(SubGroup.SAINT1)) {
+//						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint2");
+//						aranarthPlayer.addSubGroup(SubGroup.SAINT2);
+//					} else if (isSaint3 && !subGroups.contains(SubGroup.SAINT3)) {
+//						Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Saint3");
+//						aranarthPlayer.addSubGroup(SubGroup.SAINT3);
+//					}
+//				}
+//
+//				if (isCouncil1) {
+//					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " CouncilHelper");
+//				} else if (isCouncil2) {
+//					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " CouncilModerator");
+//				} else {
+//					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " CouncilAdmin");
+//				}
+//				if (!subGroups.contains(SubGroup.valueOf(rankName.toUpperCase()))) {
+//					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
+//					aranarthPlayer.addSubGroup(SubGroup.valueOf(rankName.toUpperCase()));
+//				}
+//				AranarthPlayerUtils.updatePlayerSubGroups(offlinePlayer, subGroups);
+//			} else if (isSaint) {
+//				if (isAvatar && !subGroups.contains(SubGroup.AVATAR)) {
+//					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " Avatar");
+//					aranarthPlayer.addSubGroup(SubGroup.AVATAR);
+//				}
+//
+//				if (isSaint1) {
+//					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Saint1");
+//				} else if (isSaint2) {
+//					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Saint2");
+//				} else {
+//					Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Saint3");
+//				}
+//				if (!subGroups.contains(SubGroup.valueOf(rankName.toUpperCase()))) {
+//					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
+//					aranarthPlayer.addSubGroup(SubGroup.valueOf(rankName.toUpperCase()));
+//				}
+//				AranarthPlayerUtils.updatePlayerSubGroups(offlinePlayer, subGroups);
+//			} else if (isAvatar) {
+//				Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " Avatar");
+//				if (!subGroups.contains(SubGroup.valueOf(rankName.toUpperCase()))) {
+//					Bukkit.dispatchCommand(commandSender, "manuaddsub " + offlinePlayer.getName() + " " + rankName);
+//					subGroups.add(SubGroup.valueOf(rankName.toUpperCase()));
+//					AranarthPlayerUtils.updatePlayerSubGroups(offlinePlayer, subGroups);
+//				}
+//			} else {
+//				Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
+//			}
+//
+//			Bukkit.dispatchCommand(commandSender, "manuaddv " + offlinePlayer.getName() + " prefix " + prefix);
+//		} else if (aranarthPlayer.getAvatarStatus().equals("previous")) {
+//			removeOldSubGroups(commandSender, offlinePlayer, aranarthPlayer);
+//		} else {
+//			if (wasAvatar) {
+//				Bukkit.dispatchCommand(commandSender, "manudelv " + offlinePlayer.getName() + " prefix");
+//			}
+//			Bukkit.dispatchCommand(commandSender, "manuadd " + offlinePlayer.getName() + " " + rankName);
+//		}
 }
+
+//	private static List<SubGroup> removeOldSubGroups(CommandSender commandSender, OfflinePlayer offlinePlayer,
+//			AranarthPlayer aranarthPlayer) {
+//		List<SubGroup> subGroups = aranarthPlayer.getSubGroups();
+//
+//		SubGroup subGroupToRemove = null;
+//		for (SubGroup subGroup : subGroups) {
+//
+//			if (subGroupToRemove == null) {
+//				subGroupToRemove = subGroup;
+//			} else {
+//				if (subGroup.compareTo(subGroupToRemove) <= 0) {
+//					subGroupToRemove = subGroup;
+//				}
+//			}
+//		}
+//		subGroups.remove(subGroupToRemove);
+//		Bukkit.dispatchCommand(commandSender, "manudelsub " + offlinePlayer.getName() + " " + subGroupToRemove.name());
+//		return subGroups;
+//	}
+//
+//}

@@ -141,30 +141,32 @@ public class AranarthPlayer {
 	public void setRank(int rankLevel) {
 		this.rankLevel = rankLevel;
 	}
-	
+
 	public List<SubGroup> getSubGroups() {
 		return subGroups;
 	}
-	
+
 	public String getSubGroupsString() {
 		List<SubGroup> subGroups = getSubGroups();
 		if (subGroups.size() == 1) {
 			return subGroups.get(0).name();
 		} else if (subGroups.size() == 2) {
-			return subGroups.get(0).name() + "," + subGroups.get(0).name();
+			return subGroups.get(0).name() + "," + subGroups.get(1).name();
+		} else if (subGroups.size() == 3) {
+			return subGroups.get(0).name() + "," + subGroups.get(1).name() + "," + subGroups.get(2).name();
 		} else {
 			return "none";
 		}
 	}
-	
+
 	public void setSubGroups(List<SubGroup> subGroups) {
 		this.subGroups = subGroups;
 	}
-	
+
 	public void addSubGroup(SubGroup subGroup) {
 		subGroups.add(subGroup);
 	}
-	
+
 	public void removeSubGroup(SubGroup subGroup) {
 		subGroups.remove(subGroup);
 	}

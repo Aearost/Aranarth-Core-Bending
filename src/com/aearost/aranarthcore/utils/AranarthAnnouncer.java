@@ -18,6 +18,7 @@ public class AranarthAnnouncer {
 		messages.add("&7Earn money by selling items at &e/warp market&7!");
 		messages.add("&7Be sure to know the &e/rules&7.");
 		messages.add("&7Join our &e/discord&7!");
+		messages.add("&7Do &e/teas guide &7for help with teas.");
 		messages.add("&7View our &e/ranks &7to rankup!");
 		messages.add("&7Change elements for &e$250 &7at &e/warp info.");
 		makeAnnouncements(plugin);

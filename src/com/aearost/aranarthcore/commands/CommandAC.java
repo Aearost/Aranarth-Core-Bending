@@ -75,16 +75,13 @@ public class CommandAC implements CommandExecutor {
 					Bukkit.getOnlinePlayers().toArray(onlinePlayers);
 					Player avatar = onlinePlayers[random.nextInt(onlinePlayers.length)];
 					
-					String previousAvatar = AranarthPlayerUtils.replaceAvatar(avatar);
+					AranarthPlayerUtils.replaceAvatar(avatar);
 					Bukkit.broadcastMessage(
 							ChatUtils.translateToColor("&5&lWelcome the first Avatar, &d&l" + avatar.getName() + "&5&l!"));
 					for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 						onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1.3F, 2.0F);
 					}
-					if (previousAvatar != null) {
-						ChatUtils.updatePlayerGroupsAndPrefix(
-								Bukkit.getOfflinePlayer(AranarthPlayerUtils.getUUID(previousAvatar)));
-					}
+					ChatUtils.updatePlayerGroupsAndPrefix(avatar);
 					return true;
 				}
 				
@@ -245,6 +242,7 @@ public class CommandAC implements CommandExecutor {
 							NumberFormat formatter = NumberFormat.getCurrencyInstance();
 							sender.sendMessage(ChatUtils.translateToColor("&6&l&n" + args[1] + "'s Aranarth Stats"));
 							sender.sendMessage(ChatUtils.translateToColor("&aRank: &e" + aranarthPlayer.getRank()));
+							sender.sendMessage(ChatUtils.translateToColor("&aSub-Groups: &e" + aranarthPlayer.getSubGroupsString()));
 							sender.sendMessage(ChatUtils.translateToColor("&aMale: &e" + aranarthPlayer.getIsMale()));
 							sender.sendMessage(ChatUtils
 									.translateToColor("&aBalance: &e" + formatter.format(aranarthPlayer.getBalance())));

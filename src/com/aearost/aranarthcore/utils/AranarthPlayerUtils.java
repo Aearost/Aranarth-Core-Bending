@@ -130,7 +130,8 @@ public class AranarthPlayerUtils {
 	}
 
 	/**
-	 * Replaces the current Avatar with a new input player.
+	 * Replaces the current Avatar with a new input player. This only affects the
+	 * AranarthPlayer object, as well as their elements.
 	 * 
 	 * @param playerNewAvatar
 	 * @return
@@ -149,8 +150,9 @@ public class AranarthPlayerUtils {
 				currentAvatar.setAvatarStatus("previous");
 				addPlayer(uuid, currentAvatar);
 				isCurrentMadePrevious = true;
-				
-				// Removes old avatar's elements and allows them to return to an element for free
+
+				// Removes old avatar's elements and allows them to return to an element for
+				// free
 				BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(Bukkit.getOfflinePlayer(uuid));
 				for (Element e : Element.getElements()) {
 					if (bendingPlayer.hasElement(e)) {
@@ -158,9 +160,10 @@ public class AranarthPlayerUtils {
 					}
 				}
 				currentAvatar.setIsAbleToChangeElement(true);
-				
+
 				if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(uuid))) {
-					Bukkit.getPlayer(uuid).sendMessage(ChatUtils.translateToColor("&7You are no longer the avatar"));
+					Bukkit.getPlayer(uuid).sendMessage(ChatUtils.translateToColor("&7You are no longer the avatar!"));
+					Bukkit.getPlayer(uuid).sendMessage(ChatUtils.translateToColor("&7Go to &e/warp info &7and re-select an element."));
 				}
 			} else if (entry.getValue().getAvatarStatus().equals("previous")) {
 				AranarthPlayer previousAvatar = getPlayer(uuid);
@@ -176,11 +179,12 @@ public class AranarthPlayerUtils {
 		if (playerNewAvatar != null) {
 			AranarthPlayer newAvatar = getPlayer(playerNewAvatar.getUniqueId());
 			newAvatar.setAvatarStatus("current");
-			
+
 			// Initializes the new avatar and gives them all elements for free
 			newAvatar.setIsAbleToChangeElement(false);
 			addPlayer(getUUID(newAvatar.getUsername()), newAvatar);
-			BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(Bukkit.getOfflinePlayer(playerNewAvatar.getUniqueId()));
+			BendingPlayer bendingPlayer = BendingPlayer
+					.getBendingPlayer(Bukkit.getOfflinePlayer(playerNewAvatar.getUniqueId()));
 			for (Element e : Element.getElements()) {
 				if (bendingPlayer.hasElement(e)) {
 					bendingPlayer.getElements().remove(e);
@@ -190,7 +194,7 @@ public class AranarthPlayerUtils {
 			bendingPlayer.addElement(Element.AIR);
 			bendingPlayer.addElement(Element.EARTH);
 			bendingPlayer.addElement(Element.FIRE);
-			bendingPlayer.addElement(Element.WATER); 
+			bendingPlayer.addElement(Element.WATER);
 			// Add sub-elements
 			bendingPlayer.addSubElement(SubElement.SAND);
 			bendingPlayer.addSubElement(SubElement.METAL);
