@@ -264,28 +264,26 @@ public class RanksGui {
 		// Saint 1
 		ItemMeta saint1Meta = saint1.getItemMeta();
 		ArrayList<String> saint1Lore = new ArrayList<>();
-		saint1Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P&r &d&l&nSaint (I)"));
-//		saint1Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (I)"));
+		saint1Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint I"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- Colored chat and signs"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- /nick, /hat, /craft"));
-		saint1Lore.add(ChatUtils.translateToColor("&f&o- 10 arrow trails including\nTotem and Sneeze"));
+		saint1Lore.add(ChatUtils.translateToColor("&f&o- 10 arrow trails"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- 6 gadgets including the Paintball Gun"));
-		saint1Lore.add(ChatUtils.translateToColor("&f&o- 4 mounts including Glacial Steed"));
+		saint1Lore.add(ChatUtils.translateToColor("&f&o- 3 mounts including Glacial Steed"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- 5 particles including Frozenwalk"));
-		saint1Lore.add(ChatUtils.translateToColor("&f&o- Access to the Cow and Pig pets"));
+		saint1Lore.add(ChatUtils.translateToColor("&f&o- Access to the Cow and Piggy pets"));
 		saint1Meta.setLore(saint1Lore);
 		saint1.setItemMeta(saint1Meta);
 
 		// Saint 2
 		ItemMeta saint2Meta = saint2.getItemMeta();
 		ArrayList<String> saint2Lore = new ArrayList<>();
-		saint2Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P&r &d&l&nSaint (II)"));
-//		saint2Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (II)"));
+		saint2Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint II"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- Colored nickname"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- /enderchest"));
-		saint2Lore.add(ChatUtils.translateToColor("&f&o- 14 more arrow trails including\nHeart and End Rod"));
+		saint2Lore.add(ChatUtils.translateToColor("&f&o- 14 more arrow trails"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- 9 gadgets including Thor's Hammer"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- 4 mounts including Mount of Fire"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- 7 particles including Magical Rods"));
@@ -296,13 +294,12 @@ public class RanksGui {
 		// Saint 3
 		ItemMeta saint3Meta = saint3.getItemMeta();
 		ArrayList<String> saint3Lore = new ArrayList<>();
-		saint3Meta.setDisplayName(ChatUtils.translateToColor("&4&l&nW.I.P&r &d&l&nSaint (III)"));
-//		saint3Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint (III)"));
+		saint3Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint III"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Bold chat and nickname"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Ability to join the server when it's full"));
-		saint3Lore.add(ChatUtils.translateToColor("&f&o- 16 more arrow trails including\nMagic Crit and Squid Ink"));
-		saint3Lore.add(ChatUtils.translateToColor("&f&o- 11 gadgets including Trampoline"));
+		saint3Lore.add(ChatUtils.translateToColor("&f&o- 16 more arrow trails"));
+		saint3Lore.add(ChatUtils.translateToColor("&f&o- 10 gadgets including Trampoline"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 6 mounts including Nyan Sheep"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 7 particles including Fire Waves"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 5 pets including the Wither"));

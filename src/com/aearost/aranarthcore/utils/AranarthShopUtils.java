@@ -275,7 +275,7 @@ public class AranarthShopUtils {
 			}
 
 			if (stack.isSimilar(item) && amountTransferred < transactionQuantity) {
-				while (amountTransferred < transactionQuantity) {
+				while (amountTransferred < transactionQuantity && stack.getAmount() > 0) {
 					stack.setAmount(stack.getAmount() - 1);
 					amountTransferred++;
 				}

@@ -42,6 +42,21 @@ public class RanksClick implements Listener {
 			int rank = AranarthPlayerUtils.getRank(player);
 
 			int slot = e.getSlot();
+			
+			if (slot == 47) {
+				player.sendMessage(ChatUtils.translateToColor("&3Saint I: &bhttps://aranarth.craftingstore.net/package/493265"));
+				player.closeInventory();
+				return;
+			} else if (slot == 49) {
+				player.sendMessage(ChatUtils.translateToColor("&6Saint II: &ehttps://aranarth.craftingstore.net/package/493266"));
+				player.closeInventory();
+				return;
+			} else if (slot == 51) {
+				player.sendMessage(ChatUtils.translateToColor("&4Saint III: &chttps://aranarth.craftingstore.net/package/493280"));
+				player.closeInventory();
+				return;
+			}
+			
 			boolean isRankup = false;
 			boolean isClickedRankSameAsCurrent = false;
 			boolean isClickedRankLowerThanCurrent = false;
