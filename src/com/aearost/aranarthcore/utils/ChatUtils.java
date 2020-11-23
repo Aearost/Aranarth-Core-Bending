@@ -89,8 +89,8 @@ public class ChatUtils {
 			}
 		}
 
-		// A saint but not a council member
-		if (isSaint && !isCouncil) {
+		// A saint
+		if (isSaint) {
 			if (aranarthPlayer.getSaintStatus() == 1) {
 				prefix += "&8[&b✵&8] ";
 			} else if (aranarthPlayer.getSaintStatus() == 2) {

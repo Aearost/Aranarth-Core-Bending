@@ -14,13 +14,13 @@ public class AranarthAnnouncer {
 	
 	public AranarthAnnouncer(AranarthCore plugin) {
 		messages = new ArrayList<>();
-		messages.add("&7Don't forget to &e/vote&7!");
-		messages.add("&7Earn money by selling items at &e/warp market&7!");
-		messages.add("&7Be sure to know the &e/rules&7.");
-		messages.add("&7Join our &e/discord&7!");
-		messages.add("&7Do &e/teas guide &7for help with teas.");
-		messages.add("&7View our &e/ranks &7to rankup!");
-		messages.add("&7Change elements for &e$250 &7at &e/warp info.");
+		messages.add("&7&oDon't forget to &e&o/vote&7&o!");
+		messages.add("&7&oEarn money by selling items at &e&o/warp market&7&o!");
+		messages.add("&7&oBe sure to know the &e&o/rules");
+		messages.add("&7&oJoin our &e&o/discord&7&o!");
+		messages.add("&7&oDo &e&o/teas guide &7&ofor help with teas");
+		messages.add("&7&oView our &e&o/ranks &7&oto rankup!");
+		messages.add("&7&oChange elements for &e&o$250 &7&oat &e&o/warp info");
 		makeAnnouncements(plugin);
 	}
 	
@@ -43,7 +43,7 @@ public class AranarthAnnouncer {
 					Collections.shuffle(messages);
 				}
 			}
-		}, 0, 12000);
+		}, 12000, 12000);
 	}
 	
 }

@@ -20,6 +20,10 @@ commands:
       aliases: [baltop]
    broadcast:
       description: Broadcasts a message to the server
+   buy:
+      description: Provides the user with the link to the server shop
+      usage: /buy
+      aliases: [donate]
    eco:
       description: Allows the user to directly modify a player's balance
    map:

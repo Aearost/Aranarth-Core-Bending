@@ -298,7 +298,7 @@ public class RanksGui {
 		saint3Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Bold chat and nickname"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Ability to join the server when it's full"));
-		saint3Lore.add(ChatUtils.translateToColor("&f&o- 16 more arrow trails"));
+		saint3Lore.add(ChatUtils.translateToColor("&f&o- 18 more arrow trails"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 10 gadgets including Trampoline"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 6 mounts including Nyan Sheep"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- 7 particles including Fire Waves"));

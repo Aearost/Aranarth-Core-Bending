@@ -10,6 +10,7 @@ import com.aearost.aranarthcore.commands.CommandBalanceCompleter;
 import com.aearost.aranarthcore.commands.CommandBalancetop;
 import com.aearost.aranarthcore.commands.CommandBalancetopCompleter;
 import com.aearost.aranarthcore.commands.CommandBroadcast;
+import com.aearost.aranarthcore.commands.CommandBuy;
 import com.aearost.aranarthcore.commands.CommandEco;
 import com.aearost.aranarthcore.commands.CommandEcoCompleter;
 import com.aearost.aranarthcore.commands.CommandMap;
@@ -28,6 +29,14 @@ import com.aearost.aranarthcore.event.ShopCreate;
 import com.aearost.aranarthcore.event.ShopDestroy;
 import com.aearost.aranarthcore.event.ShopOpen;
 import com.aearost.aranarthcore.event.ShopSignClick;
+import com.aearost.aranarthcore.recipes.RecipeAcaciaLogFromWood;
+import com.aearost.aranarthcore.recipes.RecipeBirchLogFromWood;
+import com.aearost.aranarthcore.recipes.RecipeCrimsonLogFromWood;
+import com.aearost.aranarthcore.recipes.RecipeDarkOakLogFromWood;
+import com.aearost.aranarthcore.recipes.RecipeJungleLogFromWood;
+import com.aearost.aranarthcore.recipes.RecipeOakLogFromWood;
+import com.aearost.aranarthcore.recipes.RecipeSpruceLogFromWood;
+import com.aearost.aranarthcore.recipes.RecipeWarpedLogFromWood;
 import com.aearost.aranarthcore.utils.AranarthAnnouncer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.AranarthShopUtils;
@@ -57,7 +66,7 @@ public class AranarthCore extends JavaPlugin {
 		new ShopOpen(this);
 		new ShopSignClick(this);
 
-		// Initialize commands
+		// Initialize Commands
 		getCommand("ac").setExecutor(new CommandAC());
 		getCommand("ac").setTabCompleter(new CommandACCompleter());
 		getCommand("balance").setExecutor(new CommandBalance());
@@ -65,6 +74,7 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("broadcast").setExecutor(new CommandBroadcast());
 		getCommand("balancetop").setExecutor(new CommandBalancetop());
 		getCommand("balancetop").setTabCompleter(new CommandBalancetopCompleter());
+		getCommand("buy").setExecutor(new CommandBuy());
 		getCommand("eco").setExecutor(new CommandEco());
 		getCommand("eco").setTabCompleter(new CommandEcoCompleter());
 		getCommand("map").setExecutor(new CommandMap());
@@ -74,15 +84,27 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("ranks").setTabCompleter(new CommandRanksCompleter());
 		getCommand("rules").setExecutor(new CommandRules());
 		getCommand("rules").setTabCompleter(new CommandRulesCompleter());
-
+		
+		// Initialize Recipes
+		new RecipeAcaciaLogFromWood(this);
+		new RecipeBirchLogFromWood(this);
+		new RecipeCrimsonLogFromWood(this);
+		new RecipeDarkOakLogFromWood(this);
+		new RecipeJungleLogFromWood(this);
+		new RecipeOakLogFromWood(this);
+		new RecipeSpruceLogFromWood(this);
+		new RecipeWarpedLogFromWood(this);
+		
+		
 		// Update the files every 30 minutes to protect from loss of data
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
 			public void run() {
 				PersistenceUtils.writePlayersToFile();
 				PersistenceUtils.writeShopSignsToFile();
+				Bukkit.broadcastMessage("Players and shops have been written to file");
 			}
-		}, 0, 36000);
+		}, 36000, 36000);
 		
 	}
 
