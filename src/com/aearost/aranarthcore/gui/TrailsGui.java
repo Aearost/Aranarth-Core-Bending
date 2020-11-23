@@ -6,6 +6,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 import com.aearost.aranarthcore.utils.ChatUtils;
 
@@ -32,48 +35,77 @@ public class TrailsGui {
 	}
 
 	private Inventory initializeGui(Player player) {
-		Inventory gui = Bukkit.getServer().createInventory(player, 27,
-				ChatUtils.translateToColor("&0&lRankup Confirm"));
+		Inventory gui = Bukkit.getServer().createInventory(player, 4,
+				ChatUtils.translateToColor("&8&lArrow Trails"));
 
-		// Initialize Items
-		ItemStack yellowPane = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
-		ItemStack blackPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-		ItemStack cancel = new ItemStack(Material.RED_CONCRETE);
-		ItemStack rankup = new ItemStack(Material.LIME_CONCRETE);
+		// Initialize Base Arrow Items
+		ItemStack gray = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta grayMeta = (PotionMeta) gray.getItemMeta();
+		grayMeta.setBasePotionData(new PotionData(PotionType.TURTLE_MASTER));
+		gray.setItemMeta(grayMeta);
+		
+		ItemStack purple = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta purpleMeta = (PotionMeta) purple.getItemMeta();
+		purpleMeta.setBasePotionData(new PotionData(PotionType.REGEN));
+		purple.setItemMeta(purpleMeta);
+		
+		ItemStack lime = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta limeMeta = (PotionMeta) lime.getItemMeta();
+		limeMeta.setBasePotionData(new PotionData(PotionType.JUMP));
+		lime.setItemMeta(limeMeta);
+		
+		ItemStack white = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta whiteMeta = (PotionMeta) white.getItemMeta();
+		whiteMeta.setBasePotionData(new PotionData(PotionType.SLOW_FALLING));
+		white.setItemMeta(whiteMeta);
+		
+		ItemStack black = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta blackMeta = (PotionMeta) black.getItemMeta();
+		blackMeta.setBasePotionData(new PotionData(PotionType.INSTANT_DAMAGE));
+		black.setItemMeta(blackMeta);
+		
+		ItemStack green = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta greenMeta = (PotionMeta) green.getItemMeta();
+		greenMeta.setBasePotionData(new PotionData(PotionType.LUCK));
+		green.setItemMeta(greenMeta);
+		
+		ItemStack blue = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta blueMeta = (PotionMeta) blue.getItemMeta();
+		blueMeta.setBasePotionData(new PotionData(PotionType.WATER_BREATHING));
+		blue.setItemMeta(blueMeta);
+		
+		ItemStack orange = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta orangeMeta = (PotionMeta) orange.getItemMeta();
+		orangeMeta.setBasePotionData(new PotionData(PotionType.FIRE_RESISTANCE));
+		orange.setItemMeta(orangeMeta);
+		
+		ItemStack red = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta redMeta = (PotionMeta) red.getItemMeta();
+		redMeta.setBasePotionData(new PotionData(PotionType.INSTANT_HEAL));
+		red.setItemMeta(redMeta);
+		
+		ItemStack lightBlue = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta lightBlueMeta = (PotionMeta) lightBlue.getItemMeta();
+		lightBlueMeta.setBasePotionData(new PotionData(PotionType.SPEED));
+		lightBlue.setItemMeta(lightBlueMeta);
 
-		// Removing name of panes
-		ItemMeta yellowPaneMeta = yellowPane.getItemMeta();
-		yellowPaneMeta.setDisplayName(" ");
-		yellowPane.setItemMeta(yellowPaneMeta);
-		ItemMeta blackPaneMeta = blackPane.getItemMeta();
-		blackPaneMeta.setDisplayName(" ");
-		blackPane.setItemMeta(blackPaneMeta);
-
-		ItemMeta cancelMeta = cancel.getItemMeta();
-		cancelMeta.setDisplayName(ChatUtils.translateToColor("&c&lCancel Rankup"));
-		cancel.setItemMeta(cancelMeta);
-		ItemMeta rankupMeta = rankup.getItemMeta();
-		rankupMeta
-				.setDisplayName(ChatUtils.translateToColor("&a&lRankup to " + rankName + " &a&lfor &6&l" + rankupCost));
-		rankup.setItemMeta(rankupMeta);
-
-		// Initialize GUI
-		for (int position = 0; position < 27; position++) {
-			// Top and bottom lines
-			if (position < 9 || position >= 18) {
-				gui.setItem(position, blackPane);
-			}
-		}
-
-		gui.setItem(9, blackPane);
-		gui.setItem(10, yellowPane);
-		gui.setItem(11, yellowPane);
-		gui.setItem(12, cancel);
-		gui.setItem(13, yellowPane);
-		gui.setItem(14, rankup);
-		gui.setItem(15, yellowPane);
-		gui.setItem(16, yellowPane);
-		gui.setItem(17, blackPane);
+		ItemStack darkGray = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta darkGrayMeta = (PotionMeta) darkGray.getItemMeta();
+		darkGrayMeta.setBasePotionData(new PotionData(PotionType.SLOWNESS));
+		darkGray.setItemMeta(darkGrayMeta);
+		
+		ItemStack lightGray = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta lightGrayMeta = (PotionMeta) lightGray.getItemMeta();
+		lightGrayMeta.setBasePotionData(new PotionData(PotionType.INVISIBILITY));
+		lightGray.setItemMeta(lightGrayMeta);
+		
+		ItemStack darkBlue = new ItemStack(Material.TIPPED_ARROW);
+		PotionMeta darkBlueMeta = (PotionMeta) darkBlue.getItemMeta();
+		darkBlueMeta.setBasePotionData(new PotionData(PotionType.NIGHT_VISION));
+		darkBlue.setItemMeta(darkBlueMeta);
+		
+		
+		
 
 		return gui;
 	}

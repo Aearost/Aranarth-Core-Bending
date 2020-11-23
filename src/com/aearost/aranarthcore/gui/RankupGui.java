@@ -33,7 +33,7 @@ public class RankupGui {
 
 	private Inventory initializeGui(Player player, String rankName, String rankupCost) {
 		Inventory gui = Bukkit.getServer().createInventory(player, 27,
-				ChatUtils.translateToColor("&0&lRankup Confirm"));
+				ChatUtils.translateToColor("&8&lRankup Confirm"));
 
 		// Initialize Items
 		ItemStack yellowPane = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);

@@ -20,6 +20,7 @@ import com.aearost.aranarthcore.commands.CommandRanks;
 import com.aearost.aranarthcore.commands.CommandRanksCompleter;
 import com.aearost.aranarthcore.commands.CommandRules;
 import com.aearost.aranarthcore.commands.CommandRulesCompleter;
+import com.aearost.aranarthcore.commands.CommandTrails;
 import com.aearost.aranarthcore.event.ArenaDrops;
 import com.aearost.aranarthcore.event.ArmorStandEquipCancel;
 import com.aearost.aranarthcore.event.AvatarDeath;
@@ -41,6 +42,7 @@ import com.aearost.aranarthcore.utils.AranarthAnnouncer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.AranarthShopUtils;
 import com.aearost.aranarthcore.utils.PersistenceUtils;
+import com.aearost.aranarthcore.utils.TrailUtils;
 
 public class AranarthCore extends JavaPlugin {
 	
@@ -51,6 +53,7 @@ public class AranarthCore extends JavaPlugin {
 		new AranarthShopUtils(this);
 		new AranarthPlayerUtils(true);
 		new AranarthAnnouncer(this);
+		new TrailUtils();
 		
 		// Display Holograms
 		AranarthShopUtils.displayAllPlayerShopHolograms();
@@ -84,6 +87,7 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("ranks").setTabCompleter(new CommandRanksCompleter());
 		getCommand("rules").setExecutor(new CommandRules());
 		getCommand("rules").setTabCompleter(new CommandRulesCompleter());
+		getCommand("trails").setExecutor(new CommandTrails());
 		
 		// Initialize Recipes
 		new RecipeAcaciaLogFromWood(this);

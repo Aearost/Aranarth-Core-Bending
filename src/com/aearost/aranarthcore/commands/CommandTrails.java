@@ -20,6 +20,7 @@ public class CommandTrails implements CommandExecutor {
 			Player player = (Player) sender;
 			if (AranarthPlayerUtils.getPlayer(player).getSaintStatus() == 0) {
 				player.sendMessage(ChatUtils.translateToColor("&cYou must be a Saint to use this command!"));
+				return false;
 			}
 			
 			TrailsGui trailsGui = new TrailsGui(player);

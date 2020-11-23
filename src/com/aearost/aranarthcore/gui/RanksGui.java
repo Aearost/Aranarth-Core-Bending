@@ -36,7 +36,7 @@ public class RanksGui {
 
 	private Inventory initializeGui(Player player) {
 		Inventory gui = Bukkit.getServer().createInventory(player, 54,
-				ChatUtils.translateToColor("&0&lAranarth Ranks"));
+				ChatUtils.translateToColor("&8&lAranarth Ranks"));
 
 		boolean isMalePlayer = AranarthPlayerUtils.getPlayer(player).getIsMale();
 		int currentRank = AranarthPlayerUtils.getPlayer(player).getRank();
@@ -268,7 +268,7 @@ public class RanksGui {
 		saint1Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- Colored chat and signs"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- /nick, /hat, /craft"));
-		saint1Lore.add(ChatUtils.translateToColor("&f&o- 10 arrow trails"));
+		saint1Lore.add(ChatUtils.translateToColor("&f&o- 9 arrow trails"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- 6 gadgets including the Paintball Gun"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- 3 mounts including Glacial Steed"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- 5 particles including Frozenwalk"));
