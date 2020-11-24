@@ -30,6 +30,7 @@ import com.aearost.aranarthcore.event.ShopCreate;
 import com.aearost.aranarthcore.event.ShopDestroy;
 import com.aearost.aranarthcore.event.ShopOpen;
 import com.aearost.aranarthcore.event.ShopSignClick;
+import com.aearost.aranarthcore.event.TrailArrowClick;
 import com.aearost.aranarthcore.recipes.RecipeAcaciaLogFromWood;
 import com.aearost.aranarthcore.recipes.RecipeBirchLogFromWood;
 import com.aearost.aranarthcore.recipes.RecipeCrimsonLogFromWood;
@@ -68,6 +69,7 @@ public class AranarthCore extends JavaPlugin {
 		new ShopDestroy(this);
 		new ShopOpen(this);
 		new ShopSignClick(this);
+		new TrailArrowClick(this);
 
 		// Initialize Commands
 		getCommand("ac").setExecutor(new CommandAC());
