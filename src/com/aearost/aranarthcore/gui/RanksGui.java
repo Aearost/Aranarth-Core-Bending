@@ -268,6 +268,8 @@ public class RanksGui {
 		saint1Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- Colored chat and signs"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- /nick, /hat, /craft"));
+		saint1Lore.add(ChatUtils.translateToColor("&f&o- Discord to Minecraft chat"));
+		saint1Lore.add(ChatUtils.translateToColor("&f&o- Free element changes"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- 9 arrow trails"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- 6 gadgets including the Paintball Gun"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- 3 mounts including Glacial Steed"));

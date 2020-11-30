@@ -108,7 +108,7 @@ public class AranarthCore extends JavaPlugin {
 			public void run() {
 				PersistenceUtils.writePlayersToFile();
 				PersistenceUtils.writeShopSignsToFile();
-				Bukkit.broadcastMessage("Players and shops have been written to file");
+				Bukkit.getLogger().info("Players and shops have been written to file");
 			}
 		}, 36000, 36000);
 		

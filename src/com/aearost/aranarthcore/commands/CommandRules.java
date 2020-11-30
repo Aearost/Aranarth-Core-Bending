@@ -40,7 +40,7 @@ public class CommandRules implements CommandExecutor {
 						.translateToColor("&e&l6. &7&oSwearing is permitted, but please do not swear excessively."));
 				sender.sendMessage(ChatUtils.translateToColor("&e&l7. &7&oRaiding and griefing is allowed."));
 				sender.sendMessage(ChatUtils.translateToColor(
-						"&e&l8. &7&oGold and iron farms are not permitted; neither are afk'able or lag-inducing farms. Spawner farms are permitted."));
+						"&e&l8. &7&oGold and iron farms are not permitted; neither are lag-inducing farms. Spawner farms are allowed."));
 				sender.sendMessage(
 						ChatUtils.translateToColor("&e&l9. &7&oNo using alt accounts to bypass a punishment."));
 				sender.sendMessage(ChatUtils.translateToColor("&e&l10. &7&oAbusing loopholes in the rules will result in punishment."));

@@ -3,6 +3,7 @@ package com.aearost.aranarthcore.event;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -180,9 +181,15 @@ public class ShopCreate implements Listener {
 						}
 					} else if (canMakeAdminShop(sign, player)) {
 						if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
+							
 							Location signLocation = e.getClickedBlock().getLocation();
 							// If the shop does not yet exist
 							if (AranarthShopUtils.getServerShop(signLocation) == null) {
+								if (player.getGameMode() != GameMode.CREATIVE) {
+									player.sendMessage(ChatUtils.translateToColor("&cYou must be in creative to make a server shop!"));
+									return;
+								}
+								
 								AranarthShop shop = null;
 
 								int transactionAmount = Integer.parseInt(sign.getLine(1));

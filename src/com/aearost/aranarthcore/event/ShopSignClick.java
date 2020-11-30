@@ -70,12 +70,14 @@ public class ShopSignClick implements Listener {
 												player.getInventory().getStorageContents(), shop.getItem(),
 												shop.getTransactionQuantity()) == 0) {
 											AranarthPlayer seller = AranarthPlayerUtils.getPlayer(shop.getUUID());
-											PersistenceUtils.logTransaction(buyer.getUsername() + " ("
-													+ formatter.format(buyer.getBalance()) + ") has bought "
-													+ shop.getTransactionQuantity() + " "
-													+ shop.getItem().getType().name() + " from " + seller.getUsername()
-													+ " (" + formatter.format(seller.getBalance()) + ") for $"
-													+ shop.getBuyAmount());
+											if (shop.getBuyAmount() >= 250) {
+												PersistenceUtils.logTransaction(buyer.getUsername() + " ("
+														+ formatter.format(buyer.getBalance()) + ") has bought "
+														+ shop.getTransactionQuantity() + " "
+														+ shop.getItem().getType().name() + " from " + seller.getUsername()
+														+ " (" + formatter.format(seller.getBalance()) + ") for $"
+														+ shop.getBuyAmount());
+											}
 											buyer.setBalance(buyer.getBalance() - shop.getBuyAmount());
 											seller.setBalance(seller.getBalance() + shop.getBuyAmount());
 											AranarthShopUtils.purchaseItems(chestInventory, player, shop.getItem(),
@@ -116,12 +118,14 @@ public class ShopSignClick implements Listener {
 													shop.getTransactionQuantity())) {
 												AranarthPlayer seller = AranarthPlayerUtils
 														.getPlayer(player.getUniqueId());
-												PersistenceUtils.logTransaction(seller.getUsername() + " ("
-														+ formatter.format(seller.getBalance()) + ") has sold "
-														+ shop.getTransactionQuantity() + " "
-														+ shop.getItem().getType().name() + " to " + buyer.getUsername()
-														+ " (" + formatter.format(buyer.getBalance()) + ") for $"
-														+ shop.getBuyAmount());
+												if (shop.getBuyAmount() >= 250) {
+													PersistenceUtils.logTransaction(seller.getUsername() + " ("
+															+ formatter.format(seller.getBalance()) + ") has sold "
+															+ shop.getTransactionQuantity() + " "
+															+ shop.getItem().getType().name() + " to " + buyer.getUsername()
+															+ " (" + formatter.format(buyer.getBalance()) + ") for $"
+															+ shop.getBuyAmount());
+												}
 												buyer.setBalance(buyer.getBalance() - shop.getSellAmount());
 												seller.setBalance(seller.getBalance() + shop.getSellAmount());
 												AranarthShopUtils.sellItems(chestInventory, player, shop.getItem(),
@@ -172,11 +176,13 @@ public class ShopSignClick implements Listener {
 							if (buyer.getBalance() >= serverShop.getBuyAmount()) {
 								if (AranarthShopUtils.hasInventorySpace(player.getInventory().getStorageContents(),
 										serverShop.getItem(), serverShop.getTransactionQuantity()) == 0) {
-									PersistenceUtils.logTransaction(
-											buyer.getUsername() + " (" + formatter.format(buyer.getBalance())
-													+ ") has bought " + serverShop.getTransactionQuantity() + " "
-													+ serverShop.getItem().getType().name()
-													+ " from the server shop for $" + serverShop.getBuyAmount());
+									if (serverShop.getBuyAmount() >= 250) {
+										PersistenceUtils.logTransaction(
+												buyer.getUsername() + " (" + formatter.format(buyer.getBalance())
+														+ ") has bought " + serverShop.getTransactionQuantity() + " "
+														+ serverShop.getItem().getType().name()
+														+ " from the server shop for $" + serverShop.getBuyAmount());
+									}
 									buyer.setBalance(buyer.getBalance() - serverShop.getBuyAmount());
 									AranarthShopUtils.purchaseItems(null, player, serverShop.getItem(),
 											serverShop.getTransactionQuantity(), false);
@@ -199,11 +205,13 @@ public class ShopSignClick implements Listener {
 								if (AranarthShopUtils.hasItemsToSell(player, serverShop.getItem(),
 										serverShop.getTransactionQuantity())) {
 									AranarthPlayer seller = AranarthPlayerUtils.getPlayer(player.getUniqueId());
-									PersistenceUtils.logTransaction(
-											seller.getUsername() + " (" + formatter.format(seller.getBalance())
-													+ ") has sold " + serverShop.getTransactionQuantity() + " "
-													+ serverShop.getItem().getType().name()
-													+ " to the server shop for $" + serverShop.getSellAmount());
+									if (serverShop.getSellAmount() >= 250) {
+										PersistenceUtils.logTransaction(
+												seller.getUsername() + " (" + formatter.format(seller.getBalance())
+														+ ") has sold " + serverShop.getTransactionQuantity() + " "
+														+ serverShop.getItem().getType().name()
+														+ " to the server shop for $" + serverShop.getSellAmount());
+									}
 									seller.setBalance(seller.getBalance() + serverShop.getSellAmount());
 									AranarthShopUtils.sellItems(null, player, serverShop.getItem(),
 											serverShop.getTransactionQuantity(), false);

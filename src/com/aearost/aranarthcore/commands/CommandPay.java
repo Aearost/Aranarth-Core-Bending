@@ -67,10 +67,12 @@ public class CommandPay implements CommandExecutor {
 										ChatUtils.translateToColor("&cYou do not have enough money for this!"));
 								return false;
 							} else {
-								PersistenceUtils.logTransaction(aranarthPlayer.getUsername() + " ("
-										+ formatter.format(aranarthPlayer.getBalance()) + ") has sent "
-										+ aranarthPlayerToPay.getUsername() + " ("
-										+ formatter.format(aranarthPlayerToPay.getBalance()) + ") " + formattedAmount);
+								if (amount >= 250) {
+									PersistenceUtils.logTransaction(aranarthPlayer.getUsername() + " ("
+											+ formatter.format(aranarthPlayer.getBalance()) + ") has sent "
+											+ aranarthPlayerToPay.getUsername() + " ("
+											+ formatter.format(aranarthPlayerToPay.getBalance()) + ") " + formattedAmount);
+								}
 								aranarthPlayer.setBalance(aranarthPlayer.getBalance() - amount);
 								AranarthPlayerUtils.addPlayer(player.getUniqueId(), aranarthPlayer);
 								player.sendMessage(ChatUtils.translateToColor("&aYou have sent &6&l" + formattedAmount

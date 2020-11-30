@@ -1,6 +1,7 @@
 package com.aearost.aranarthcore.event;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -88,6 +89,10 @@ public class ShopDestroy implements Listener {
 					if (AranarthShopUtils.getServerShop(sign.getLocation()) == null) {
 						return;
 					}
+					if (player.getGameMode() != GameMode.CREATIVE) {
+						player.sendMessage(ChatUtils.translateToColor("&cYou must be in creative to destroy a server shop!"));
+						return;
+					}
 					player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this server shop"));
 					AranarthShopUtils.removeServerShop(block.getLocation());
 					return;
@@ -133,6 +138,10 @@ public class ShopDestroy implements Listener {
 			if (AranarthShopUtils.isProperShopFormat(sign, null, false)) {
 				if (AranarthShopUtils.getServerShop(blockBreaksServerShop) != null) {
 					if (player.hasPermission("aranarthcore.shop.destroy.admin")) {
+						if (player.getGameMode() != GameMode.CREATIVE) {
+							player.sendMessage(ChatUtils.translateToColor("&cYou must be in creative to destroy a server shop!"));
+							return;
+						}
 						player.sendMessage(ChatUtils.translateToColor("&7You have destroyed this server shop"));
 						AranarthShopUtils.removeServerShop(blockBreaksServerShop);
 						return;

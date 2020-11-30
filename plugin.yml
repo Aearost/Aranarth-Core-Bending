@@ -36,3 +36,4 @@ commands:
       description: Provides the user with the server rules
    trails:
       description: Displays all arrow trail effects available to the player's Saint rank
+      aliases: [arrows]

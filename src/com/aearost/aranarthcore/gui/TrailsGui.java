@@ -1,8 +1,6 @@
 package com.aearost.aranarthcore.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -13,8 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
-import com.aearost.aranarthcore.utils.Trail;
-import com.aearost.aranarthcore.utils.TrailNameComparator;
 import com.aearost.aranarthcore.utils.TrailUtils;
 
 /**
@@ -41,24 +37,21 @@ public class TrailsGui {
 
 	private Inventory initializeGui(Player player) {
 		Inventory gui = null;
-		HashMap<Trail, ItemStack> arrows = new HashMap<>();
+		List<ItemStack> arrows = new ArrayList<>();
 		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 		if (aranarthPlayer.getSaintStatus() == 1) {
 			arrows = TrailUtils.getSaint1Trails();
-			gui = Bukkit.getServer().createInventory(player, 9, ChatUtils.translateToColor("&8&lArrow Trails"));
+			gui = Bukkit.getServer().createInventory(player, 18, ChatUtils.translateToColor("&8&lArrow Trails"));
 		} else if (aranarthPlayer.getSaintStatus() == 2) {
 			arrows = TrailUtils.getSaint2Trails();
-			gui = Bukkit.getServer().createInventory(player, 27, ChatUtils.translateToColor("&8&lArrow Trails"));
+			gui = Bukkit.getServer().createInventory(player, 36, ChatUtils.translateToColor("&8&lArrow Trails"));
 		} else if (aranarthPlayer.getSaintStatus() == 3) {
 			arrows = TrailUtils.getSaint3Trails();
-			gui = Bukkit.getServer().createInventory(player, 45, ChatUtils.translateToColor("&8&lArrow Trails"));
+			gui = Bukkit.getServer().createInventory(player, 54, ChatUtils.translateToColor("&8&lArrow Trails"));
 		}
 
-		List<Trail> trailItems = new ArrayList<>(arrows.keySet());
-		Collections.sort(trailItems, new TrailNameComparator());
-
-		for (int i = 0; i < trailItems.size(); i++) {
-			gui.setItem(i, arrows.get(trailItems.get(i)));
+		for (int i = 0; i < arrows.size(); i++) {
+			gui.setItem(i, arrows.get(i));
 		}
 
 		return gui;
