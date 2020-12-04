@@ -62,7 +62,7 @@ public class CommandPay implements CommandExecutor {
 							player.sendMessage(ChatUtils.translateToColor("&cYou cannot pay someone &6&l$0.00&c!"));
 							return false;
 						} else {
-							if (aranarthPlayer.getBalance() < amount) {
+							if (Math.round(aranarthPlayer.getBalance()) < amount) {
 								player.sendMessage(
 										ChatUtils.translateToColor("&cYou do not have enough money for this!"));
 								return false;

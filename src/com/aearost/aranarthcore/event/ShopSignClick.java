@@ -84,7 +84,7 @@ public class ShopSignClick implements Listener {
 													shop.getTransactionQuantity(), true);
 											player.sendMessage(ChatUtils
 													.translateToColor("&7The items have been added to your inventory"));
-											String formattedAmount = formatter.format(shop.getSellAmount());
+											String formattedAmount = formatter.format(shop.getBuyAmount());
 											if (Bukkit.getOnlinePlayers()
 													.contains(Bukkit.getPlayer(seller.getUsername()))) {
 												Bukkit.getPlayer(seller.getUsername()).sendMessage(

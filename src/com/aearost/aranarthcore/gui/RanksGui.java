@@ -264,7 +264,7 @@ public class RanksGui {
 		// Saint 1
 		ItemMeta saint1Meta = saint1.getItemMeta();
 		ArrayList<String> saint1Lore = new ArrayList<>();
-		saint1Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint I"));
+		saint1Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint I - $9.99"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- Colored chat and signs"));
 		saint1Lore.add(ChatUtils.translateToColor("&f&o- /nick, /hat, /craft"));
@@ -281,7 +281,7 @@ public class RanksGui {
 		// Saint 2
 		ItemMeta saint2Meta = saint2.getItemMeta();
 		ArrayList<String> saint2Lore = new ArrayList<>();
-		saint2Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint II"));
+		saint2Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint II - $19.99"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- Colored nickname"));
 		saint2Lore.add(ChatUtils.translateToColor("&f&o- /enderchest"));
@@ -296,7 +296,7 @@ public class RanksGui {
 		// Saint 3
 		ItemMeta saint3Meta = saint3.getItemMeta();
 		ArrayList<String> saint3Lore = new ArrayList<>();
-		saint3Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint III"));
+		saint3Meta.setDisplayName(ChatUtils.translateToColor("&d&l&nSaint III - $29.99"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&lPerks"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Bold chat and nickname"));
 		saint3Lore.add(ChatUtils.translateToColor("&f&o- Ability to join the server when it's full"));

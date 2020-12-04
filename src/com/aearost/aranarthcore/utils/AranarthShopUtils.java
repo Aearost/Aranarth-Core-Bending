@@ -108,7 +108,11 @@ public class AranarthShopUtils {
 	 * @return
 	 */
 	public static int getShopCount(UUID uuid) {
-		return getPlayerShopList(uuid).size();
+		if (getPlayerShopList(uuid) != null) {
+			return getPlayerShopList(uuid).size();
+		} else {
+			return 0;
+		}
 	}
 
 	/**
