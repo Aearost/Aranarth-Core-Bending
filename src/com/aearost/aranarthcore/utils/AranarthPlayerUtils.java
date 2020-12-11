@@ -11,7 +11,10 @@ import org.bukkit.entity.Player;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
+import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.Element.SubElement;
+import com.projectkorra.projectkorra.event.PlayerChangeElementEvent;
+import com.projectkorra.projectkorra.event.PlayerChangeElementEvent.Result;
 
 /**
  * Provides utility methods to facilitate the manipulation of all AranarthPlayer
@@ -153,12 +156,18 @@ public class AranarthPlayerUtils {
 
 				// Removes old avatar's elements and allows them to return to an element for
 				// free
-				BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(Bukkit.getOfflinePlayer(uuid));
+				Player player = Bukkit.getPlayer(uuid);
+				BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(player);
+				if (bendingPlayer == null) {
+					GeneralMethods.createBendingPlayer(player.getUniqueId(), player.getName());
+					bendingPlayer = BendingPlayer.getBendingPlayer(player);
+				}
 				for (Element e : Element.getElements()) {
 					if (bendingPlayer.hasElement(e)) {
 						bendingPlayer.getElements().remove(e);
 					}
 				}
+				Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, Bukkit.getPlayer(uuid), null, Result.REMOVE));
 				currentAvatar.setIsAbleToChangeElement(true);
 
 				if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(uuid))) {
@@ -185,6 +194,10 @@ public class AranarthPlayerUtils {
 			addPlayer(getUUID(newAvatar.getUsername()), newAvatar);
 			BendingPlayer bendingPlayer = BendingPlayer
 					.getBendingPlayer(Bukkit.getOfflinePlayer(playerNewAvatar.getUniqueId()));
+			if (bendingPlayer == null) {
+				GeneralMethods.createBendingPlayer(playerNewAvatar.getUniqueId(), playerNewAvatar.getName());
+				bendingPlayer = BendingPlayer.getBendingPlayer(playerNewAvatar);
+			}
 			for (Element e : Element.getElements()) {
 				if (bendingPlayer.hasElement(e)) {
 					bendingPlayer.getElements().remove(e);
@@ -192,21 +205,31 @@ public class AranarthPlayerUtils {
 			}
 			// Add main elements
 			bendingPlayer.addElement(Element.AIR);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, Element.AIR, Result.ADD));
 			bendingPlayer.addElement(Element.EARTH);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, Element.EARTH, Result.ADD));
 			bendingPlayer.addElement(Element.FIRE);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, Element.FIRE, Result.ADD));
 			bendingPlayer.addElement(Element.WATER);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, Element.WATER, Result.ADD));
 			// Add sub-elements
 			bendingPlayer.addSubElement(SubElement.SAND);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.SAND, Result.ADD));
 			bendingPlayer.addSubElement(SubElement.METAL);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.METAL, Result.ADD));
 			bendingPlayer.addSubElement(SubElement.LAVA);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.LAVA, Result.ADD));
 			bendingPlayer.addSubElement(SubElement.LIGHTNING);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.LIGHTNING, Result.ADD));
 			bendingPlayer.addSubElement(SubElement.COMBUSTION);
-			bendingPlayer.addSubElement(SubElement.LAVA);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.COMBUSTION, Result.ADD));
 			bendingPlayer.addSubElement(SubElement.ICE);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.ICE, Result.ADD));
 			bendingPlayer.addSubElement(SubElement.PLANT);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.PLANT, Result.ADD));
 			bendingPlayer.addSubElement(SubElement.HEALING);
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.HEALING, Result.ADD));
 		}
-
 		return currentAvatarName;
 	}
 

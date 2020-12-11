@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -223,7 +224,7 @@ public class AranarthShopUtils {
 
 			int stackSize = stack.getAmount();
 			if (stack.isSimilar(item)) {
-				while (stackSize < 64 && transactionQuantity > 0) {
+				while (stackSize < stack.getMaxStackSize() && transactionQuantity > 0) {
 					stackSize++;
 					transactionQuantity--;
 					if (transactionQuantity == 0) {
@@ -338,53 +339,87 @@ public class AranarthShopUtils {
 	 * @param transactionQuantity
 	 * @return
 	 */
-	public static int hasInventorySpace(ItemStack[] inventory, ItemStack item, int transactionQuantity) {
-
-		int originalTransactionQuantity = transactionQuantity;
-
-		// Prioritizes filling up non-full stacks of the item in the player's inventory
+	public static boolean hasInventorySpace(ItemStack[] inventory, ItemStack item, int transactionQuantity) {
 		for (ItemStack stack : inventory) {
 			if (stack != null && stack.getType() == item.getType()) {
-				// Fill up an empty stack until it's full while removing one amount each
-				// iteration
 				while (transactionQuantity > 0) {
-					int stackSize = stack.getAmount();
-					if (stackSize < 64) {
-						stackSize++;
+					int stackAmount = stack.getAmount();
+					while (stackAmount < stack.getMaxStackSize()) {
+						stackAmount++;
 						transactionQuantity--;
-					} else {
+						if (transactionQuantity == 0) {
+							return true;
+						}
+					}
+					// Iterates over next slot
+					if (transactionQuantity > 0) {
 						break;
 					}
 				}
-			}
-		}
-
-		// Prioritizes filling up empty inventory slots
-		while (transactionQuantity > 0) {
-			boolean hasEmptySlot = false;
-			for (ItemStack stack : inventory) {
-				if (stack == null) {
-					hasEmptySlot = true;
-					break;
+			} else if (stack == null) {
+				int stackAmount = 0;
+				while (transactionQuantity > 0) {
+					stackAmount++;
+					transactionQuantity--;
+					if (stackAmount == item.getMaxStackSize()) {
+						stackAmount = 0;
+					}
+				}
+				if (transactionQuantity == 0) {
+					return true;
 				}
 			}
-
-			// When there is inventory space
-			if (hasEmptySlot) {
-				if (transactionQuantity > 64) {
-					transactionQuantity -= 64;
-				} else {
-					return 0;
-				}
-				// Some was placed in the inventory, but not all
-			} else if (transactionQuantity < originalTransactionQuantity) {
-				return transactionQuantity;
-				// No space in the inventory
-			} else {
-				return -1;
-			}
 		}
-		return 0;
+		Bukkit.broadcastMessage("transactionQuantity: " + transactionQuantity);
+		return transactionQuantity == 0;
+		
+//		int originalTransactionQuantity = transactionQuantity;
+//
+//		Bukkit.broadcastMessage("original: " + originalTransactionQuantity);
+//		// Prioritizes filling up non-full stacks of the item in the player's inventory
+//		for (ItemStack stack : inventory) {
+//			if (stack != null && stack.getType() == item.getType()) {
+//				// Fill up an empty stack until it's full while removing one amount each
+//				// iteration
+//				while (transactionQuantity > 0) {
+//					int stackSize = stack.getAmount();
+//					if (stackSize < stack.getMaxStackSize()) {
+//						stackSize++;
+//						transactionQuantity--;
+//					} else {
+//						break;
+//					}
+//				}
+//			}
+//		}
+//
+//		// Prioritizes filling up empty inventory slots
+//		while (transactionQuantity > 0) {
+//			boolean hasEmptySlot = false;
+//			for (ItemStack stack : inventory) {
+//				if (stack == null) {
+//					hasEmptySlot = true;
+//					break;
+//				}
+//			}
+//
+//			// When there are empty slots for inventory space
+//			if (hasEmptySlot) {
+//				if (transactionQuantity > item.getMaxStackSize()) {
+//					transactionQuantity -= item.getMaxStackSize();
+//				} else {
+//					Bukkit.broadcastMessage("A");
+//					return true;
+//				}
+//			}
+//			// Not enough space in the inventory
+//			else {
+//				Bukkit.broadcastMessage("C");
+//				return false;
+//			}
+//		}
+//		Bukkit.broadcastMessage("D");
+//		return true;
 	}
 
 	/**

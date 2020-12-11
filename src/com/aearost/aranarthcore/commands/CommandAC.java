@@ -95,6 +95,10 @@ public class CommandAC implements CommandExecutor {
 							return false;
 						}
 						BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(player);
+						if (bendingPlayer == null) {
+							GeneralMethods.createBendingPlayer(player.getUniqueId(), player.getName());
+							bendingPlayer = BendingPlayer.getBendingPlayer(player);
+						}
 						if (args[1].toLowerCase().equals("change")) {
 
 							if (aranarthPlayer.getIsAbleToChangeElement()) {

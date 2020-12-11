@@ -68,7 +68,7 @@ public class ShopSignClick implements Listener {
 									if (buyer.getBalance() >= shop.getBuyAmount()) {
 										if (AranarthShopUtils.hasInventorySpace(
 												player.getInventory().getStorageContents(), shop.getItem(),
-												shop.getTransactionQuantity()) == 0) {
+												shop.getTransactionQuantity())) {
 											AranarthPlayer seller = AranarthPlayerUtils.getPlayer(shop.getUUID());
 											if (shop.getBuyAmount() >= 250) {
 												PersistenceUtils.logTransaction(buyer.getUsername() + " ("
@@ -175,7 +175,7 @@ public class ShopSignClick implements Listener {
 							AranarthPlayer buyer = AranarthPlayerUtils.getPlayer(player.getUniqueId());
 							if (buyer.getBalance() >= serverShop.getBuyAmount()) {
 								if (AranarthShopUtils.hasInventorySpace(player.getInventory().getStorageContents(),
-										serverShop.getItem(), serverShop.getTransactionQuantity()) == 0) {
+										serverShop.getItem(), serverShop.getTransactionQuantity())) {
 									if (serverShop.getBuyAmount() >= 250) {
 										PersistenceUtils.logTransaction(
 												buyer.getUsername() + " (" + formatter.format(buyer.getBalance())

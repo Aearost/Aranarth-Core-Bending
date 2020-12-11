@@ -179,6 +179,7 @@ public class RanksGui {
 		}
 		dukeLore.add(ChatUtils.translateToColor("&f&lBending"));
 		dukeLore.add(ChatUtils.translateToColor("&f&o- &2MetalClips"));
+		dukeLore.add(ChatUtils.translateToColor("&f&o- &7Suffocate"));
 		dukeLore.add(ChatUtils.translateToColor("&f&lPerks"));
 		dukeLore.add(ChatUtils.translateToColor("&f&o- /nick"));
 		dukeLore.add(ChatUtils.translateToColor("&f&o- /near"));
