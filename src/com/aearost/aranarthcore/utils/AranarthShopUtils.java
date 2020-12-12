@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -330,10 +329,6 @@ public class AranarthShopUtils {
 	/**
 	 * Determines whether or not there is enough inventory space for a given item.
 	 * 
-	 * Returns 0 if the entire item can be added. Returns -1 if there is no space
-	 * for any of the item. Returns a the remainder of what could not be fit if only
-	 * some could be added.
-	 * 
 	 * @param inventory
 	 * @param item
 	 * @param transactionQuantity
@@ -370,56 +365,7 @@ public class AranarthShopUtils {
 				}
 			}
 		}
-		Bukkit.broadcastMessage("transactionQuantity: " + transactionQuantity);
 		return transactionQuantity == 0;
-		
-//		int originalTransactionQuantity = transactionQuantity;
-//
-//		Bukkit.broadcastMessage("original: " + originalTransactionQuantity);
-//		// Prioritizes filling up non-full stacks of the item in the player's inventory
-//		for (ItemStack stack : inventory) {
-//			if (stack != null && stack.getType() == item.getType()) {
-//				// Fill up an empty stack until it's full while removing one amount each
-//				// iteration
-//				while (transactionQuantity > 0) {
-//					int stackSize = stack.getAmount();
-//					if (stackSize < stack.getMaxStackSize()) {
-//						stackSize++;
-//						transactionQuantity--;
-//					} else {
-//						break;
-//					}
-//				}
-//			}
-//		}
-//
-//		// Prioritizes filling up empty inventory slots
-//		while (transactionQuantity > 0) {
-//			boolean hasEmptySlot = false;
-//			for (ItemStack stack : inventory) {
-//				if (stack == null) {
-//					hasEmptySlot = true;
-//					break;
-//				}
-//			}
-//
-//			// When there are empty slots for inventory space
-//			if (hasEmptySlot) {
-//				if (transactionQuantity > item.getMaxStackSize()) {
-//					transactionQuantity -= item.getMaxStackSize();
-//				} else {
-//					Bukkit.broadcastMessage("A");
-//					return true;
-//				}
-//			}
-//			// Not enough space in the inventory
-//			else {
-//				Bukkit.broadcastMessage("C");
-//				return false;
-//			}
-//		}
-//		Bukkit.broadcastMessage("D");
-//		return true;
 	}
 
 	/**

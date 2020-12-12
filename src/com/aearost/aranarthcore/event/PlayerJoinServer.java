@@ -3,6 +3,7 @@ package com.aearost.aranarthcore.event;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,6 +33,13 @@ public class PlayerJoinServer implements Listener {
 		// If the player changed their username
 		else if (!AranarthPlayerUtils.getUsername(player).equals(player.getName())) {
 			AranarthPlayerUtils.setUsername(player);
+		}
+		
+		// Prevents players from being in Theia
+		if (player.getLocation().getWorld().getName().toLowerCase().equals("theia")) {
+			Location aldaraSpawn = new Location(Bukkit.getWorld("Aldara"), 8712.5, 97.0, -6297.5, 0, 0);
+			player.teleport(aldaraSpawn);
+			player.teleport(aldaraSpawn);
 		}
 	}
 }

@@ -68,8 +68,8 @@ public class ChatUtils {
 
 		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
 
-		// Execute in Theia
-		Bukkit.dispatchCommand(commandSender, "manselect Theia");
+		// Execute in Aldara
+		Bukkit.dispatchCommand(commandSender, "manselect Aldara");
 
 		String prefix = "";
 

@@ -15,12 +15,14 @@ public class AranarthAnnouncer {
 	public AranarthAnnouncer(AranarthCore plugin) {
 		messages = new ArrayList<>();
 		messages.add("&7&oDon't forget to &e&o/vote&7&o!");
-		messages.add("&7&oEarn money by selling items at &e&o/warp market&7&o!");
+		messages.add("&7&oEarn money by selling items at &e&o/market&7&o!");
 		messages.add("&7&oBe sure to know the &e&o/rules");
 		messages.add("&7&oJoin our &e&o/discord&7&o!");
+		messages.add("&7Head to &e/arena &7to practice your bending!");
+		messages.add("&7New to bending? Check out &e/tutorial!");
 		messages.add("&7&oDo &e&o/teas guide &7&ofor help with teas");
 		messages.add("&7&oView our &e&o/ranks &7&oto rankup!");
-		messages.add("&7&oChange elements for &e&o$250 &7&oat &e&o/warp info");
+		messages.add("&7&oChange elements for &e&o$250 &7&oat &e&o/info");
 		makeAnnouncements(plugin);
 	}
 	
@@ -30,7 +32,6 @@ public class AranarthAnnouncer {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			
 			int messageCounter = 0;
-			
 			
 			@Override
 			public void run() {

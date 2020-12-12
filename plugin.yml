@@ -10,6 +10,8 @@ loadbefore: [mcMMO, Essentials, VotingPlugin]
 commands:
    ac:
       description: All underlying commands regarding the plugin
+   aldara:
+      description: Provides a link to the map's PlanetMinecraft page
    balance:
       description: Displays the user's balance
       usage: /balance

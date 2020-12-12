@@ -13,7 +13,7 @@ import com.aearost.aranarthcore.commands.CommandBroadcast;
 import com.aearost.aranarthcore.commands.CommandBuy;
 import com.aearost.aranarthcore.commands.CommandEco;
 import com.aearost.aranarthcore.commands.CommandEcoCompleter;
-import com.aearost.aranarthcore.commands.CommandMap;
+import com.aearost.aranarthcore.commands.CommandAldara;
 import com.aearost.aranarthcore.commands.CommandPay;
 import com.aearost.aranarthcore.commands.CommandPayCompleter;
 import com.aearost.aranarthcore.commands.CommandRanks;
@@ -74,6 +74,7 @@ public class AranarthCore extends JavaPlugin {
 		// Initialize Commands
 		getCommand("ac").setExecutor(new CommandAC());
 		getCommand("ac").setTabCompleter(new CommandACCompleter());
+		getCommand("aldara").setExecutor(new CommandAldara());
 		getCommand("balance").setExecutor(new CommandBalance());
 		getCommand("balance").setTabCompleter(new CommandBalanceCompleter());
 		getCommand("broadcast").setExecutor(new CommandBroadcast());
@@ -82,7 +83,6 @@ public class AranarthCore extends JavaPlugin {
 		getCommand("buy").setExecutor(new CommandBuy());
 		getCommand("eco").setExecutor(new CommandEco());
 		getCommand("eco").setTabCompleter(new CommandEcoCompleter());
-		getCommand("map").setExecutor(new CommandMap());
 		getCommand("pay").setExecutor(new CommandPay());
 		getCommand("pay").setTabCompleter(new CommandPayCompleter());
 		getCommand("ranks").setExecutor(new CommandRanks());
