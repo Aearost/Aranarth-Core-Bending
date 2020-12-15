@@ -69,13 +69,24 @@ public class ChatUtils {
 		CommandSender commandSender = Bukkit.getServer().getConsoleSender();
 
 		// Execute in Aldara
-		Bukkit.dispatchCommand(commandSender, "manselect Aldara");
+		Bukkit.dispatchCommand(commandSender, "manselect world");
 
 		String prefix = "";
 
 		// First part if applicable
 		if (isAvatar) {
 			prefix += "&8[&5✦&8] ";
+		}
+		
+		// A saint
+		if (isSaint) {
+			if (aranarthPlayer.getSaintStatus() == 1) {
+				prefix += "&8[&b✵&8] ";
+			} else if (aranarthPlayer.getSaintStatus() == 2) {
+				prefix += "&8[&e✵&8] ";
+			} else {
+				prefix += "&8[&d✵&8] ";
+			}
 		}
 
 		// Second part if applicable
@@ -89,16 +100,7 @@ public class ChatUtils {
 			}
 		}
 
-		// A saint
-		if (isSaint) {
-			if (aranarthPlayer.getSaintStatus() == 1) {
-				prefix += "&8[&b✵&8] ";
-			} else if (aranarthPlayer.getSaintStatus() == 2) {
-				prefix += "&8[&e✵&8] ";
-			} else {
-				prefix += "&8[&d✵&8] ";
-			}
-		}
+		
 
 		String rankName;
 		boolean isMalePlayer = aranarthPlayer.getIsMale();
