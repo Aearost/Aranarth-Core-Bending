@@ -159,7 +159,7 @@ public class AranarthPlayerUtils {
 				Player player = Bukkit.getPlayer(uuid);
 				BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(player);
 				if (bendingPlayer == null) {
-					GeneralMethods.createBendingPlayer(player.getUniqueId(), player.getName());
+					GeneralMethods.createBendingPlayer(uuid, player.getName());
 					bendingPlayer = BendingPlayer.getBendingPlayer(player);
 				}
 				for (Element e : Element.getElements()) {
