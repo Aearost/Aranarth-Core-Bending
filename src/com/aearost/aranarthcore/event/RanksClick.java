@@ -18,6 +18,8 @@ import com.aearost.aranarthcore.utils.PersistenceUtils;
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
 import com.projectkorra.projectkorra.GeneralMethods;
+import com.projectkorra.projectkorra.Element.SubElement;
+import com.projectkorra.projectkorra.event.PlayerChangeSubElementEvent;
 
 public class RanksClick implements Listener {
 
@@ -184,6 +186,10 @@ public class RanksClick implements Listener {
 					}
 
 					BendingPlayer bendingPlayer = BendingPlayer.getBendingPlayer(player);
+					if (bendingPlayer == null) {
+						GeneralMethods.createBendingPlayer(player.getUniqueId(), player.getName());
+						bendingPlayer = BendingPlayer.getBendingPlayer(player);
+					}
 					AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
 					int rank = aranarthPlayer.getRank();
 					
@@ -192,25 +198,43 @@ public class RanksClick implements Listener {
 							if (rank == 2) {
 								bendingPlayer.addSubElement(Element.METAL);
 								player.sendMessage(ChatUtils.chatMessage("&2You are now a Metalbender!"));
+								Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeSubElementEvent(
+										null, player, SubElement.METAL,
+										PlayerChangeSubElementEvent.Result.ADD));
 							}
 							if (rank == 7) {
 								bendingPlayer.addSubElement(Element.LAVA);
 								player.sendMessage(ChatUtils.chatMessage("&2You are now a Lavabender!"));
+								Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeSubElementEvent(
+										null, player, SubElement.LAVA,
+										PlayerChangeSubElementEvent.Result.ADD));
 							}
 						} else if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.FIRE) {
 							if (rank == 6) {
 								bendingPlayer.addSubElement(Element.LIGHTNING);
+								Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeSubElementEvent(
+										null, player, SubElement.LIGHTNING,
+										PlayerChangeSubElementEvent.Result.ADD));
 								player.sendMessage(ChatUtils.chatMessage("&4You are now a Lightningbender!"));
 							}
 							if (rank == 8) {
 								bendingPlayer.addSubElement(Element.COMBUSTION);
+								Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeSubElementEvent(
+										null, player, SubElement.COMBUSTION,
+										PlayerChangeSubElementEvent.Result.ADD));
 								player.sendMessage(ChatUtils.chatMessage("&4As well as a Combustionbender!"));
 							}
 						} else if (bendingPlayer.getElements().size() > 0 && bendingPlayer.getElements().get(0) == Element.WATER) {
 							if (rank == 1) {
 								bendingPlayer.addSubElement(Element.HEALING);
+								Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeSubElementEvent(
+										null, player, SubElement.HEALING,
+										PlayerChangeSubElementEvent.Result.ADD));
 								player.sendMessage(ChatUtils.chatMessage("&3You are now a Healer!"));
 								bendingPlayer.addSubElement(Element.PLANT);
+								Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeSubElementEvent(
+										null, player, SubElement.PLANT,
+										PlayerChangeSubElementEvent.Result.ADD));
 								player.sendMessage(ChatUtils.chatMessage("&3You are now a Plantbender!"));
 							}
 						}

@@ -161,7 +161,6 @@ public class AranarthShopUtils {
 				}
 			}
 		}
-		
 	}
 
 	/**
@@ -322,7 +321,6 @@ public class AranarthShopUtils {
 				}
 			}
 		}
-
 		player.getInventory().addItem(new ItemStack(item.getType(), transactionQuantity));
 	}
 

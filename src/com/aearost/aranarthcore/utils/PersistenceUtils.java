@@ -71,7 +71,7 @@ public class PersistenceUtils {
 				String line = reader.nextLine();
 				String[] parts = line.split("\"");
 
-				if ((line.endsWith("},") || line.endsWith("}")) && fieldCount >= 6) {
+				if ((line.endsWith("},") || line.endsWith("}")) && fieldCount >= 7) {
 					fieldCount = 10;
 					fieldName = "none";
 					fieldValue = "none";
@@ -105,6 +105,10 @@ public class PersistenceUtils {
 					} else if (subGroupsAsStrings.length == 2) {
 						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[0]));
 						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[1]));
+					} else if (subGroupsAsStrings.length == 3) {
+						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[0]));
+						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[1]));
+						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[2]));
 					}
 					fieldCount++;
 				} else if (fieldName.equals("isMale")) {
@@ -171,6 +175,7 @@ public class PersistenceUtils {
 					saintStatus = 0;
 					avatarStatus = "none";
 					councilStatus = 0;
+					fieldCount = 0;
 				}
 			}
 			reader.close();
