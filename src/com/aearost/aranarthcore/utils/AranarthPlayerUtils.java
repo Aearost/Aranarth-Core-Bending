@@ -1,8 +1,10 @@
 package com.aearost.aranarthcore.utils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -24,7 +26,7 @@ import com.projectkorra.projectkorra.event.PlayerChangeElementEvent.Result;
  *
  */
 public class AranarthPlayerUtils {
-
+	
 	private static HashMap<UUID, AranarthPlayer> players = new HashMap<>();
 
 	public AranarthPlayerUtils(boolean isServerStarting) {
@@ -230,6 +232,7 @@ public class AranarthPlayerUtils {
 			bendingPlayer.addSubElement(SubElement.HEALING);
 			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.HEALING, Result.ADD));
 		}
+		PersistenceUtils.writeDatetoFile();
 		return currentAvatarName;
 	}
 
@@ -282,5 +285,40 @@ public class AranarthPlayerUtils {
 	public static HashMap<UUID, AranarthPlayer> getPlayers() {
 		return players;
 	}
-
+	
+	/**
+	 * Compares dates and begins avatar choosing process after 7 days
+	 * 
+	 * @param readDate
+	 * 
+	 */
+	public static boolean isAvatarTimeLimit(Date readDate)
+	{
+		Date currDate = new Date();
+		long diffInMillies = Math.abs(currDate.getTime() - readDate.getTime());
+		long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		
+		if(diff >= 7)
+		{
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Odd function need: a find avatar function lol i promise i tried to avoid this
+	 * 
+	 * 
+	 */
+	public static UUID zukoSearch()
+	{
+		UUID toReturn = null;
+		for (Map.Entry<UUID, AranarthPlayer> entry : players.entrySet()) {
+			if (entry.getValue().getAvatarStatus().equals("current"))
+			{
+				toReturn = entry.getKey();
+				return toReturn;
+			}
+		}
+		return toReturn;
+	}
 }

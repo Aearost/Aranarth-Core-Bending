@@ -68,7 +68,7 @@ public class CommandAC implements CommandExecutor {
 					return false;
 				}
 				
-				// choseavatar
+				// chooseavatar
 				else if (args[0].toLowerCase().equals("chooseavatar")) {
 					Random random = new Random();
 					Player[] onlinePlayers = new Player[Bukkit.getOnlinePlayers().size()];

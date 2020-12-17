@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -555,6 +558,85 @@ public class PersistenceUtils {
 			return true;
 		} catch (NumberFormatException e) {
 			return false;
+		}
+	}
+	
+	/**
+	 * Saves player date data (used for Avatar choosing processes)
+	 * 
+	 */
+	public static void writeDatetoFile()
+	{
+		//Toku code for file pathing
+		String currentPath = System.getProperty("user.dir");
+		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore"
+				+ File.separator + "date.txt";
+		File pluginDirectory = new File(currentPath + File.separator + "plugins" + File.separator + "AranarthCore");
+		File file = new File(filePath);
+		//get the current date and create a format
+		Date current = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		//if file is created
+		boolean isDirectoryCreated = true;
+		if (!pluginDirectory.isDirectory()) {
+			isDirectoryCreated = pluginDirectory.mkdir();
+		}
+		if (isDirectoryCreated) {
+			try {
+				// If the file isn't already there
+				if (file.createNewFile()) {
+					Bukkit.getLogger().info("A new date file has been generated.");
+				}
+			} catch (IOException e) {
+				Bukkit.getLogger().info("The date file was unable to generate.");
+				e.printStackTrace();
+			}
+			
+			try {
+				//write the date into a file
+				FileWriter writer = new FileWriter(filePath);
+				writer.write(format.format(current));
+				writer.close();
+			} catch(IOException e) {
+				Bukkit.getLogger().info("The date file could not be saved.");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Reads player date data (used for Avatar choosing processes)
+	 * @throws ParseException 
+	 * 
+	 */
+	public static Date readDateFromFile() throws ParseException
+	{
+		//Toku code for file pathing
+		String currentPath = System.getProperty("user.dir");
+		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
+				+ "date.txt";
+		File file = new File(filePath);
+		Date ohNo = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+
+		// Check if the file exists or not
+		if (!file.exists()) {
+			return ohNo; //:(
+		}
+
+		Scanner reader;
+		Date ohYes;
+		try {
+			reader = new Scanner(file);
+			String formattedDate = reader.nextLine(); //get the line as a string
+			ohYes = format.parse(formattedDate); //convert using the same SDF back to date for arithmetic
+			reader.close();
+			return ohYes; //yay!
+		} catch(FileNotFoundException e)
+		{
+			Bukkit.getLogger().info("The date file could not be read.");
+			e.printStackTrace();
+			return ohNo; //:(
 		}
 	}
 
