@@ -179,7 +179,7 @@ public class AranarthCore extends JavaPlugin {
 				}
 			}
 	
-		}, 600, 600); //check every hour (it will only execute the majority of code every 7 days)
+		}, 72000, 72000); //check every hour (it will only execute the majority of code every 7 days)
 	}
 
 	@Override
