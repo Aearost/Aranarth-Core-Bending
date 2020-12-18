@@ -119,7 +119,8 @@ public class AranarthCore extends JavaPlugin {
 				Bukkit.getLogger().info("Players and shops have been written to file");
 			}
 		}, 36000, 36000);
-		//This is long and can be simplified for sure but it works in time limiting the avatar
+		
+		// Selects a new avatar every 7 days
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
 			public void run() {
@@ -128,7 +129,7 @@ public class AranarthCore extends JavaPlugin {
 					Date readDate = PersistenceUtils.readDateFromFile();
 					if(AranarthPlayerUtils.isAvatarTimeLimit(readDate)) //check if time is up
 					{
-						//start replacing the avatar (stolen from AvatarDeath.java for consistency)
+						// Start replacing the avatar (stolen from AvatarDeath.java for consistency)
 						Player[] onlinePlayers = new Player[Bukkit.getOnlinePlayers().size()];
 						Bukkit.getOnlinePlayers().toArray(onlinePlayers);
 						Random random = new Random();
@@ -160,7 +161,7 @@ public class AranarthCore extends JavaPlugin {
 							}
 
 						}
-						else //if no one is online then just take away the avatar stuff but don't set a new one
+						else // If no one is online then just take away the avatar stuff but don't set a new one
 						{
 							Player currentAvatar = Bukkit.getPlayer(AranarthPlayerUtils.zukoSearch());
 							AranarthPlayerUtils.replaceAvatar(null);
@@ -173,7 +174,7 @@ public class AranarthCore extends JavaPlugin {
 							ChatUtils.updatePlayerGroupsAndPrefix(Bukkit.getOfflinePlayer(currentAvatar.getUniqueId()));
 						}
 					}
-				} catch (ParseException e) { //if the date is unreadable for some reason
+				} catch (ParseException e) { // If the date is unreadable for some reason
 					Bukkit.getLogger().info("No date to read or the file is corrupted :/");
 					e.printStackTrace();
 				}

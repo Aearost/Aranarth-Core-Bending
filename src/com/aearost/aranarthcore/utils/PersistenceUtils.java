@@ -565,7 +565,7 @@ public class PersistenceUtils {
 	 * Saves player date data (used for Avatar choosing processes)
 	 * 
 	 */
-	public static void writeDatetoFile()
+	public static void writeDateToFile()
 	{
 		//Toku code for file pathing
 		String currentPath = System.getProperty("user.dir");

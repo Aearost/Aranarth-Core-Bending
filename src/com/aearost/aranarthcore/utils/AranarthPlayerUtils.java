@@ -169,6 +169,11 @@ public class AranarthPlayerUtils {
 						bendingPlayer.getElements().remove(e);
 					}
 				}
+				bendingPlayer.getElements().clear();
+				bendingPlayer.getSubElements().clear();
+				GeneralMethods.saveElements(bendingPlayer);
+				GeneralMethods.saveSubElements(bendingPlayer);
+				GeneralMethods.removeUnusableAbilities(player.getName());
 				Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, Bukkit.getPlayer(uuid), null, Result.REMOVE));
 				currentAvatar.setIsAbleToChangeElement(true);
 
@@ -232,7 +237,7 @@ public class AranarthPlayerUtils {
 			bendingPlayer.addSubElement(SubElement.HEALING);
 			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.HEALING, Result.ADD));
 		}
-		PersistenceUtils.writeDatetoFile();
+		PersistenceUtils.writeDateToFile();
 		return currentAvatarName;
 	}
 
