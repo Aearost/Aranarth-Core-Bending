@@ -328,7 +328,12 @@ public class AranarthShopUtils {
 				}
 			}
 		}
-		player.getInventory().addItem(new ItemStack(item.getType(), transactionQuantity));
+		//Added this to account for items that can't be stacked (swords etc)
+		for (int i = 0; i < transactionQuantity; i++)
+		{
+			player.getInventory().addItem(item);
+		}
+		
 	}
 
 	/**

@@ -7,6 +7,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +15,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.aearost.aranarthcore.AranarthCore;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
@@ -151,6 +154,17 @@ public class ShopCreate implements Listener {
 								player.sendMessage(ChatUtils.translateToColor("&cPlease select an item"));
 								return;
 							}
+							ItemMeta meta = item.getItemMeta();
+							if(Damageable.class.isAssignableFrom(meta.getClass()))
+							{
+								Damageable checkDura = (Damageable) item.getItemMeta();
+								if(checkDura.hasDamage())
+								{
+									player.sendMessage(ChatUtils.translateToColor("&cYou can't sell damaged goods!"));
+									return;
+								}
+							}
+							
 							player.getInventory().getItemInMainHand()
 									.setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
 
@@ -188,7 +202,7 @@ public class ShopCreate implements Listener {
 								AranarthShop shop = null;
 
 								int transactionAmount = Integer.parseInt(sign.getLine(1));
-								ItemStack item = new ItemStack(player.getInventory().getItemInMainHand().getType(), 1);
+								ItemStack item = new ItemStack(player.getInventory().getItemInMainHand());
 								player.getInventory().getItemInMainHand()
 										.setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
 
