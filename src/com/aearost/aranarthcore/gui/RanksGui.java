@@ -39,6 +39,7 @@ public class RanksGui {
 				ChatUtils.translateToColor("&8&lAranarth Ranks"));
 
 		boolean isMalePlayer = AranarthPlayerUtils.getPlayer(player).getIsMale();
+		
 		int currentRank = AranarthPlayerUtils.getPlayer(player).getRank();
 
 		// Initialize Items

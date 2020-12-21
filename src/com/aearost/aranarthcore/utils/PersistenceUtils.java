@@ -20,7 +20,6 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
@@ -328,7 +327,8 @@ public class PersistenceUtils {
 					buyAmount = Double.parseDouble(fieldValue);
 					fieldCount++;
 				} else if (fieldName.equals("item")) {
-					item = new ItemStack(Material.valueOf(fieldValue), 1);
+					//item = new ItemStack(Material.valueOf(fieldValue), 1);
+					item = AranarthShopUtils.itemDeserialize(fieldValue);
 					fieldCount++;
 				} else if (fieldName.equals("sellAmount")) {
 					sellAmount = Double.parseDouble(fieldValue);
@@ -425,11 +425,13 @@ public class PersistenceUtils {
 						writer.write("    \"ARANARTH_SERVER_SHOPS\": {\n");
 
 						for (AranarthShop shop : serverShops) {
+							
 							writer.write("        \"" + shopCounter + "\": {\n");
 							writer.write("            \"transactionQuantity\": \"" + shop.getTransactionQuantity()
 									+ "\",\n");
 							writer.write("            \"buyAmount\": \"" + shop.getBuyAmount() + "\",\n");
 							writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
+							//String serialized = AranarthShopUtils.itemSerialize(shop.getItem());
 							writer.write("            \"sellAmount\": \"" + shop.getSellAmount() + "\",\n");
 							writer.write("            \"worldName\": \"" + shop.getShopLocation().getWorld().getName()
 									+ "\",\n");
@@ -461,7 +463,8 @@ public class PersistenceUtils {
 								writer.write("            \"transactionQuantity\": \"" + shop.getTransactionQuantity()
 										+ "\",\n");
 								writer.write("            \"buyAmount\": \"" + shop.getBuyAmount() + "\",\n");
-								writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
+								writer.write("            \"item\": \"" + AranarthShopUtils.itemSerialize(shop.getItem()) + "\",\n");
+								//writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
 								writer.write("            \"sellAmount\": \"" + shop.getSellAmount() + "\",\n");
 								writer.write("            \"worldName\": \""
 										+ shop.getShopLocation().getWorld().getName() + "\",\n");

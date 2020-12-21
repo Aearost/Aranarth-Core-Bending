@@ -42,8 +42,6 @@ public class ShopCreate implements Listener {
 					Sign sign = (Sign) e.getClickedBlock().getState();
 
 					if (AranarthShopUtils.isProperShopFormat(sign, player.getUniqueId(), true)) {
-
-						if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
 							e.setCancelled(true);
 
 							UUID uuid = player.getUniqueId();
@@ -148,7 +146,7 @@ public class ShopCreate implements Listener {
 							}
 
 							int transactionAmount = Integer.parseInt(sign.getLine(1));
-							ItemStack item = new ItemStack(player.getInventory().getItemInMainHand().getType(), 1);
+							ItemStack item = new ItemStack(player.getInventory().getItemInMainHand());
 							if (item.getType() == Material.AIR) {
 								player.sendMessage(ChatUtils.translateToColor("&cPlease select an item"));
 								return;
@@ -176,9 +174,6 @@ public class ShopCreate implements Listener {
 							AranarthShopUtils.addShop(uuid, shop);
 							player.sendMessage(ChatUtils.translateToColor("&aA player shop has been created!"));
 							AranarthShopUtils.displayPlayerShopHologram(shop);
-						} else {
-							player.sendMessage(ChatUtils.translateToColor("&cYou cannot make a shop out of this!"));
-						}
 					} else if (canMakeAdminShop(sign, player)) {
 						if (AranarthShopUtils.isItemWithoutMeta(player.getInventory().getItemInMainHand())) {
 							

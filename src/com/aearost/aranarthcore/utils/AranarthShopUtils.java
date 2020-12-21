@@ -1,18 +1,25 @@
 package com.aearost.aranarthcore.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.craftbukkit.libs.org.apache.commons.io.output.ByteArrayOutputStream;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
 
 import com.aearost.aranarthcore.AranarthCore;
 import com.aearost.aranarthcore.objects.AranarthShop;
@@ -644,5 +651,58 @@ public class AranarthShopUtils {
 			Hologram shopHologram = entry.getValue();
 			shopHologram.delete();
 		}
+	}
+	
+	/**
+	 * Serialize an itemStack into base64 string
+	 * 
+	 * @param item
+	 */
+	public static String itemSerialize(ItemStack item)
+	{
+		try {
+			ByteArrayOutputStream io = new ByteArrayOutputStream();
+			BukkitObjectOutputStream os = new BukkitObjectOutputStream(io);
+		
+			os.writeObject(item);
+			os.flush();
+		
+			byte[] serializedItem = io.toByteArray();
+			
+			String encodedItem = Base64.getEncoder().encodeToString(serializedItem);
+			
+			os.close();
+			
+			return encodedItem;
+			
+		} catch(IOException e)
+		{
+			Bukkit.getLogger().info("Input issue == Cannot serialize");
+		}
+		return null;
+	}
+	
+	/**
+	 * Deserialize a base64 string into an ItemStack
+	 * 
+	 * @param 
+	 */
+	public static ItemStack itemDeserialize(String encodedItem)
+	{
+		try {
+			byte[] serializedItem = Base64.getDecoder().decode(encodedItem);
+			ByteArrayInputStream is = new ByteArrayInputStream(serializedItem);
+			BukkitObjectInputStream iss = new BukkitObjectInputStream(is);
+			ItemStack item = (ItemStack) iss.readObject();
+			
+			return item;
+		} catch (IOException e)
+		{
+			Bukkit.getLogger().info("Input issue == Cannot deserialize");
+		} catch (ClassNotFoundException e)
+		{
+			Bukkit.getLogger().info("Item doesn't exist bud.");
+		}
+		return null;
 	}
 }

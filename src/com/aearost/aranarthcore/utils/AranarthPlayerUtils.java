@@ -219,6 +219,8 @@ public class AranarthPlayerUtils {
 			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, Element.FIRE, Result.ADD));
 			bendingPlayer.addElement(Element.WATER);
 			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, Element.WATER, Result.ADD));
+			
+			GeneralMethods.saveElements(bendingPlayer);
 			// Add sub-elements
 			bendingPlayer.addSubElement(SubElement.SAND);
 			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.SAND, Result.ADD));
@@ -236,6 +238,8 @@ public class AranarthPlayerUtils {
 			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.PLANT, Result.ADD));
 			bendingPlayer.addSubElement(SubElement.HEALING);
 			Bukkit.getServer().getPluginManager().callEvent(new PlayerChangeElementEvent(null, playerNewAvatar, SubElement.HEALING, Result.ADD));
+			
+			GeneralMethods.saveSubElements(bendingPlayer);
 		}
 		PersistenceUtils.writeDateToFile();
 		return currentAvatarName;
