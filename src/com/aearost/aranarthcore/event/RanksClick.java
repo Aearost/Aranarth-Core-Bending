@@ -14,6 +14,7 @@ import com.aearost.aranarthcore.gui.RankupGui;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
+import com.aearost.aranarthcore.utils.Gender;
 import com.aearost.aranarthcore.utils.PersistenceUtils;
 import com.projectkorra.projectkorra.BendingPlayer;
 import com.projectkorra.projectkorra.Element;
@@ -68,6 +69,7 @@ public class RanksClick implements Listener {
 					"&6&lDuke", "&b&lPrince", "&9&lKing", "&4&lEmperor" };
 			String[] femaleRanks = new String[] { "&a&lPeasant", "&d&lEsquire", "&7&lKnight", "&5&lBaroness",
 					"&8&lCountess", "&6&lDuchess", "&b&lPrincess", "&9&lQueen", "&4&lEmpress" };
+			String[] neutralRanks = new String[] { "&a&lPeasant", "&d&lEsquire", "&7*lKnight", "&5&lBarony", "&8&lCounty", "&6&lDuchy", "&b&lPrimarch", "&9&lMonarch", "&4&lSovereign"};
 			String[] rankupCosts = new String[] { "FREE", "$250", "$1,250", "$5,000", "$10,000", "$25,000", "$100,000",
 					"$500,000", "$2,500,000" };
 			int[] positions = new int[] { 4, 12, 14, 20, 22, 24, 30, 32, 40 };
@@ -101,7 +103,7 @@ public class RanksClick implements Listener {
 				}
 				clickedPosition++;
 			}
-			boolean isMalePlayer = AranarthPlayerUtils.getPlayer(player).getIsMale();
+			Gender gender = AranarthPlayerUtils.getPlayer(player).getPersonalGender();
 			String aOrAn = "a";
 			if (slot == 12 || slot == 40) {
 				aOrAn = "an";
@@ -109,9 +111,12 @@ public class RanksClick implements Listener {
 
 			// Feedback Messages and Functionality
 			if (isClickedRankSameAsCurrent) {
-				if (isMalePlayer) {
+				if (gender == Gender.MALE) {
 					player.sendMessage(ChatUtils
 							.translateToColor("&cYou are already " + aOrAn + " " + maleRanks[clickedPosition] + "&c!"));
+				} else if (gender == Gender.NEUTRAL) {
+					player.sendMessage(ChatUtils
+							.translateToColor("&cYou are already " + aOrAn + " " + neutralRanks[clickedPosition] + "&c!"));
 				} else {
 					player.sendMessage(ChatUtils.translateToColor(
 							"&cYou are already " + aOrAn + " " + femaleRanks[clickedPosition] + "&c!"));
@@ -119,9 +124,12 @@ public class RanksClick implements Listener {
 				player.playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.5F, 0.5F);
 				player.closeInventory();
 			} else if (isClickedRankLowerThanCurrent) {
-				if (isMalePlayer) {
+				if (gender == Gender.MALE) {
 					player.sendMessage(ChatUtils.translateToColor(
 							"&cYou cannot rank back down to " + aOrAn + " " + maleRanks[clickedPosition] + "&c!"));
+				} else if (gender == Gender.NEUTRAL) {
+					player.sendMessage(ChatUtils.translateToColor(
+							"&cYou cannot rank back down to " + aOrAn + " " + neutralRanks[clickedPosition] + "&c!"));
 				} else {
 					player.sendMessage(ChatUtils.translateToColor(
 							"&cYou cannot rank back down to " + aOrAn + " " + femaleRanks[clickedPosition] + "&c!"));
@@ -129,9 +137,12 @@ public class RanksClick implements Listener {
 				player.playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.5F, 0.5F);
 				player.closeInventory();
 			} else if (isClickedRankHigherThanCurrent) {
-				if (isMalePlayer) {
+				if (gender == Gender.MALE) {
 					player.sendMessage(
 							ChatUtils.translateToColor("&cYou must rankup to " + maleRanks[rank + 1] + " &cfirst!"));
+				} else if (gender == Gender.NEUTRAL) {
+					player.sendMessage(
+							ChatUtils.translateToColor("&cYou must rankup to " + neutralRanks[rank + 1] + " &cfirst!"));
 				} else {
 					player.sendMessage(
 							ChatUtils.translateToColor("&cYou must rankup to " + femaleRanks[rank + 1] + " &cfirst!"));
@@ -142,8 +153,12 @@ public class RanksClick implements Listener {
 				String rankupCost = rankupCosts[clickedPosition];
 
 				String rankName = maleRanks[clickedPosition];
-				if (!isMalePlayer) {
+				if (gender == Gender.FEMALE) {
 					rankName = femaleRanks[clickedPosition];
+				}
+				if (gender == Gender.NEUTRAL)
+				{
+					rankName = neutralRanks[clickedPosition];
 				}
 				new RankupGui(player, rankName, rankupCost).openGui();
 			}

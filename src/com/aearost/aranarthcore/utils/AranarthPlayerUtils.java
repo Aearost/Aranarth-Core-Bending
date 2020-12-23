@@ -128,9 +128,9 @@ public class AranarthPlayerUtils {
 	 * @param player
 	 * @param isMale
 	 */
-	public static void setIsMale(Player player, boolean isMale) {
+	public static void setGender(Player player, Gender gender) {
 		AranarthPlayer aranarthPlayer = getPlayer(player.getUniqueId());
-		aranarthPlayer.setIsMale(isMale);
+		aranarthPlayer.setPersonalGender(gender);
 		players.put(player.getUniqueId(), aranarthPlayer);
 	}
 

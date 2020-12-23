@@ -103,7 +103,7 @@ public class ChatUtils {
 		
 
 		String rankName;
-		boolean isMalePlayer = aranarthPlayer.getIsMale();
+		Gender gender = aranarthPlayer.getPersonalGender();
 		if (rank == 0) {
 			rankName = "Peasant";
 			prefix += "&8[&aPeasant&8] &r";
@@ -115,44 +115,57 @@ public class ChatUtils {
 			prefix += "&7[&fKnight&7] &r";
 		} else if (rank == 3) {
 			rankName = "Baron";
-			if (isMalePlayer) {
+			if (gender == Gender.MALE) {
 				prefix += "&5[&dBaron&5] &r";
-			} else {
+			} else if (gender == Gender.NEUTRAL) {
+				prefix += "&5[&dBarony&5] &r";
+			}else {
 				prefix += "&5[&dBaroness&5] &r";
 			}
 		} else if (rank == 4) {
 			rankName = "Count";
-			if (isMalePlayer) {
+			if (gender == Gender.MALE) {
 				prefix += "&8[&7Count&8] &r";
+			}  else if (gender == Gender.NEUTRAL) {
+				prefix += "&8[&7County&8] &r";
 			} else {
 				prefix += "&8[&7Countess&8] &r";
 			}
 		} else if (rank == 5) {
 			rankName = "Duke";
-			if (isMalePlayer) {
+			if (gender == Gender.MALE) {
 				prefix += "&6[&eDuke&6] &r";
+			} else if (gender == Gender.NEUTRAL) {
+				prefix += "&6[&eDuchy&6] &r";
 			} else {
 				prefix += "&6[&eDuchess&6] &r";
 			}
 		} else if (rank == 6) {
 			rankName = "Prince";
-			if (isMalePlayer) {
+			if (gender == Gender.MALE) {
 				prefix += "&6[&bPrince&6] &r";
+			} else if (gender == Gender.NEUTRAL) {
+				prefix+= "&6[&bPrimarch&6] &r";
 			} else {
 				prefix += "&6[&bPrincess&6] &r";
 			}
 		} else if (rank == 7) {
 			rankName = "King";
-			if (isMalePlayer) {
+			if (gender == Gender.MALE) {
 				prefix += "&6[&9King&6] &r";
+			} else if (gender == Gender.NEUTRAL) {
+				prefix += "&6[&9Monarch&6] &r";
 			} else {
 				prefix += "&6[&9Queen&6] &r";
 			}
 		} else {
 			rankName = "Emperor";
-			if (isMalePlayer) {
+			if (gender == Gender.MALE) {
 				prefix += "&6[&4Emperor&6] &r";
-			} else {
+			} else if (gender == Gender.NEUTRAL) {
+				prefix += "&6[&4Soverign&6] &r";
+			}
+			else {
 				prefix += "&6[&4Empress&6] &r";
 			}
 		}
@@ -187,7 +200,7 @@ public class ChatUtils {
 			Bukkit.dispatchCommand(commandSender, "manuadd " + aranarthPlayer.getUsername() + " Avatar");
 		}
 
-		if (isCouncil || isSaint || isAvatar || !isMalePlayer) {
+		if (isCouncil || isSaint || isAvatar || (gender != Gender.MALE)) {
 			if (isCouncil || isSaint || isAvatar) {
 				if (!subGroups.contains(SubGroup.valueOf(rankName.toUpperCase()))) {
 					Bukkit.dispatchCommand(commandSender,

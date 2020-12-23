@@ -60,7 +60,7 @@ public class PersistenceUtils {
 			String username = null;
 			int rank = 0;
 			List<SubGroup> subGroups = new ArrayList<>();
-			boolean isMale = true;
+			Gender gender = Gender.MALE;
 			double balance = 0.00;
 			boolean isAbleToChangeElement = false;
 			int saintStatus = 0;
@@ -113,8 +113,8 @@ public class PersistenceUtils {
 						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[2]));
 					}
 					fieldCount++;
-				} else if (fieldName.equals("isMale")) {
-					isMale = Boolean.parseBoolean(fieldValue);
+				} else if (fieldName.equals("gender")) {
+					gender = Gender.valueOf(fieldValue);
 					fieldCount++;
 				} else if (fieldName.equals("balance")) {
 					balance = Double.parseDouble(fieldValue);
@@ -148,29 +148,29 @@ public class PersistenceUtils {
 					}
 
 					if (hasSaintStatus && hasAvatarStatus && hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, gender,
 								balance, isAbleToChangeElement, saintStatus, avatarStatus, councilStatus));
 					} else if (hasSaintStatus && hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, gender,
 								balance, isAbleToChangeElement, saintStatus, avatarStatus));
 					} else if (hasAvatarStatus && hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, gender,
 								balance, isAbleToChangeElement, councilStatus + 3, avatarStatus));
 					} else if (hasSaintStatus && hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, gender,
 								balance, isAbleToChangeElement, saintStatus, councilStatus));
 					} else if (hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, gender,
 								balance, isAbleToChangeElement, avatarStatus));
 					} else if (hasSaintStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, gender,
 								balance, isAbleToChangeElement, saintStatus));
 					} else if (hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
+						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, gender,
 								balance, isAbleToChangeElement, councilStatus + 3));
 					} else {
 						AranarthPlayerUtils.addPlayer(uuid,
-								new AranarthPlayer(username, rank, subGroups, isMale, balance, isAbleToChangeElement));
+								new AranarthPlayer(username, rank, subGroups, gender, balance, isAbleToChangeElement));
 					}
 
 					// Reset these as the other fields are always automatically updated
@@ -232,7 +232,7 @@ public class PersistenceUtils {
 						writer.write("        \"username\": \"" + aranarthPlayer.getUsername() + "\",\n");
 						writer.write("        \"rank\": \"" + aranarthPlayer.getRank() + "\",\n");
 						writer.write("        \"subGroups\": \"" + aranarthPlayer.getSubGroupsString() + "\",\n");
-						writer.write("        \"isMale\": \"" + aranarthPlayer.getIsMale() + "\",\n");
+						writer.write("        \"gender\": \"" + aranarthPlayer.getPersonalGender() + "\",\n");
 						writer.write("        \"balance\": \"" + aranarthPlayer.getBalance() + "\",\n");
 						writer.write("        \"isAbleToChangeElement\": \"" + aranarthPlayer.getIsAbleToChangeElement()
 								+ "\",\n");

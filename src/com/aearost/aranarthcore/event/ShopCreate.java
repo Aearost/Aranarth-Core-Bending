@@ -24,6 +24,7 @@ import com.aearost.aranarthcore.objects.AranarthShop;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.AranarthShopUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
+import com.aearost.aranarthcore.utils.Gender;
 
 public class ShopCreate implements Listener {
 
@@ -62,9 +63,13 @@ public class ShopCreate implements Listener {
 								// Only a Baron
 								if (aranarthPlayer.getRank() < 4) {
 									if (AranarthShopUtils.getShopCount(uuid) == BARON_SHOP_AMOUNT) {
-										if (aranarthPlayer.getIsMale()) {
+										if (aranarthPlayer.getPersonalGender() == Gender.MALE) {
 											player.sendMessage(
 													ChatUtils.translateToColor("&cA Baron can only create up to "
+															+ BARON_SHOP_AMOUNT + " shops!"));
+										} else if (aranarthPlayer.getPersonalGender() == Gender.NEUTRAL){
+											player.sendMessage(
+													ChatUtils.translateToColor("&cA Barony can only create up to "
 															+ BARON_SHOP_AMOUNT + " shops!"));
 										} else {
 											player.sendMessage(
@@ -77,9 +82,13 @@ public class ShopCreate implements Listener {
 								// Only a Count
 								else if (aranarthPlayer.getRank() < 5) {
 									if (AranarthShopUtils.getShopCount(uuid) == COUNT_SHOP_AMOUNT) {
-										if (aranarthPlayer.getIsMale()) {
+										if (aranarthPlayer.getPersonalGender() == Gender.MALE) {
 											player.sendMessage(
 													ChatUtils.translateToColor("&cA Count can only create up to "
+															+ COUNT_SHOP_AMOUNT + " shops!"));
+										} else if (aranarthPlayer.getPersonalGender() == Gender.NEUTRAL) {
+											player.sendMessage(
+													ChatUtils.translateToColor("&cA County can only create up to "
 															+ COUNT_SHOP_AMOUNT + " shops!"));
 										} else {
 											player.sendMessage(
@@ -93,18 +102,25 @@ public class ShopCreate implements Listener {
 								else if (aranarthPlayer.getRank() < 7) {
 									if (AranarthShopUtils.getShopCount(uuid) == DUKE_SHOP_AMOUNT) {
 										if (aranarthPlayer.getRank() == 5) {
-											if (aranarthPlayer.getIsMale()) {
+											if (aranarthPlayer.getPersonalGender() == Gender.MALE) {
 												player.sendMessage(ChatUtils.translateToColor(
 														"&cA Duke can only create up to " + DUKE_SHOP_AMOUNT + " shops!"));
+											} else if (aranarthPlayer.getPersonalGender() == Gender.NEUTRAL) {
+												player.sendMessage(ChatUtils.translateToColor(
+														"&cA Duchy can only create up to " + DUKE_SHOP_AMOUNT + " shops!"));
 											} else {
 												player.sendMessage(
 														ChatUtils.translateToColor("&cA Duchess can only create up to "
 																+ DUKE_SHOP_AMOUNT + " shops!"));
 											}
 										} else {
-											if (aranarthPlayer.getIsMale()) {
+											if (aranarthPlayer.getPersonalGender() == Gender.MALE) {
 												player.sendMessage(
 														ChatUtils.translateToColor("&cA Prince can only create up to "
+																+ DUKE_SHOP_AMOUNT + " shops!"));
+											} else if (aranarthPlayer.getPersonalGender() == Gender.NEUTRAL) {
+												player.sendMessage(
+														ChatUtils.translateToColor("&cA Primarch can only create up to "
 																+ DUKE_SHOP_AMOUNT + " shops!"));
 											} else {
 												player.sendMessage(
@@ -118,9 +134,12 @@ public class ShopCreate implements Listener {
 								// Only a King
 								else if (aranarthPlayer.getRank() < 8) {
 									if (AranarthShopUtils.getShopCount(uuid) == KING_SHOP_AMOUNT) {
-										if (aranarthPlayer.getIsMale()) {
+										if (aranarthPlayer.getPersonalGender() == Gender.MALE) {
 											player.sendMessage(ChatUtils.translateToColor(
 													"&cA King can only create up to " + KING_SHOP_AMOUNT + " shops!"));
+										} else if (aranarthPlayer.getPersonalGender() == Gender.NEUTRAL) {
+											player.sendMessage(ChatUtils.translateToColor(
+													"&cA Monarch can only create up to " + KING_SHOP_AMOUNT + " shops!"));
 										} else {
 											player.sendMessage(ChatUtils.translateToColor(
 													"&cA Queen can only create up to " + KING_SHOP_AMOUNT + " shops!"));

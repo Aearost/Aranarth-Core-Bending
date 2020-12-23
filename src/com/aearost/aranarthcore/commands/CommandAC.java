@@ -24,6 +24,7 @@ import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.event.PlayerChangeElementEvent;
 import com.projectkorra.projectkorra.event.PlayerChangeElementEvent.Result;
 import com.projectkorra.projectkorra.event.PlayerChangeSubElementEvent;
+import com.aearost.aranarthcore.utils.Gender;
 
 public class CommandAC implements CommandExecutor {
 
@@ -247,7 +248,7 @@ public class CommandAC implements CommandExecutor {
 							sender.sendMessage(ChatUtils.translateToColor("&6&l&n" + args[1] + "'s Aranarth Stats"));
 							sender.sendMessage(ChatUtils.translateToColor("&aRank: &e" + aranarthPlayer.getRank()));
 							sender.sendMessage(ChatUtils.translateToColor("&aSub-Groups: &e" + aranarthPlayer.getSubGroupsString()));
-							sender.sendMessage(ChatUtils.translateToColor("&aMale: &e" + aranarthPlayer.getIsMale()));
+							sender.sendMessage(ChatUtils.translateToColor("&aMale: &e" + aranarthPlayer.getPersonalGender()));
 							sender.sendMessage(ChatUtils
 									.translateToColor("&aBalance: &e" + formatter.format(aranarthPlayer.getBalance())));
 							sender.sendMessage(ChatUtils.translateToColor(
@@ -298,28 +299,35 @@ public class CommandAC implements CommandExecutor {
 					Player player = (Player) sender;
 					if (args.length >= 2) {
 						if (args[1].toLowerCase().equals("male")) {
-							if (AranarthPlayerUtils.getPlayer(player).getIsMale()) {
+							if (AranarthPlayerUtils.getPlayer(player).getPersonalGender() == Gender.MALE) {
 								player.sendMessage(
 										ChatUtils.chatMessage("&cYour titles are already displayed as male!"));
 								return false;
 							}
-							AranarthPlayerUtils.setIsMale(player, true);
+							AranarthPlayerUtils.setGender(player, Gender.MALE);;
 							player.sendMessage(
-									ChatUtils.chatMessage("&7Your rank titles will now be displayed as a male."));
+									ChatUtils.chatMessage("&7Your rank titles will now be displayed as male."));
 						} else if (args[1].toLowerCase().equals("female")) {
-							if (!AranarthPlayerUtils.getPlayer(player).getIsMale()) {
+							if (AranarthPlayerUtils.getPlayer(player).getPersonalGender() == Gender.FEMALE) {
 								player.sendMessage(
 										ChatUtils.chatMessage("&cYour titles are already displayed as female!"));
 								return false;
 							}
-							AranarthPlayerUtils.setIsMale(player, false);
+							AranarthPlayerUtils.setGender(player, Gender.FEMALE);
 							player.sendMessage(
-									ChatUtils.chatMessage("&7Your rank titles will now be displayed as a female."));
+									ChatUtils.chatMessage("&7Your rank titles will now be displayed as female."));
+						} else {
+							if (AranarthPlayerUtils.getPlayer(player).getPersonalGender() == Gender.NEUTRAL) {
+								player.sendMessage(ChatUtils.chatMessage("&cYour titles are already displayed as gender neutral!"));
+								return false;
+							}
+							AranarthPlayerUtils.setGender(player, Gender.NEUTRAL);
+							player.sendMessage(ChatUtils.chatMessage("&cYour rank titles will now be displayed as gender neutral."));
 						}
 						ChatUtils.updatePlayerGroupsAndPrefix(player);
 						return true;
 					}
-					sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac title <male | female>"));
+					sender.sendMessage(ChatUtils.chatMessage("&7Proper Usage: &e/ac title <male | female | neutral>"));
 					return false;
 				} else {
 					sender.sendMessage(ChatUtils.chatMessage("&c&lYou must be a player to use this command!"));
@@ -337,7 +345,7 @@ public class CommandAC implements CommandExecutor {
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &eset <player> <variable> [rank]"));
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &estats <player>"));
 		}
-		sender.sendMessage(ChatUtils.translateToColor("&7/ac &etitle <male | female>"));
+		sender.sendMessage(ChatUtils.translateToColor("&7/ac &etitle <male | female | neutral>"));
 		if (sender.hasPermission("aranarthcore.admin.*")) {
 			sender.sendMessage(ChatUtils.translateToColor("&7/ac &eunset <player> <rank>"));
 		}

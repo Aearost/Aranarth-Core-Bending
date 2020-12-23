@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
+import com.aearost.aranarthcore.utils.Gender;
 
 /**
  * A chest GUI that appears when the user enters /ranks. This GUI displays all
@@ -38,7 +39,7 @@ public class RanksGui {
 		Inventory gui = Bukkit.getServer().createInventory(player, 54,
 				ChatUtils.translateToColor("&8&lAranarth Ranks"));
 
-		boolean isMalePlayer = AranarthPlayerUtils.getPlayer(player).getIsMale();
+		Gender gender = AranarthPlayerUtils.getPlayer(player).getPersonalGender();
 		
 		int currentRank = AranarthPlayerUtils.getPlayer(player).getRank();
 
@@ -116,13 +117,20 @@ public class RanksGui {
 		// Baron
 		ItemMeta baronMeta = baron.getItemMeta();
 		ArrayList<String> baronLore = new ArrayList<>();
-		if (isMalePlayer) {
+		if (gender == Gender.MALE) {
 			if (currentRank == 3) {
 				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($5,000) - Current Rank"));
 			} else {
 				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaron&r&f&l ($5,000)"));
 			}
-		} else {
+		} else if (gender == Gender.NEUTRAL)
+		{
+			if (currentRank == 3) {
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBarony&r&f&l ($5,000) - Current Rank"));
+			} else {
+				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBarony&r&f&l ($5,000)"));
+			}
+		}else {
 			if (currentRank == 3) {
 				baronMeta.setDisplayName(ChatUtils.translateToColor("&5&l&nBaroness&r&f&l ($5,000) - Current Rank"));
 			} else {
@@ -140,11 +148,17 @@ public class RanksGui {
 		// Count
 		ItemMeta countMeta = count.getItemMeta();
 		ArrayList<String> countLore = new ArrayList<>();
-		if (isMalePlayer) {
+		if (gender == Gender.MALE) {
 			if (currentRank == 4) {
 				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($10,000) - Current Rank"));
 			} else {
 				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($10,000)"));
+			}
+		} else if (gender == Gender.FEMALE) {
+			if (currentRank == 4) {
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCounty&r&f&l ($10,000) - Current Rank"));
+			} else {
+				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCounty&r&f&l ($10,000)"));
 			}
 		} else {
 			if (currentRank == 4) {
@@ -165,11 +179,17 @@ public class RanksGui {
 		// Duke
 		ItemMeta dukeMeta = duke.getItemMeta();
 		ArrayList<String> dukeLore = new ArrayList<>();
-		if (isMalePlayer) {
+		if (gender == Gender.MALE) {
 			if (currentRank == 5) {
 				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($25,000) - Current Rank"));
 			} else {
 				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuke&r&f&l ($25,000)"));
+			}
+		} else if (gender == Gender.NEUTRAL) {
+			if (currentRank == 5) {
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchy&r&f&l ($25,000) - Current Rank"));
+			} else {
+				dukeMeta.setDisplayName(ChatUtils.translateToColor("&6&l&nDuchy&r&f&l ($25,000)"));
 			}
 		} else {
 			if (currentRank == 5) {
@@ -191,11 +211,17 @@ public class RanksGui {
 		// Prince
 		ItemMeta princeMeta = prince.getItemMeta();
 		ArrayList<String> princeLore = new ArrayList<>();
-		if (isMalePlayer) {
+		if (gender == Gender.MALE) {
 			if (currentRank == 6) {
 				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($100,000) - Current Rank"));
 			} else {
 				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrince&r&f&l ($100,000)"));
+			}
+		} else if (gender == Gender.NEUTRAL) {
+			if (currentRank == 6) {
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrimarch&r&f&l ($100,000) - Current Rank"));
+			} else {
+				princeMeta.setDisplayName(ChatUtils.translateToColor("&b&l&nPrimarch&r&f&l ($100,000)"));
 			}
 		} else {
 			if (currentRank == 6) {
@@ -215,11 +241,17 @@ public class RanksGui {
 		// King
 		ItemMeta kingMeta = king.getItemMeta();
 		ArrayList<String> kingLore = new ArrayList<>();
-		if (isMalePlayer) {
+		if (gender == Gender.MALE) {
 			if (currentRank == 7) {
 				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($500,000) - Current Rank"));
 			} else {
 				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nKing&r&f&l ($500,000)"));
+			}
+		} else if (gender == Gender.NEUTRAL) {
+			if (currentRank == 7) {
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nMonarch&r&f&l ($500,000) - Current Rank"));
+			} else {
+				kingMeta.setDisplayName(ChatUtils.translateToColor("&9&l&nMonarch&r&f&l ($500,000)"));
 			}
 		} else {
 			if (currentRank == 7) {
@@ -240,11 +272,17 @@ public class RanksGui {
 		// Emperor
 		ItemMeta emperorMeta = emperor.getItemMeta();
 		ArrayList<String> emperorLore = new ArrayList<>();
-		if (isMalePlayer) {
+		if (gender == Gender.MALE) {
 			if (currentRank == 8) {
 				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($2,500,000) - Current Rank"));
 			} else {
 				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nEmperor&r&f&l ($2,500,000)"));
+			}
+		} else if (gender == Gender.NEUTRAL) {
+			if (currentRank == 8) {
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nSovereign&r&f&l ($2,500,000) - Current Rank"));
+			} else {
+				emperorMeta.setDisplayName(ChatUtils.translateToColor("&4&l&nSovereign&r&f&l ($2,500,000)"));
 			}
 		} else {
 			if (currentRank == 8) {

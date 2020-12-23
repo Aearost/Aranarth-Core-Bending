@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.aearost.aranarthcore.AranarthCore;
 import com.aearost.aranarthcore.objects.AranarthPlayer;
 import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
+import com.aearost.aranarthcore.utils.Gender;
 
 public class PlayerJoinServer implements Listener {
 
@@ -27,7 +28,7 @@ public class PlayerJoinServer implements Listener {
 	public void onPlayerJoin(final PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 		if (!AranarthPlayerUtils.hasPlayedBefore(player)) {
-			AranarthPlayerUtils.addPlayer(player.getUniqueId(), new AranarthPlayer(player.getName(), 0, new ArrayList<>(), true, 50.00, true));
+			AranarthPlayerUtils.addPlayer(player.getUniqueId(), new AranarthPlayer(player.getName(), 0, new ArrayList<>(), Gender.MALE, 50.00, true));
 		}
 		// If the player changed their username
 		else if (!AranarthPlayerUtils.getUsername(player).equals(player.getName())) {
