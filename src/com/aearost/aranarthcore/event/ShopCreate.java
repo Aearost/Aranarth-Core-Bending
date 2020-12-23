@@ -150,17 +150,21 @@ public class ShopCreate implements Listener {
 
 							int transactionAmount = Integer.parseInt(sign.getLine(1));
 							ItemStack item = new ItemStack(player.getInventory().getItemInMainHand());
+							// Simply gets the item's data, not the quantity
+							item.setAmount(1);
 							if (item.getType() == Material.AIR) {
 								player.sendMessage(ChatUtils.translateToColor("&cPlease select an item"));
 								return;
 							}
+							
 							ItemMeta meta = item.getItemMeta();
-							if(Damageable.class.isAssignableFrom(meta.getClass()))
+							// Ensures the item has full durability
+							if (Damageable.class.isAssignableFrom(meta.getClass()))
 							{
 								Damageable checkDura = (Damageable) item.getItemMeta();
-								if(checkDura.hasDamage())
+								if (checkDura.hasDamage())
 								{
-									player.sendMessage(ChatUtils.translateToColor("&cYou can't sell damaged goods!"));
+									player.sendMessage(ChatUtils.translateToColor("&cYou can't sell damaged gear!"));
 									return;
 								}
 							}
@@ -203,6 +207,8 @@ public class ShopCreate implements Listener {
 
 								int transactionAmount = Integer.parseInt(sign.getLine(1));
 								ItemStack item = new ItemStack(player.getInventory().getItemInMainHand());
+								// Simply gets the item's data, not the quantity
+								item.setAmount(1);
 								player.getInventory().getItemInMainHand()
 										.setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
 

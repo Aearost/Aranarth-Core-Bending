@@ -430,8 +430,7 @@ public class PersistenceUtils {
 							writer.write("            \"transactionQuantity\": \"" + shop.getTransactionQuantity()
 									+ "\",\n");
 							writer.write("            \"buyAmount\": \"" + shop.getBuyAmount() + "\",\n");
-							writer.write("            \"item\": \"" + shop.getItem().getType().name() + "\",\n");
-							//String serialized = AranarthShopUtils.itemSerialize(shop.getItem());
+							writer.write("            \"item\": \"" + AranarthShopUtils.itemSerialize(shop.getItem()) + "\",\n");
 							writer.write("            \"sellAmount\": \"" + shop.getSellAmount() + "\",\n");
 							writer.write("            \"worldName\": \"" + shop.getShopLocation().getWorld().getName()
 									+ "\",\n");
