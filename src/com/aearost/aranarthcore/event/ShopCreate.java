@@ -173,6 +173,7 @@ public class ShopCreate implements Listener {
 								player.sendMessage(ChatUtils.translateToColor("&cPlease select an item"));
 								return;
 							}
+							item.setAmount(1);
 							ItemMeta meta = item.getItemMeta();
 							if(Damageable.class.isAssignableFrom(meta.getClass()))
 							{
@@ -224,7 +225,7 @@ public class ShopCreate implements Listener {
 								ItemStack item = new ItemStack(player.getInventory().getItemInMainHand());
 								player.getInventory().getItemInMainHand()
 										.setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-
+								item.setAmount(1);
 								String[] line3 = sign.getLine(2).split(" ");
 
 								if (line3[0].equals("Buy")) {

@@ -148,6 +148,7 @@ public class CommandACCompleter implements TabCompleter {
 				} else {
 					displayedOptions.add("female");
 					displayedOptions.add("male");
+					displayedOptions.add("neutral");
 				}
 			}
 		} else if (args.length == 1) {

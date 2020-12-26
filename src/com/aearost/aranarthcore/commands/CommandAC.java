@@ -248,7 +248,7 @@ public class CommandAC implements CommandExecutor {
 							sender.sendMessage(ChatUtils.translateToColor("&6&l&n" + args[1] + "'s Aranarth Stats"));
 							sender.sendMessage(ChatUtils.translateToColor("&aRank: &e" + aranarthPlayer.getRank()));
 							sender.sendMessage(ChatUtils.translateToColor("&aSub-Groups: &e" + aranarthPlayer.getSubGroupsString()));
-							sender.sendMessage(ChatUtils.translateToColor("&aMale: &e" + aranarthPlayer.getPersonalGender()));
+							sender.sendMessage(ChatUtils.translateToColor("&aGender: &e" + aranarthPlayer.getPersonalGender()));
 							sender.sendMessage(ChatUtils
 									.translateToColor("&aBalance: &e" + formatter.format(aranarthPlayer.getBalance())));
 							sender.sendMessage(ChatUtils.translateToColor(

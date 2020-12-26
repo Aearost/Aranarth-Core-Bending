@@ -154,7 +154,7 @@ public class RanksGui {
 			} else {
 				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCount&r&f&l ($10,000)"));
 			}
-		} else if (gender == Gender.FEMALE) {
+		} else if (gender == Gender.NEUTRAL) {
 			if (currentRank == 4) {
 				countMeta.setDisplayName(ChatUtils.translateToColor("&8&l&nCounty&r&f&l ($10,000) - Current Rank"));
 			} else {
