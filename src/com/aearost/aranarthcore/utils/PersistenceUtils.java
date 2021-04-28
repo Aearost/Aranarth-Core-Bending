@@ -7,11 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,12 +55,8 @@ public class PersistenceUtils {
 			UUID uuid = null;
 			String username = null;
 			int rank = 0;
-			List<SubGroup> subGroups = new ArrayList<>();
 			boolean isMale = true;
 			double balance = 0.00;
-			boolean isAbleToChangeElement = false;
-			int saintStatus = 0;
-			String avatarStatus = "none";
 			int councilStatus = 0;
 
 			Bukkit.getLogger().info("Attempting to read the players file...");
@@ -73,8 +65,10 @@ public class PersistenceUtils {
 				String line = reader.nextLine();
 				String[] parts = line.split("\"");
 
-				if ((line.endsWith("},") || line.endsWith("}")) && fieldCount >= 7) {
-					fieldCount = 10;
+				// Where 5 is the minimum amount of fields required, i.e no council
+				if ((line.endsWith("},") || line.endsWith("}")) && fieldCount >= 5) {
+					// Where 6 is the maximum amount of fields that can be in a user
+					fieldCount = 6;
 					fieldName = "none";
 					fieldValue = "none";
 				}
@@ -100,82 +94,21 @@ public class PersistenceUtils {
 				} else if (fieldName.equals("rank")) {
 					rank = Integer.parseInt(fieldValue);
 					fieldCount++;
-				} else if (fieldName.equals("subGroups")) {
-					String[] subGroupsAsStrings = fieldValue.split(",");
-					if (subGroupsAsStrings.length == 1 && !fieldValue.equals("none")) {
-						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[0]));
-					} else if (subGroupsAsStrings.length == 2) {
-						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[0]));
-						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[1]));
-					} else if (subGroupsAsStrings.length == 3) {
-						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[0]));
-						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[1]));
-						subGroups.add(SubGroup.valueOf(subGroupsAsStrings[2]));
-					}
-					fieldCount++;
 				} else if (fieldName.equals("isMale")) {
 					isMale = Boolean.parseBoolean(fieldValue);
 					fieldCount++;
 				} else if (fieldName.equals("balance")) {
 					balance = Double.parseDouble(fieldValue);
 					fieldCount++;
-				} else if (fieldName.equals("isAbleToChangeElement")) {
-					isAbleToChangeElement = Boolean.parseBoolean(fieldValue);
-					fieldCount++;
-				} else if (fieldName.equals("avatarStatus")) {
-					avatarStatus = fieldValue;
-					fieldCount++;
-				} else if (fieldName.equals("saintStatus")) {
-					saintStatus = Integer.parseInt(fieldValue);
-					fieldCount++;
 				} else if (fieldName.equals("councilStatus")) {
 					councilStatus = Integer.parseInt(fieldValue);
 					fieldCount++;
 				}
 
-				if (fieldCount == 10) {
-					boolean hasAvatarStatus = false;
-					boolean hasSaintStatus = false;
-					boolean hasCouncilStatus = false;
-					if (saintStatus != 0) {
-						hasSaintStatus = true;
-					}
-					if (!avatarStatus.equals("none")) {
-						hasAvatarStatus = true;
-					}
-					if (councilStatus != 0) {
-						hasCouncilStatus = true;
-					}
-
-					if (hasSaintStatus && hasAvatarStatus && hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
-								balance, isAbleToChangeElement, saintStatus, avatarStatus, councilStatus));
-					} else if (hasSaintStatus && hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
-								balance, isAbleToChangeElement, saintStatus, avatarStatus));
-					} else if (hasAvatarStatus && hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
-								balance, isAbleToChangeElement, councilStatus + 3, avatarStatus));
-					} else if (hasSaintStatus && hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
-								balance, isAbleToChangeElement, saintStatus, councilStatus));
-					} else if (hasAvatarStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
-								balance, isAbleToChangeElement, avatarStatus));
-					} else if (hasSaintStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
-								balance, isAbleToChangeElement, saintStatus));
-					} else if (hasCouncilStatus) {
-						AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, subGroups, isMale,
-								balance, isAbleToChangeElement, councilStatus + 3));
-					} else {
-						AranarthPlayerUtils.addPlayer(uuid,
-								new AranarthPlayer(username, rank, subGroups, isMale, balance, isAbleToChangeElement));
-					}
-
+				if (fieldCount == 6) {
+					AranarthPlayerUtils.addPlayer(uuid, new AranarthPlayer(username, rank, isMale, balance, councilStatus));
+					
 					// Reset these as the other fields are always automatically updated
-					saintStatus = 0;
-					avatarStatus = "none";
 					councilStatus = 0;
 					fieldCount = 0;
 				}
@@ -231,17 +164,8 @@ public class PersistenceUtils {
 						writer.write("    \"" + uuid.toString() + "\": {\n");
 						writer.write("        \"username\": \"" + aranarthPlayer.getUsername() + "\",\n");
 						writer.write("        \"rank\": \"" + aranarthPlayer.getRank() + "\",\n");
-						writer.write("        \"subGroups\": \"" + aranarthPlayer.getSubGroupsString() + "\",\n");
 						writer.write("        \"isMale\": \"" + aranarthPlayer.getIsMale() + "\",\n");
 						writer.write("        \"balance\": \"" + aranarthPlayer.getBalance() + "\",\n");
-						writer.write("        \"isAbleToChangeElement\": \"" + aranarthPlayer.getIsAbleToChangeElement()
-								+ "\",\n");
-						if (aranarthPlayer.getSaintStatus() != 0) {
-							writer.write("        \"saintStatus\": \"" + aranarthPlayer.getSaintStatus() + "\",\n");
-						}
-						if (!aranarthPlayer.getAvatarStatus().equals("none")) {
-							writer.write("        \"avatarStatus\": \"" + aranarthPlayer.getAvatarStatus() + "\",\n");
-						}
 						if (aranarthPlayer.getCouncilStatus() != 0) {
 							writer.write("        \"councilStatus\": \"" + aranarthPlayer.getCouncilStatus() + "\",\n");
 						}
@@ -562,84 +486,6 @@ public class PersistenceUtils {
 			return false;
 		}
 	}
-	
-	/**
-	 * Saves player date data (used for Avatar choosing processes)
-	 * 
-	 */
-	public static void writeDateToFile()
-	{
-		//Toku code for file pathing
-		String currentPath = System.getProperty("user.dir");
-		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore"
-				+ File.separator + "date.txt";
-		File pluginDirectory = new File(currentPath + File.separator + "plugins" + File.separator + "AranarthCore");
-		File file = new File(filePath);
-		//get the current date and create a format
-		Date current = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-		//if file is created
-		boolean isDirectoryCreated = true;
-		if (!pluginDirectory.isDirectory()) {
-			isDirectoryCreated = pluginDirectory.mkdir();
-		}
-		if (isDirectoryCreated) {
-			try {
-				// If the file isn't already there
-				if (file.createNewFile()) {
-					Bukkit.getLogger().info("A new date file has been generated.");
-				}
-			} catch (IOException e) {
-				Bukkit.getLogger().info("The date file was unable to generate.");
-				e.printStackTrace();
-			}
-			
-			try {
-				//write the date into a file
-				FileWriter writer = new FileWriter(filePath);
-				writer.write(format.format(current));
-				writer.close();
-			} catch(IOException e) {
-				Bukkit.getLogger().info("The date file could not be saved.");
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	/**
-	 * Reads player date data (used for Avatar choosing processes)
-	 * @throws ParseException 
-	 * 
-	 */
-	public static Date readDateFromFile() throws ParseException
-	{
-		//Toku code for file pathing
-		String currentPath = System.getProperty("user.dir");
-		String filePath = currentPath + File.separator + "plugins" + File.separator + "AranarthCore" + File.separator
-				+ "date.txt";
-		File file = new File(filePath);
-		Date ohNo = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
-		// Check if the file exists or not
-		if (!file.exists()) {
-			return ohNo; //:(
-		}
-
-		Scanner reader;
-		Date ohYes;
-		try {
-			reader = new Scanner(file);
-			String formattedDate = reader.nextLine(); //get the line as a string
-			ohYes = format.parse(formattedDate); //convert using the same SDF back to date for arithmetic
-			reader.close();
-			return ohYes; //yay!
-		} catch(FileNotFoundException e)
-		{
-			Bukkit.getLogger().info("The date file could not be read.");
-			e.printStackTrace();
-			return ohNo; //:(
-		}
-	}
 
 }

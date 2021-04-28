@@ -59,18 +59,6 @@ public class CommandACCompleter implements TabCompleter {
 				} else if (args.length == 3) {
 					if (!args[2].equals("") && "rank".startsWith(args[2].toLowerCase())) {
 						displayedOptions.add("rank");
-					} else if (!args[2].equals("") && "avatar".startsWith(args[2].toLowerCase())) {
-						displayedOptions.add("avatar");
-					} else if (!args[2].equals("") && "saint".startsWith(args[2].toLowerCase())) {
-						displayedOptions.add("saint1");
-						displayedOptions.add("saint2");
-						displayedOptions.add("saint3");
-					} else if (!args[2].equals("") && "saint1".equals(args[2].toLowerCase())) {
-						displayedOptions.add("saint1");
-					} else if (!args[2].equals("") && "saint2".equals(args[2].toLowerCase())) {
-						displayedOptions.add("saint2");
-					} else if (!args[2].equals("") && "saint3".equals(args[2].toLowerCase())) {
-						displayedOptions.add("saint3");
 					} else if (!args[2].equals("") && "council".startsWith(args[2].toLowerCase())) {
 						displayedOptions.add("council1");
 						displayedOptions.add("council2");
@@ -82,44 +70,22 @@ public class CommandACCompleter implements TabCompleter {
 					} else if (!args[2].equals("") && "council3".equals(args[2].toLowerCase())) {
 						displayedOptions.add("council3");
 					} else {
-						displayedOptions.add("avatar");
 						displayedOptions.add("council1");
 						displayedOptions.add("council2");
 						displayedOptions.add("council3");
 						displayedOptions.add("rank");
-						displayedOptions.add("saint1");
-						displayedOptions.add("saint2");
-						displayedOptions.add("saint3");
 					}
 				} else if (args.length == 4 && args[2].equals("rank")) {
-					if (!args[3].equals("") && "peasant".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("peasant");
-					} else if (!args[3].equals("") && "esquire".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("esquire");
-					} else if (!args[3].equals("") && "knight".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("knight");
-					} else if (!args[3].equals("") && "baron".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("baron");
-					} else if (!args[3].equals("") && "count".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("count");
-					} else if (!args[3].equals("") && "duke".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("duke");
-					} else if (!args[3].equals("") && "prince".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("prince");
-					} else if (!args[3].equals("") && "king".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("king");
-					} else if (!args[3].equals("") && "emperor".startsWith(args[3].toLowerCase())) {
-						displayedOptions.add("emperor");
+					if (!args[3].equals("") && "fix".startsWith(args[3].toLowerCase())) {
+						displayedOptions.add("fix");
+					} else if (!args[3].equals("") && "these".startsWith(args[3].toLowerCase())) {
+						displayedOptions.add("these");
+					} else if (!args[3].equals("") && "options".startsWith(args[3].toLowerCase())) {
+						displayedOptions.add("options");
 					} else {
-						displayedOptions.add("peasant");
-						displayedOptions.add("esquire");
-						displayedOptions.add("knight");
-						displayedOptions.add("baron");
-						displayedOptions.add("count");
-						displayedOptions.add("duke");
-						displayedOptions.add("prince");
-						displayedOptions.add("king");
-						displayedOptions.add("emperor");
+						displayedOptions.add("fix");
+						displayedOptions.add("these");
+						displayedOptions.add("options");
 					}
 				}
 			} else if ("stats".startsWith(args[0]) && args[0].length() > 0) {

@@ -8,8 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.aearost.aranarthcore.objects.AranarthPlayer;
-import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 import com.aearost.aranarthcore.utils.TrailUtils;
 
@@ -38,17 +36,17 @@ public class TrailsGui {
 	private Inventory initializeGui(Player player) {
 		Inventory gui = null;
 		List<ItemStack> arrows = new ArrayList<>();
-		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
-		if (aranarthPlayer.getSaintStatus() == 1) {
-			arrows = TrailUtils.getSaint1Trails();
-			gui = Bukkit.getServer().createInventory(player, 18, ChatUtils.translateToColor("&8&lArrow Trails"));
-		} else if (aranarthPlayer.getSaintStatus() == 2) {
-			arrows = TrailUtils.getSaint2Trails();
-			gui = Bukkit.getServer().createInventory(player, 36, ChatUtils.translateToColor("&8&lArrow Trails"));
-		} else if (aranarthPlayer.getSaintStatus() == 3) {
+//		AranarthPlayer aranarthPlayer = AranarthPlayerUtils.getPlayer(player);
+//		if (aranarthPlayer.getSaintStatus() == 1) {
+//			arrows = TrailUtils.getSaint1Trails();
+//			gui = Bukkit.getServer().createInventory(player, 18, ChatUtils.translateToColor("&8&lArrow Trails"));
+//		} else if (aranarthPlayer.getSaintStatus() == 2) {
+//			arrows = TrailUtils.getSaint2Trails();
+//			gui = Bukkit.getServer().createInventory(player, 36, ChatUtils.translateToColor("&8&lArrow Trails"));
+//		} else if (aranarthPlayer.getSaintStatus() == 3) {
 			arrows = TrailUtils.getSaint3Trails();
 			gui = Bukkit.getServer().createInventory(player, 54, ChatUtils.translateToColor("&8&lArrow Trails"));
-		}
+//		}
 
 		for (int i = 0; i < arrows.size(); i++) {
 			gui.setItem(i, arrows.get(i));

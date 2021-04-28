@@ -15,7 +15,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.aearost.aranarthcore.AranarthCore;
-import com.aearost.aranarthcore.utils.AranarthPlayerUtils;
 import com.aearost.aranarthcore.utils.ChatUtils;
 import com.aearost.aranarthcore.utils.TrailUtils;
 
@@ -39,16 +38,16 @@ public class TrailArrowClick implements Listener {
 
 			int slot = e.getSlot();
 			UUID uuid = e.getWhoClicked().getUniqueId();
-			int saintStatus = AranarthPlayerUtils.getPlayer(uuid).getSaintStatus();
+//			int saintStatus = AranarthPlayerUtils.getPlayer(uuid).getSaintStatus();
 
 			List<ItemStack> arrows = new ArrayList<>();
-			if (saintStatus == 2) {
-				arrows = TrailUtils.getSaint2Trails();
-			} else if (saintStatus == 3) {
+//			if (saintStatus == 2) {
+//				arrows = TrailUtils.getSaint2Trails();
+//			} else if (saintStatus == 3) {
 				arrows = TrailUtils.getSaint3Trails();
-			} else {
-				arrows = TrailUtils.getSaint1Trails();
-			}
+//			} else {
+//				arrows = TrailUtils.getSaint1Trails();
+//			}
 			
 			Player player = Bukkit.getPlayer(uuid);
 			if (arrows.get(slot).getType() == Material.AIR) {
